@@ -1,5 +1,5 @@
 //Author : Avishka Sandeepa
-//Modified date : 24/5/2021
+//Modified date : 30/5/2021
 
 // Added include files
 #include <webots/Robot.hpp>
@@ -21,7 +21,7 @@ double sensorValues[8];
 using namespace webots;
 
 
-//----function to read the values of the sensors and convert to binary--------------------------
+//----function to read the values of the sensors and convert to binary-------
 void read(){
  for (int i = 0; i < 8; i++){
    if (sensorValues[i] > 5.5){
@@ -31,10 +31,9 @@ void read(){
    }
  }
 }
-//----------------------end of the read() function---------------------------------------------------
+//----------------------end of the read() function----------------------------
 
-
-//------function for PD calculation-------------------------------
+//------------------function for PD calculation-------------------------------
 double PID_calc(){
  double average = 0;
  double sum = 0;
@@ -43,7 +42,7 @@ double PID_calc(){
    sum += sensorValues[i];
  }
  
- double position = average / sum;  //---------weighted mean-----------------------------------
+ double position = average / sum;  //---------weighted mean---------------------
  
  double kp = 0.001;
  double kd = 0.001;
@@ -56,7 +55,7 @@ double PID_calc(){
  le = e;
  return offset;
 }
-//--------------end of the PID_calc() function----------------------------------------
+//--------------------end of the PID_calc() function---------------------------
 
 
 //---------------------function for motor driving------------------------------
@@ -77,6 +76,7 @@ double Mdriver(double speed){
 //---------------------end of the driver() function----------------------------
 
 
+//---------------------------main function-------------------------------------
 int main(int argc, char **argv) {
  Robot *robot = new Robot();
  
@@ -123,7 +123,7 @@ for (int i = 0; i < 8; i++) {
  //----------------------------------------------------------------
 
 
-//---------------------main loop---------------------------------------------
+//---------------------main loop-----------------------------------
  while (robot->step(TIME_STEP) != -1){
 
 
@@ -133,7 +133,7 @@ for (int i = 0; i < 8; i++) {
  sensorValues[i] = ir[i]->getValue();
  }
  
-//---------------------------------------------------------------
+//--------------read junction detection sensor values----------------
  
  double  leftMostValue = leftMost->getValue();
  if (leftMostValue > 5.5){
@@ -149,33 +149,37 @@ for (int i = 0; i < 8; i++) {
    rightMostValue = 0;
  }
  
-//----------------------------------------------------------------
- read();
  
+
+ read(); // call a function to get out put as binary values from the IR array
+ 
+ //-------------------read position sensor values------------------------
  double leftPsVal = leftPs->getValue();
  double rightPsVal = rightPs->getValue();
  
+ //---------------print the position value as radians-------------------
  std::cout<<"left = "<<leftPsVal<<"  right = "<<rightPsVal<<std::endl;
- //----------------------------------------------------
-
-
-   double offset = PID_calc();
+ 
+   double offset = PID_calc(); //get the offset by calling pre defined function
    
-   //------------------------------------------------------------
+   //---------------------set motor speed values to minimize the error------------------------
   
    double left = baseSpeed + offset;
    double right = baseSpeed - offset;
    
-   //-------------------------------------------------------------
+   //---call a function to map the above speds within its maximum & minimum speed---
    
    double leftSpeed = Mdriver(left);
    double rightSpeed = Mdriver(right);
    
-   //---------------------------------------
+   
+   //----------------------pass the speeds to the motor for run------------------------------
    
    leftMotor->setVelocity(leftSpeed);
    rightMotor->setVelocity(rightSpeed);
    
+   
+   //-------------print the sensor outputs from the IR array & current offset-----------------
    std::cout<<"ir0 = "<<sensorValues[0]<<"  ";
    std::cout<<"ir1 = "<<sensorValues[1]<<"  ";
    std::cout<<"ir2 = "<<sensorValues[2]<<"  ";
@@ -188,14 +192,6 @@ for (int i = 0; i < 8; i++) {
    std::cout<<" offset : "<<offset<<std::endl;
    
    
-    
- 
-  
-  
-  
-  
-  
-//----------call the pre defined functions------------------------
  
 
  }
