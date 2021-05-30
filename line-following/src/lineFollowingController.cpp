@@ -160,6 +160,11 @@ int main(int argc, char **argv) {
         
         //---------------print the position value as radians-------------------
         std::cout<<"left = "<<leftPsVal<<"  right = "<<rightPsVal<<std::endl;
+        std::cout<<"left = "<<leftMostValue<<"  right = "<<rightMostValue<<std::endl;
+        //------------------------------testing-------------------------------------
+      
+        
+        //--------------------------------------------------------------------------
         
         double offset = PID_calc(); //get the offset by calling pre defined function
         
