@@ -54,7 +54,15 @@ int main(int argc, char **argv) {
         leftMotor->setVelocity(MAX_SPEED);
         rightMotor->setVelocity(MAX_SPEED);
 
-    
+    //-----print the values----------------
+        std::cout<<"ir0 = "<<sensorValues[0]<<"  ";
+        std::cout<<"ir1 = "<<sensorValues[1]<<"  ";
+        std::cout<<"ir2 = "<<sensorValues[2]<<"  ";
+        std::cout<<"ir3 = "<<sensorValues[3]<<"  ";
+        std::cout<<"ir4 = "<<sensorValues[4]<<"  ";
+        std::cout<<"ir5 = "<<sensorValues[5]<<"  ";
+        std::cout<<"ir6 = "<<sensorValues[6]<<"  ";
+        std::cout<<"ir7 = "<<sensorValues[7]<<std::endl;
 
 
     
