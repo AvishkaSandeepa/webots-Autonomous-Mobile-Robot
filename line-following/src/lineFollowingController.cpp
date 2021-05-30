@@ -6,7 +6,7 @@
 #include <webots/Motor.hpp>
 #include <webots/DistanceSensor.hpp>
 #include <webots/PositionSensor.hpp>
-
+#include <dos.h>
 
 #define TIME_STEP 64
 #define MAX_SPEED 6.28
@@ -103,6 +103,24 @@ for (int i = 0; i < 8; i++) {
   ir[i]->enable(TIME_STEP);
 }
 
+//--------------junction detecting sensor couple-----------------------
+
+ DistanceSensor *leftMost = robot->getDistanceSensor("leftMost");
+ leftMost->enable(TIME_STEP);
+ DistanceSensor *rightMost = robot->getDistanceSensor("rightMost");
+ rightMost->enable(TIME_STEP);
+ //---------------------------------------------------------------------
+ leftMotor->setVelocity(0);
+ rightMotor->setVelocity(0);
+ 
+ //-------------------set position sensors------------------------
+ 
+ PositionSensor *leftPs = robot->getPositionSensor("left_ps");
+ leftPs->enable(TIME_STEP);
+ PositionSensor *rightPs = robot->getPositionSensor("right_ps");
+ rightPs->enable(TIME_STEP);
+ 
+ //----------------------------------------------------------------
 
 
 //---------------------main loop---------------------------------------------
@@ -115,10 +133,32 @@ for (int i = 0; i < 8; i++) {
  sensorValues[i] = ir[i]->getValue();
  }
  
-
+//---------------------------------------------------------------
+ 
+ double  leftMostValue = leftMost->getValue();
+ if (leftMostValue > 5.5){
+   leftMostValue = 1;
+ }else{
+   leftMostValue = 0;
+ }
+ 
+ double  rightMostValue = rightMost->getValue();
+ if (rightMostValue > 5.5){
+   rightMostValue = 1;
+ }else{
+   rightMostValue = 0;
+ }
+ 
+//----------------------------------------------------------------
  read();
  
+ double leftPsVal = leftPs->getValue();
+ double rightPsVal = rightPs->getValue();
  
+ std::cout<<"left = "<<leftPsVal<<"  right = "<<rightPsVal<<std::endl;
+ //----------------------------------------------------
+
+
    double offset = PID_calc();
    
    //------------------------------------------------------------
@@ -147,7 +187,12 @@ for (int i = 0; i < 8; i++) {
      
    std::cout<<" offset : "<<offset<<std::endl;
    
+   
+    
  
+  
+  
+  
   
   
 //----------call the pre defined functions------------------------
