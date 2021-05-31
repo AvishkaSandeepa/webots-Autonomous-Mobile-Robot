@@ -1,5 +1,5 @@
 //Author : Avishka Sandeepa
-//Modified date : 31/5/2021
+//Modified date : 01/06/2021
 
 // Added include files
 #include <webots/Robot.hpp>
@@ -14,7 +14,7 @@
 double baseSpeed = 3;
 double le = 0;
 double set = 3500;
-double sensorValues[8];
+double sensorValues[10];
 
 int stage = 1;
 bool detect = false;
@@ -29,7 +29,7 @@ using namespace webots;
 
 //----function to read the values of the sensors and convert to binary-------
 void read(){
- for (int i = 0; i < 8; i++){
+ for (int i = 0; i < 10; i++){
    if (sensorValues[i] > 5.5){
      sensorValues[i] = 1;
    }else{
@@ -96,14 +96,14 @@ int main(int argc, char **argv) {
 
     //------------------------------------------------------------------------
     // initialize sensors
-    DistanceSensor *ir[8];
-    char sensorNames[8][4] = {
+    DistanceSensor *ir[10];
+    char sensorNames[10][5] = {
     "ir0", "ir1", "ir2", "ir3", "ir4",
-    "ir5", "ir6", "ir7", "ir8", "ir9"
+    "ir5", "ir6", "ir7", "lm", "rm"
     };
     
     //enable the sensors to get measurements
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 10; i++) {
     ir[i] = robot->getDistanceSensor(sensorNames[i]);
     ir[i]->enable(TIME_STEP);
     }
@@ -111,10 +111,10 @@ int main(int argc, char **argv) {
 
     //--------------junction detecting sensors-----------------------
 
-    DistanceSensor *leftMost = robot->getDistanceSensor("leftMost");
-    leftMost->enable(TIME_STEP);
-    DistanceSensor *rightMost = robot->getDistanceSensor("rightMost");
-    rightMost->enable(TIME_STEP);
+    //DistanceSensor *leftMost = robot->getDistanceSensor("lm");
+    //leftMost->enable(TIME_STEP);
+    //DistanceSensor *rightMost = robot->getDistanceSensor("rm");
+    //rightMost->enable(TIME_STEP);
     //DistanceSensor *left = robot->getDistanceSensor("left");
     //left->enable(TIME_STEP);
     //DistanceSensor *mid = robot->getDistanceSensor("mid");
@@ -145,13 +145,16 @@ int main(int argc, char **argv) {
 
         // read sensors outputs
         
-        for (int i = 0; i < 8 ; i++){
+        for (int i = 0; i < 10 ; i++){
         sensorValues[i] = ir[i]->getValue();
         }
         
-        //--------------read junction detection sensor values----------------
         
-        double  leftMostValue = leftMost->getValue();
+        //--------------read junction detection sensor values----------------
+        read(); // call a function to get out put as binary values from the IR array
+        double  leftMostValue = sensorValues[8];
+        double  rightMostValue = sensorValues[9];
+        /*
         if (leftMostValue > 5.5){
             leftMostValue = 1;
         }else{
@@ -166,7 +169,7 @@ int main(int argc, char **argv) {
         }
         
         
-        /*
+        
         double  leftValue = left->getValue();
         if (leftValue > 5.5){
             leftValue = 1;
@@ -215,7 +218,7 @@ int main(int argc, char **argv) {
         std::cout<<"left = "<<leftPsVal<<"  right = "<<rightPsVal<<std::endl;
         std::cout<<"leftmost = "<<leftMostValue<<"  rightmost = "<<rightMostValue<<std::endl;
         //------------------------------testing-------------------------------------
-        read(); // call a function to get out put as binary values from the IR array
+        
             
         count++;
         if (count > 10){
@@ -262,24 +265,21 @@ int main(int argc, char **argv) {
             }
           
           }else if (stage == 2){
-            if ((leftPsVal < pos + 2) || (rightPsVal < pos + 2)){
+            if ((leftPsVal < pos + 2.2) || (rightPsVal < pos + 2.2)){
               leftMotor->setVelocity(1.8);
               rightMotor->setVelocity(1.8);
             }else{
               leftMotor->setVelocity(0);
               rightMotor->setVelocity(0);
-              if (sensorValues[3]==0){
+              if (sensorValues[4]==0 && sensorValues[3]==0){
                 leftMotor->setVelocity(0);
                 rightMotor->setVelocity(3);
-                //stage = 3;
-                
               }else{
-                leftMotor->setVelocity(1);
-                rightMotor->setVelocity(1);
-                stage = 1;
                 count = 0;
-                std::cout<<stage<<"***********"<<std::endl;
+                stage = 1;
               }
+                
+              
             }
           } 
           
@@ -291,8 +291,8 @@ int main(int argc, char **argv) {
         
         //-------------------------------
         }else{
-          leftMotor->setVelocity(2);
-          rightMotor->setVelocity(2);
+          leftMotor->setVelocity(3);
+          rightMotor->setVelocity(3);
         }
        
         //--------------------------------------------------------------------------
