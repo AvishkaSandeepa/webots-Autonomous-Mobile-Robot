@@ -15,6 +15,10 @@ double baseSpeed = 3;
 double le = 0;
 double set = 3500;
 double sensorValues[8];
+
+int stage = 1;
+bool detect = false;
+double pos;
 int count = 0;
 int c;
 
@@ -94,8 +98,8 @@ int main(int argc, char **argv) {
     // initialize sensors
     DistanceSensor *ir[8];
     char sensorNames[8][4] = {
-    "ir0", "ir1", "ir2", "ir3",
-    "ir4", "ir5", "ir6", "ir7"
+    "ir0", "ir1", "ir2", "ir3", "ir4",
+    "ir5", "ir6", "ir7", "ir8", "ir9"
     };
     
     //enable the sensors to get measurements
@@ -111,19 +115,19 @@ int main(int argc, char **argv) {
     leftMost->enable(TIME_STEP);
     DistanceSensor *rightMost = robot->getDistanceSensor("rightMost");
     rightMost->enable(TIME_STEP);
-    DistanceSensor *left = robot->getDistanceSensor("left");
-    left->enable(TIME_STEP);
-    DistanceSensor *mid = robot->getDistanceSensor("mid");
-    mid->enable(TIME_STEP);
-    DistanceSensor *right = robot->getDistanceSensor("right");
-    right->enable(TIME_STEP);
+    //DistanceSensor *left = robot->getDistanceSensor("left");
+    //left->enable(TIME_STEP);
+    //DistanceSensor *mid = robot->getDistanceSensor("mid");
+    //mid->enable(TIME_STEP);
+    //DistanceSensor *right = robot->getDistanceSensor("right");
+    //right->enable(TIME_STEP);
     //DistanceSensor *rightM = robot->getDistanceSensor("rightM");
     //rightM->enable(TIME_STEP);
     //DistanceSensor *leftM = robot->getDistanceSensor("leftM");
     //leftM->enable(TIME_STEP);
     //---------------------------------------------------------------------
-    leftMotor->setVelocity(6);
-    rightMotor->setVelocity(6);
+    leftMotor->setVelocity(0);
+    rightMotor->setVelocity(0);
     
     //-------------------set position sensors------------------------
     
@@ -161,6 +165,8 @@ int main(int argc, char **argv) {
         rightMostValue = 0;
         }
         
+        
+        /*
         double  leftValue = left->getValue();
         if (leftValue > 5.5){
             leftValue = 1;
@@ -182,7 +188,7 @@ int main(int argc, char **argv) {
         midValue = 0;
         }
         
-        /*
+        
         double  leftMValue = leftM->getValue();
         if (leftMValue > 5.5){
             leftMValue = 1;
@@ -207,26 +213,90 @@ int main(int argc, char **argv) {
         
         //---------------print the position value as radians-------------------
         std::cout<<"left = "<<leftPsVal<<"  right = "<<rightPsVal<<std::endl;
-        std::cout<<"leftmost = "<<leftMostValue<<" left : "<<leftValue<<" mid : "<<midValue<<" right : "<<rightValue<<"  rightmost = "<<rightMostValue<<std::endl;
+        std::cout<<"leftmost = "<<leftMostValue<<"  rightmost = "<<rightMostValue<<std::endl;
         //------------------------------testing-------------------------------------
+        read(); // call a function to get out put as binary values from the IR array
+            
+        count++;
+        if (count > 10){
         
-        if (leftMostValue == 1 || leftValue == 1){
-          count++;
-          if (count > 4){
-            std::cout<<"##########left junction detected##########"<<std::endl;
-            leftMotor->setPosition(leftPsVal);
-            rightMotor->setPosition(rightPsVal + 4);
-            //leftMotor->setVelocity(0);
-            //rightMotor->setVelocity(5);
-            continue;
-          }
+          if (stage==1){
+            
+            if (leftMostValue==1){
+              stage = 2;
+              detect = true;
+              pos = leftPsVal;
+              std::cout<<"########"<<std::endl;
+            }else{
+            
+            double offset = PID_calc(); //get the offset by calling pre defined function
+            
+            //---------------------set motor speed values to minimize the error------------------------
+            
+            double left = baseSpeed + offset;
+            double right = baseSpeed - offset;
+            
+            //---call a function to map the above speds within its maximum & minimum speed---
+            
+            double leftSpeed = Mdriver(left);
+            double rightSpeed = Mdriver(right);
+            
+            
+            //----------------------pass the speeds to the motor for run------------------------------
+            
+            leftMotor->setVelocity(leftSpeed);
+            rightMotor->setVelocity(rightSpeed);
+            
+            
+            //-------------print the sensor outputs from the IR array & current offset-----------------
+            std::cout<<"ir0 = "<<sensorValues[0]<<"  ";
+            std::cout<<"ir1 = "<<sensorValues[1]<<"  ";
+            std::cout<<"ir2 = "<<sensorValues[2]<<"  ";
+            std::cout<<"ir3 = "<<sensorValues[3]<<"  ";
+            std::cout<<"ir4 = "<<sensorValues[4]<<"  ";
+            std::cout<<"ir5 = "<<sensorValues[5]<<"  ";
+            std::cout<<"ir6 = "<<sensorValues[6]<<"  ";
+            std::cout<<"ir7 = "<<sensorValues[7]<<std::endl;
+                
+            std::cout<<" offset : "<<offset<<std::endl;
+            }
+          
+          }else if (stage == 2){
+            if ((leftPsVal < pos + 2) || (rightPsVal < pos + 2)){
+              leftMotor->setVelocity(1.8);
+              rightMotor->setVelocity(1.8);
+            }else{
+              leftMotor->setVelocity(0);
+              rightMotor->setVelocity(0);
+              if (sensorValues[3]==0){
+                leftMotor->setVelocity(0);
+                rightMotor->setVelocity(3);
+                //stage = 3;
+                
+              }else{
+                leftMotor->setVelocity(1);
+                rightMotor->setVelocity(1);
+                stage = 1;
+                count = 0;
+                std::cout<<stage<<"***********"<<std::endl;
+              }
+            }
+          } 
+          
+
+          
+          
           
         
         
+        //-------------------------------
         }else{
-        leftMotor->setPosition(INFINITY);
-        rightMotor->setPosition(INFINITY);
+          leftMotor->setVelocity(2);
+          rightMotor->setVelocity(2);
+        }
+       
         //--------------------------------------------------------------------------
+        /*
         read(); // call a function to get out put as binary values from the IR array
         double offset = PID_calc(); //get the offset by calling pre defined function
         
@@ -257,10 +327,11 @@ int main(int argc, char **argv) {
         std::cout<<"ir6 = "<<sensorValues[6]<<"  ";
         std::cout<<"ir7 = "<<sensorValues[7]<<std::endl;
             
-        std::cout<<" offset : "<<offset<<std::endl;
-        }
+        std::cout<<" offset : "<<offset<<std::endl; */
         
-
+        
+    
+    std::cout<<"        "<<std::endl;
     }
 
     delete robot;
