@@ -1,5 +1,5 @@
 //Author : Avishka Sandeepa
-//Modified date : 30/5/2021
+//Modified date : 31/5/2021
 
 // Added include files
 #include <webots/Robot.hpp>
@@ -11,10 +11,12 @@
 #define TIME_STEP 64
 #define MAX_SPEED 6.28
 
-double baseSpeed = 4;
+double baseSpeed = 3;
 double le = 0;
 double set = 3500;
 double sensorValues[8];
+int count = 0;
+int c;
 
 
 // All the webots classes are defined in the "webots" namespace
@@ -58,7 +60,6 @@ double PID_calc(){
  return offset;
 }
 //--------------------end of the PID_calc() function---------------------------
-
 
 //---------------------function for motor driving------------------------------
 double Mdriver(double speed){
@@ -104,26 +105,36 @@ int main(int argc, char **argv) {
     }
     //------------------------------------------------------------------------
 
-    //--------------junction detecting sensor couple-----------------------
+    //--------------junction detecting sensors-----------------------
 
     DistanceSensor *leftMost = robot->getDistanceSensor("leftMost");
     leftMost->enable(TIME_STEP);
     DistanceSensor *rightMost = robot->getDistanceSensor("rightMost");
     rightMost->enable(TIME_STEP);
+    DistanceSensor *left = robot->getDistanceSensor("left");
+    left->enable(TIME_STEP);
+    DistanceSensor *mid = robot->getDistanceSensor("mid");
+    mid->enable(TIME_STEP);
+    DistanceSensor *right = robot->getDistanceSensor("right");
+    right->enable(TIME_STEP);
+    //DistanceSensor *rightM = robot->getDistanceSensor("rightM");
+    //rightM->enable(TIME_STEP);
+    //DistanceSensor *leftM = robot->getDistanceSensor("leftM");
+    //leftM->enable(TIME_STEP);
     //---------------------------------------------------------------------
-    leftMotor->setVelocity(0);
-    rightMotor->setVelocity(0);
+    leftMotor->setVelocity(6);
+    rightMotor->setVelocity(6);
     
     //-------------------set position sensors------------------------
     
-    PositionSensor *leftPs = robot->getPositionSensor("left_ps");
+    PositionSensor *leftPs = robot->getPositionSensor("left wheel sensor");
     leftPs->enable(TIME_STEP);
-    PositionSensor *rightPs = robot->getPositionSensor("right_ps");
+    PositionSensor *rightPs = robot->getPositionSensor("right wheel sensor");
     rightPs->enable(TIME_STEP);
     
     //----------------------------------------------------------------
-
-
+    
+    
     //---------------------main loop-----------------------------------
     while (robot->step(TIME_STEP) != -1){
 
@@ -150,9 +161,45 @@ int main(int argc, char **argv) {
         rightMostValue = 0;
         }
         
+        double  leftValue = left->getValue();
+        if (leftValue > 5.5){
+            leftValue = 1;
+        }else{
+        leftValue = 0;
+        }
+        
+        double  rightValue = right->getValue();
+        if (rightValue > 5.5){
+            rightValue = 1;
+        }else{
+        rightValue = 0;
+        }
+        
+        double  midValue = mid->getValue();
+        if (midValue > 5.5){
+            midValue = 1;
+        }else{
+        midValue = 0;
+        }
+        
+        /*
+        double  leftMValue = leftM->getValue();
+        if (leftMValue > 5.5){
+            leftMValue = 1;
+        }else{
+        leftMValue = 0;
+        }
+        
+        double  rightMValue = rightM->getValue();
+        if (rightMValue > 5.5){
+            rightMValue = 1;
+        }else{
+        rightMValue = 0;
+        }
+        */
         
 
-        read(); // call a function to get out put as binary values from the IR array
+        
         
         //-------------------read position sensor values------------------------
         double leftPsVal = leftPs->getValue();
@@ -160,12 +207,27 @@ int main(int argc, char **argv) {
         
         //---------------print the position value as radians-------------------
         std::cout<<"left = "<<leftPsVal<<"  right = "<<rightPsVal<<std::endl;
-        std::cout<<"left = "<<leftMostValue<<"  right = "<<rightMostValue<<std::endl;
+        std::cout<<"leftmost = "<<leftMostValue<<" left : "<<leftValue<<" mid : "<<midValue<<" right : "<<rightValue<<"  rightmost = "<<rightMostValue<<std::endl;
         //------------------------------testing-------------------------------------
-      
         
+        if (leftMostValue == 1 || leftValue == 1){
+          count++;
+          if (count > 4){
+            std::cout<<"##########left junction detected##########"<<std::endl;
+            leftMotor->setPosition(leftPsVal);
+            rightMotor->setPosition(rightPsVal + 4);
+            //leftMotor->setVelocity(0);
+            //rightMotor->setVelocity(5);
+            continue;
+          }
+          
+        
+        
+        }else{
+        leftMotor->setPosition(INFINITY);
+        rightMotor->setPosition(INFINITY);
         //--------------------------------------------------------------------------
-        
+        read(); // call a function to get out put as binary values from the IR array
         double offset = PID_calc(); //get the offset by calling pre defined function
         
         //---------------------set motor speed values to minimize the error------------------------
@@ -196,8 +258,7 @@ int main(int argc, char **argv) {
         std::cout<<"ir7 = "<<sensorValues[7]<<std::endl;
             
         std::cout<<" offset : "<<offset<<std::endl;
-        
-        
+        }
         
 
     }
@@ -208,4 +269,4 @@ int main(int argc, char **argv) {
 }
 
 
-//
+//left wheel sensor right wheel sensor
