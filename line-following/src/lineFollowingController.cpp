@@ -1,5 +1,5 @@
 //Author : Avishka Sandeepa
-//Modified date : 01/06/2021
+//Modified date : 02/06/2021
 
 // Added include files
 #include <webots/Robot.hpp>
@@ -11,14 +11,16 @@
 #define TIME_STEP 64
 #define MAX_SPEED 6.28
 
-double baseSpeed = 3;
+double baseSpeed = 4;
 double le = 0;
 double set = 3500;
 double sensorValues[10];
 
 int stage = 1;
+int state = 2; // 1==left, 2==right
 bool detect = false;
-double pos;
+double lpos;
+double rpos;
 int count = 0;
 int c;
 
@@ -29,8 +31,8 @@ using namespace webots;
 
 //----function to read the values of the sensors and convert to binary-------
 void read(){
- for (int i = 0; i < 10; i++){
-   if (sensorValues[i] > 5.5){
+ for (int i = 0; i < 8; i++){
+   if (sensorValues[i] > 400){
      sensorValues[i] = 1;
    }else{
      sensorValues[i] = 0;
@@ -52,8 +54,8 @@ double PID_calc(){
  
  double position = average / sum;  //---------weighted mean---------------------
  
- double kp = 0.002;
- double kd = 0.0002;
+ double kp = 0.0006;
+ double kd = 0.0003;
  //double ki = 0.0;
  double e = position - set;
  double p = kp * e;
@@ -69,12 +71,12 @@ double PID_calc(){
 double Mdriver(double speed){
 
  if (speed > 0){
-   if (speed > 6.28){
-     speed = 6.28;
+   if (speed > 10){
+     speed = 10;
    }
  }else{
-   if (speed < -6.28){
-     speed = -6.28;
+   if (speed < -10){
+     speed = -10;
    }
  }
  
@@ -154,22 +156,22 @@ int main(int argc, char **argv) {
         read(); // call a function to get out put as binary values from the IR array
         double  leftMostValue = sensorValues[8];
         double  rightMostValue = sensorValues[9];
-        /*
-        if (leftMostValue > 5.5){
+        
+        if (leftMostValue > 800){
             leftMostValue = 1;
         }else{
             leftMostValue = 0;
         }
         
-        double  rightMostValue = rightMost->getValue();
-        if (rightMostValue > 5.5){
+        //double  rightMostValue = rightMost->getValue();
+        if (rightMostValue > 800){
             rightMostValue = 1;
         }else{
         rightMostValue = 0;
         }
         
         
-        
+        /*
         double  leftValue = left->getValue();
         if (leftValue > 5.5){
             leftValue = 1;
@@ -220,16 +222,33 @@ int main(int argc, char **argv) {
         //------------------------------testing-------------------------------------
         
             
-        count++;
-        if (count > 10){
+        
+        //if (count > 50){
         
           if (stage==1){
+          
             
-            if (leftMostValue==1){
+            if (leftMostValue==1 && rightMostValue==0 ){
               stage = 2;
               detect = true;
-              pos = leftPsVal;
-              std::cout<<"########"<<std::endl;
+              lpos = leftPsVal;
+              rpos = rightPsVal;
+              std::cout<<"###left detected#### "<<count<<std::endl;
+              //count = 0;
+            }else if (rightMostValue==1 && leftMostValue==0 ){
+              stage = 3;
+              lpos = leftPsVal;
+              rpos = rightPsVal;
+              std::cout<<"####right detected#### "<<count<<std::endl;
+              //count = 0;
+            
+            }else if (leftMostValue==1 && rightMostValue==1 ){
+              stage = 4;
+              lpos = leftPsVal;
+              rpos = rightPsVal;
+              std::cout<<"####hey fucker#### "<<count<<std::endl;
+              count = 0;
+            
             }else{
             
             double offset = PID_calc(); //get the offset by calling pre defined function
@@ -265,22 +284,83 @@ int main(int argc, char **argv) {
             }
           
           }else if (stage == 2){
-            if ((leftPsVal < pos + 2.2) || (rightPsVal < pos + 2.2)){
-              leftMotor->setVelocity(1.8);
-              rightMotor->setVelocity(1.8);
+            if ((leftPsVal < lpos + 4.3) || (rightPsVal < rpos + 4.3)){
+              leftMotor->setVelocity(3);
+              rightMotor->setVelocity(3);
             }else{
               leftMotor->setVelocity(0);
               rightMotor->setVelocity(0);
-              if (sensorValues[4]==0 && sensorValues[3]==0){
+              if (sensorValues[3]==0){
+                std::cout<<"*******stopped then turn left*****"<<std::endl;
                 leftMotor->setVelocity(0);
-                rightMotor->setVelocity(3);
+                rightMotor->setVelocity(4);
               }else{
-                count = 0;
+                //count = 0;
                 stage = 1;
               }
                 
               
             }
+          
+          
+          }else if (stage == 3){
+            if ((leftPsVal < lpos + 4.3) || (rightPsVal < rpos + 4.3)){
+              leftMotor->setVelocity(3);
+              rightMotor->setVelocity(3);
+            }else{
+              leftMotor->setVelocity(0);
+              rightMotor->setVelocity(0);
+              if (sensorValues[4]==0){
+                std::cout<<"*******stopped then turn right*****"<<std::endl;
+                leftMotor->setVelocity(4);
+                rightMotor->setVelocity(0);
+              }else{
+                //count = 0;
+                stage = 1;
+              }
+                
+              
+            }
+          
+          }else if (stage == 4 && state == 1){
+            if ((leftPsVal < lpos + 4.3) || (rightPsVal < rpos + 4.3)){
+              leftMotor->setVelocity(3);
+              rightMotor->setVelocity(3);
+            }else{
+              leftMotor->setVelocity(0);
+              rightMotor->setVelocity(0);
+              if (sensorValues[4]==0){
+                std::cout<<"*******stopped then turn left*****"<<std::endl;
+                leftMotor->setVelocity(0);
+                rightMotor->setVelocity(4);
+              }else{
+                //count = 0;
+                stage = 1;
+              }
+                
+              
+            }
+          
+          
+          }else if (stage == 4 && state == 2){
+            if ((leftPsVal < lpos + 4.3) || (rightPsVal < rpos + 4.3)){
+              leftMotor->setVelocity(3);
+              rightMotor->setVelocity(3);
+            }else{
+              leftMotor->setVelocity(0);
+              rightMotor->setVelocity(0);
+              if (sensorValues[4]==0){
+                std::cout<<"*******stopped then turn right*****"<<std::endl;
+                leftMotor->setVelocity(4);
+                rightMotor->setVelocity(0);
+              }else{
+                //count = 0;
+                stage = 1;
+              }
+                
+              
+            }
+          
           } 
           
 
@@ -290,10 +370,10 @@ int main(int argc, char **argv) {
         
         
         //-------------------------------
-        }else{
-          leftMotor->setVelocity(3);
-          rightMotor->setVelocity(3);
-        }
+        //}else{
+        //  leftMotor->setVelocity(3);
+        //  rightMotor->setVelocity(3);
+        //}
        
         //--------------------------------------------------------------------------
         /*
