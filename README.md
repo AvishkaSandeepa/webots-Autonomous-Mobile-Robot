@@ -19,3 +19,7 @@ This repository includes all the project files related to the development of an 
 2. [Hewavitharana D.R.](https://github.com/Hevidra)
 3. [Nagasinghe K.R.Y.](https://github.com/Ravindu-Yasas-Nagasinghe)
 4. [Kumarasinghe H.A.N.H.](https://github.com/nikeshi99)
+
+## *Additional Notes*
+
+*The corresponding physical robot implementation of this Robot can be found at [`Autonomous-Mobile-Robot`](https://github.com/bimalka98/Autonomous-Mobile-Robot).*
