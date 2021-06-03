@@ -11,10 +11,12 @@
 #define TIME_STEP 64
 #define MAX_SPEED 6.28
 
-double baseSpeed = 4;
+double baseSpeed = 8;
 double le = 0;
 double set = 3500;
 double sensorValues[10];
+double mleft;
+double mright;
 
 int stage = 1;
 int state = 2; // 1==left, 2==right
@@ -234,13 +236,13 @@ int main(int argc, char **argv) {
               lpos = leftPsVal;
               rpos = rightPsVal;
               std::cout<<"###left detected#### "<<count<<std::endl;
-              //count = 0;
+              count = 0;
             }else if (rightMostValue==1 && leftMostValue==0 ){
               stage = 3;
               lpos = leftPsVal;
               rpos = rightPsVal;
               std::cout<<"####right detected#### "<<count<<std::endl;
-              //count = 0;
+              count = 0;
             
             }else if (leftMostValue==1 && rightMostValue==1 ){
               stage = 4;
@@ -249,7 +251,13 @@ int main(int argc, char **argv) {
               std::cout<<"####hey fucker#### "<<count<<std::endl;
               count = 0;
             
+            }else if(sensorValues[0]==0 && sensorValues[1]==0 && sensorValues[2]==0 && sensorValues[3]==0 && sensorValues[4]==0 && sensorValues[5]==0 && sensorValues[6]==0 && sensorValues[7]==0){
+              stage = 5;
+              
+            
             }else{
+            
+            count = 0;
             
             double offset = PID_calc(); //get the offset by calling pre defined function
             
@@ -263,6 +271,9 @@ int main(int argc, char **argv) {
             double leftSpeed = Mdriver(left);
             double rightSpeed = Mdriver(right);
             
+            
+            mleft = leftSpeed;
+            mright = rightSpeed;
             
             //----------------------pass the speeds to the motor for run------------------------------
             
@@ -284,16 +295,25 @@ int main(int argc, char **argv) {
             }
           
           }else if (stage == 2){
-            if ((leftPsVal < lpos + 4.3) || (rightPsVal < rpos + 4.3)){
-              leftMotor->setVelocity(3);
-              rightMotor->setVelocity(3);
+            if ((leftPsVal < lpos + 3.8) || (rightPsVal < rpos + 3.8)){
+              leftMotor->setVelocity(8);
+              rightMotor->setVelocity(8);
+              
+              mleft = 8;
+              mright = 8;
             }else{
               leftMotor->setVelocity(0);
               rightMotor->setVelocity(0);
+              
+              mleft = 0;
+              mright = 0;
               if (sensorValues[3]==0){
                 std::cout<<"*******stopped then turn left*****"<<std::endl;
                 leftMotor->setVelocity(0);
-                rightMotor->setVelocity(4);
+                rightMotor->setVelocity(8);
+                
+                mleft = 0;
+                mright = 8;
               }else{
                 //count = 0;
                 stage = 1;
@@ -304,16 +324,25 @@ int main(int argc, char **argv) {
           
           
           }else if (stage == 3){
-            if ((leftPsVal < lpos + 4.3) || (rightPsVal < rpos + 4.3)){
-              leftMotor->setVelocity(3);
-              rightMotor->setVelocity(3);
+            if ((leftPsVal < lpos + 3.8) || (rightPsVal < rpos + 3.8)){
+              leftMotor->setVelocity(8);
+              rightMotor->setVelocity(8);
+              
+              mleft = 8;
+              mright = 8;
             }else{
               leftMotor->setVelocity(0);
               rightMotor->setVelocity(0);
+              
+              mleft = 0;
+              mright = 0;
               if (sensorValues[4]==0){
                 std::cout<<"*******stopped then turn right*****"<<std::endl;
-                leftMotor->setVelocity(4);
+                leftMotor->setVelocity(8);
                 rightMotor->setVelocity(0);
+                
+                mleft = 8;
+                mright = 0;
               }else{
                 //count = 0;
                 stage = 1;
@@ -323,16 +352,25 @@ int main(int argc, char **argv) {
             }
           
           }else if (stage == 4 && state == 1){
-            if ((leftPsVal < lpos + 4.3) || (rightPsVal < rpos + 4.3)){
-              leftMotor->setVelocity(3);
-              rightMotor->setVelocity(3);
+            if ((leftPsVal < lpos + 3.8) || (rightPsVal < rpos + 3.8)){
+              leftMotor->setVelocity(8);
+              rightMotor->setVelocity(8);
+              
+              mleft = 8;
+              mright = 8;
             }else{
               leftMotor->setVelocity(0);
               rightMotor->setVelocity(0);
+              
+              mleft = 0;
+              mright = 0;
               if (sensorValues[4]==0){
                 std::cout<<"*******stopped then turn left*****"<<std::endl;
                 leftMotor->setVelocity(0);
-                rightMotor->setVelocity(4);
+                rightMotor->setVelocity(8);
+                
+                mleft = 0;
+                mright = 8;
               }else{
                 //count = 0;
                 stage = 1;
@@ -343,16 +381,25 @@ int main(int argc, char **argv) {
           
           
           }else if (stage == 4 && state == 2){
-            if ((leftPsVal < lpos + 4.3) || (rightPsVal < rpos + 4.3)){
-              leftMotor->setVelocity(3);
-              rightMotor->setVelocity(3);
+            if ((leftPsVal < lpos + 3.8) || (rightPsVal < rpos + 3.8)){
+              leftMotor->setVelocity(8);
+              rightMotor->setVelocity(8);
+              
+              mleft = 8;
+              mright = 8;
             }else{
               leftMotor->setVelocity(0);
               rightMotor->setVelocity(0);
+              
+              mleft = 0;
+              mright = 0;
               if (sensorValues[4]==0){
                 std::cout<<"*******stopped then turn right*****"<<std::endl;
-                leftMotor->setVelocity(4);
+                leftMotor->setVelocity(8);
                 rightMotor->setVelocity(0);
+                
+                mleft = 8;
+                mright = 0;
               }else{
                 //count = 0;
                 stage = 1;
@@ -360,6 +407,22 @@ int main(int argc, char **argv) {
                 
               
             }
+          
+          }else if (stage == 5){
+            count++;
+            if (count < 7){
+              leftMotor->setVelocity(mleft);
+              rightMotor->setVelocity(mright);
+              stage = 1;
+            }else{
+              leftMotor->setVelocity(0);
+              rightMotor->setVelocity(0);
+              stage = 1;
+              break;
+              //count = 0;
+            
+            }
+            
           
           } 
           
@@ -410,7 +473,7 @@ int main(int argc, char **argv) {
         std::cout<<" offset : "<<offset<<std::endl; */
         
         
-    
+    std::cout<<"  count =  "<<count<<std::endl;
     std::cout<<"        "<<std::endl;
     }
 
