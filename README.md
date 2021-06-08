@@ -5,6 +5,7 @@
 
 This repository includes all the project files related to the development of an `Autonomous mobile robot` using [`WEBOTS simulation platform`](https://cyberbotics.com/). The project is being done by a team of 5 undergraduates at the Department of Electronic and Telecommunication Engineering, University of Moratuwa, Sri Lanka. You need to install the simulation software to your local machine and create your own world and controll the robot using controllers. [The given tutorials](https://cyberbotics.com/doc/guide/tutorials) can be usefull for begginers.
 
+## *[Guidelines](https://uniofmora-my.sharepoint.com/:w:/g/personal/peshala_uom_lk/EYgg0HNeTvhPi0R6HHGfmi4BbXFsR2c4_TvA2pBcGKSQtw?e=CLvALQ)*
 
 
 ## *Team*
