@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0027900010563503023 0.9994266334330726 0.033743447937934 3.306502904504181
-  position 0.16390551647257923 1.0407707503032022 -4.498251812516213
+  orientation 0.0040688848533221205 -0.9995962435854246 -0.028121059474334117 3.4288671885704725
+  position 0.8576540712374514 0.8812623380748132 -0.5225856337693991
 }
 TexturedBackground {
 }
@@ -16,7 +16,7 @@ RectangleArena {
   floorTileSize 1 1
 }
 Robot {
-  translation 0.2 0.43 -1.35
+  translation 0 0.5 0
   children [
     DEF basic-struct Solid {
       scale 0.005 0.005 0.005
@@ -53,19 +53,21 @@ Robot {
     HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 0 1
-        anchor 0.738 0.358 0
+        anchor 0.74 0.36 0
       }
       device [
         RotationalMotor {
+          name "RRwheel"
         }
       ]
       endPoint Solid {
-        translation 0.57 0.52 0.280001
-        rotation 1 0 0 1.5708
+        translation 0.5775 0.5225 0.27
+        rotation 1 -3.9252239376397585e-17 1.1775671812919276e-16 1.5708
         scale 0.005 0.005 0.005
         children [
           DEF wheel Shape {
-            appearance TireRubber {
+            appearance MattePaint {
+              baseColor 0 0 0
             }
             geometry IndexedFaceSet {
               coord Coordinate {
