@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.068180405397114 -0.9817785753285226 -0.17737604501674284 2.4199157253896297
-  position -1.4020718939998615 1.7761828859657718 -0.8097796605037509
+  orientation 0.01318392617330173 -0.999884860239595 0.0075133450807459215 1.0352807921362897
+  position -1.5539089904656822 1.0555355808242908 2.1392127323502663
 }
 TexturedBackground {
 }
@@ -16,7 +16,7 @@ RectangleArena {
   floorTileSize 1 1
 }
 Robot {
-  translation 0 0.52 0
+  translation 0 0.29 0
   children [
     DEF basic-struct Solid {
       scale 0.005 0.005 0.005
@@ -175,7 +175,6 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 2
         axis 0 0 1
         anchor -0.033 0.8025 0
       }
@@ -184,8 +183,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.11326680937458267 0.8659922867392529 0.5800000000000001
-        rotation 0.432721639472542 -0.6374781838960225 -0.637474350690931 2.3247976931268397
+        translation -0.18413277229651673 0.8533343893242483 0.5799999999999998
+        rotation -0.9495807725841413 -0.22168967804498066 -0.22169808972297889 4.6606752936017255
         scale 0.005 0.005 0.005
         children [
           DEF arm Shape {
