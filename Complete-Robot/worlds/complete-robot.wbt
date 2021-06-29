@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.15000826544526358 -0.9886729610547615 0.004826632088022613 6.216408462056421
-  position -0.6990945313924679 0.9736718387704887 2.5574411094736327
+  orientation -0.03770138223822138 -0.9976383021214228 -0.05741449222637412 1.9818333916533475
+  position -1.6197805213563061 1.0026062523870956 0.06798242450105063
 }
 TexturedBackground {
 }
@@ -175,7 +175,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 3
+        position 3.5
         axis 0 0 1
         anchor -0.033 0.8025 0
       }
@@ -184,8 +184,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.10944656113281889 0.7308464779551338 0.5799999999999998
-        rotation 0.11234953784526677 -0.7026304078003186 -0.7026294125499678 2.917819603980585
+        translation 0.12636114645066088 0.8079106378488162 0.5799999999999998
+        rotation 0.292710652845907 -0.6761375526025567 -0.6761349596575729 2.572069666790914
         scale 0.005 0.005 0.005
         children [
           DEF arm Shape {
@@ -212,16 +212,17 @@ Robot {
           }
           HingeJoint {
             jointParameters HingeJointParameters {
+              position -0.1
               axis 0 1 0
-              anchor 131.9 0 24.5
+              anchor 131.7 0 22.5
             }
             device [
               RotationalMotor {
               }
             ]
             endPoint Solid {
-              translation 66.09631504696318 26.629999999999995 -18.950105889646295
-              rotation 0.5199865034027696 0.5199860835123441 0.6776640091021915 1.9504462027595797
+              translation 70.56216590547722 26.629999999999995 -25.292468024897076
+              rotation 0.4941179331223146 0.49411782763627177 0.7153286241853761 1.8997217361298517
               children [
                 DEF gripper-base Shape {
                   appearance PBRAppearance {
