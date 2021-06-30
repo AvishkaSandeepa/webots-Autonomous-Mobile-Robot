@@ -1,5 +1,5 @@
-//Author : Avishka Sandeepa
-//Modified date : 02/06/2021
+//Author : Avishka Sandeepa and Ravindu Nagasinghe
+//Modified date : 30/06/2021
 
 // Added include files
 #include <webots/Robot.hpp>
@@ -19,13 +19,14 @@ double mleft;
 double mright;
 
 int stage = 1;
-int state = 2; // 1==left, 2==right
+int state = 2; // 1==right, 0,2==left
 bool detect = false;
 double lpos;
 double rpos;
 int count = 0;
 int c;
-
+int noOfPoles=0;
+bool flagPillar=false;
 
 // All the webots classes are defined in the "webots" namespace
 using namespace webots;
@@ -85,6 +86,29 @@ double Mdriver(double speed){
  return speed;
 }
 //---------------------end of the driver() function----------------------------
+
+//....................function to detect pillars...............................
+double getPillars() {
+    //cout << "show pillars" << endl;
+    DistanceSensor*RightDS;
+    DistanceSensor*LeftDS;
+ 
+    
+    RS=robot->getDistanceSensor("RightDS");
+    LS=robot->getDistanceSensor("LeftDS");
+
+    
+    RS->enable(TIME_STEP);
+    LS->enable(TIME_STEP);
+    
+    double R_DS=RS->getValue();
+    double L_DS=LS->getValue();
+
+    return R_DS,L_DS
+    
+    
+    cout <<"LS- "<<L_DS<<"      RS- "<<R_DS<< endl;
+}
 
 
 //---------------------------main function-------------------------------------
@@ -248,7 +272,7 @@ int main(int argc, char **argv) {
               stage = 4;
               lpos = leftPsVal;
               rpos = rightPsVal;
-              std::cout<<"####hey fucker#### "<<count<<std::endl;
+              std::cout<<"####T-Junction#### "<<count<<std::endl;
               count = 0;
             
             }else if(sensorValues[0]==0 && sensorValues[1]==0 && sensorValues[2]==0 && sensorValues[3]==0 && sensorValues[4]==0 && sensorValues[5]==0 && sensorValues[6]==0 && sensorValues[7]==0){
@@ -351,7 +375,7 @@ int main(int argc, char **argv) {
               
             }
           
-          }else if (stage == 4 && state == 1){
+          }else if (stage == 4 && state == 2){
             if ((leftPsVal < lpos + 3.8) || (rightPsVal < rpos + 3.8)){
               leftMotor->setVelocity(8);
               rightMotor->setVelocity(8);
@@ -380,7 +404,7 @@ int main(int argc, char **argv) {
             }
           
           
-          }else if (stage == 4 && state == 2){
+          }else if (stage == 4 && state == 1){
             if ((leftPsVal < lpos + 3.8) || (rightPsVal < rpos + 3.8)){
               leftMotor->setVelocity(8);
               rightMotor->setVelocity(8);
@@ -425,46 +449,10 @@ int main(int argc, char **argv) {
             
           
           }else if (stage==6){
-            noOfPoles=0
             double baseSpeed = 4;
-            while (leftMostValue==0 && rightMostValue==0){
-            count = 0;
-            
-            double offset = PID_calc(); //get the offset by calling pre defined function
-            
-            //---------------------set motor speed values to minimize the error------------------------
-            
-            double left = baseSpeed + offset;
-            double right = baseSpeed - offset;
-            
-            //---call a function to map the above speds within its maximum & minimum speed---
-            
-            double leftSpeed = Mdriver(left);
-            double rightSpeed = Mdriver(right);
-            
-            
-            mleft = leftSpeed;
-            mright = rightSpeed;
-            
-            //----------------------pass the speeds to the motor for run------------------------------
-            
-            leftMotor->setVelocity(leftSpeed);
-            rightMotor->setVelocity(rightSpeed);
-            
-            
-            //-------------print the sensor outputs from the IR array & current offset-----------------
-            std::cout<<"ir0 = "<<sensorValues[0]<<"  ";
-            std::cout<<"ir1 = "<<sensorValues[1]<<"  ";
-            std::cout<<"ir2 = "<<sensorValues[2]<<"  ";
-            std::cout<<"ir3 = "<<sensorValues[3]<<"  ";
-            std::cout<<"ir4 = "<<sensorValues[4]<<"  ";
-            std::cout<<"ir5 = "<<sensorValues[5]<<"  ";
-            std::cout<<"ir6 = "<<sensorValues[6]<<"  ";
-            std::cout<<"ir7 = "<<sensorValues[7]<<std::endl;
-                
-            std::cout<<" offset : "<<offset<<std::endl;}
 
             if (leftMostValue==1 && rightMostValue==0 && noOfPoles==state){
+              double baseSpeed = 8;
               stage = 2;
               detect = true;
               lpos = leftPsVal;
@@ -474,59 +462,112 @@ int main(int argc, char **argv) {
             else if (leftMostValue==1 && rightMostValue==0 && noOfPoles!=state){
               stage=5
             }
-          }
-
+            else{
+              double R_DS,L_DS = getPillars();
+              if(L_DS<=150.0 && flagPillar==false){
+                noOfPoles+=1;
+                bool flagPillar = true;
+              }
+              else if (L_DS>150.0 && flagPillar==true){
+                bool flagPillar=false;
+              }
+              count = 0;
+            
+              double offset = PID_calc(); //get the offset by calling pre defined function
+              
+              //---------------------set motor speed values to minimize the error------------------------
+              
+              double left = baseSpeed + offset;
+              double right = baseSpeed - offset;
+              
+              //---call a function to map the above speds within its maximum & minimum speed---
+              
+              double leftSpeed = Mdriver(left);
+              double rightSpeed = Mdriver(right);
+              
+              
+              mleft = leftSpeed;
+              mright = rightSpeed;
+              
+              //----------------------pass the speeds to the motor for run------------------------------
+              
+              leftMotor->setVelocity(leftSpeed);
+              rightMotor->setVelocity(rightSpeed);
+              
+              
+              //-------------print the sensor outputs from the IR array & current offset-----------------
+              std::cout<<"ir0 = "<<sensorValues[0]<<"  ";
+              std::cout<<"ir1 = "<<sensorValues[1]<<"  ";
+              std::cout<<"ir2 = "<<sensorValues[2]<<"  ";
+              std::cout<<"ir3 = "<<sensorValues[3]<<"  ";
+              std::cout<<"ir4 = "<<sensorValues[4]<<"  ";
+              std::cout<<"ir5 = "<<sensorValues[5]<<"  ";
+              std::cout<<"ir6 = "<<sensorValues[6]<<"  ";
+              std::cout<<"ir7 = "<<sensorValues[7]<<std::endl;
+                  
+              std::cout<<" offset : "<<offset<<std::endl;
+              }
+            }
           else if (stage==7){
-            noOfPoles=0
             double baseSpeed = 4;
-            while (leftMostValue==0 && rightMostValue==0){
-            count = 0;
-            
-            double offset = PID_calc(); //get the offset by calling pre defined function
-            
-            //---------------------set motor speed values to minimize the error------------------------
-            
-            double left = baseSpeed + offset;
-            double right = baseSpeed - offset;
-            
-            //---call a function to map the above speds within its maximum & minimum speed---
-            
-            double leftSpeed = Mdriver(left);
-            double rightSpeed = Mdriver(right);
-            
-            
-            mleft = leftSpeed;
-            mright = rightSpeed;
-            
-            //----------------------pass the speeds to the motor for run------------------------------
-            
-            leftMotor->setVelocity(leftSpeed);
-            rightMotor->setVelocity(rightSpeed);
-            
-            
-            //-------------print the sensor outputs from the IR array & current offset-----------------
-            std::cout<<"ir0 = "<<sensorValues[0]<<"  ";
-            std::cout<<"ir1 = "<<sensorValues[1]<<"  ";
-            std::cout<<"ir2 = "<<sensorValues[2]<<"  ";
-            std::cout<<"ir3 = "<<sensorValues[3]<<"  ";
-            std::cout<<"ir4 = "<<sensorValues[4]<<"  ";
-            std::cout<<"ir5 = "<<sensorValues[5]<<"  ";
-            std::cout<<"ir6 = "<<sensorValues[6]<<"  ";
-            std::cout<<"ir7 = "<<sensorValues[7]<<std::endl;
-                
-            std::cout<<" offset : "<<offset<<std::endl;}
 
             if (leftMostValue==0 && rightMostValue==1 && noOfPoles==state){
+              double baseSpeed = 8;
               stage = 3;
               detect = true;
               lpos = leftPsVal;
               rpos = rightPsVal;
               std::cout<<"###right detected#### "<<count<<std::endl;
               count = 0;}
-            else if (leftMostValue==1 && rightMostValue==0 && noOfPoles!=state){
+            else if (leftMostValue==0 && rightMostValue==1 && noOfPoles!=state){
               stage=5
             }
-          }
+            else{
+              double R_DS,L_DS = getPillars();
+              if(R_DS<=150.0 && flagPillar==false){
+                noOfPoles+=1;
+                bool flagPillar = true;
+              }
+              else if (R_DS>150.0 && flagPillar==true){
+                bool flagPillar=false;
+              }
+              count = 0;
+            
+              double offset = PID_calc(); //get the offset by calling pre defined function
+              
+              //---------------------set motor speed values to minimize the error------------------------
+              
+              double left = baseSpeed + offset;
+              double right = baseSpeed - offset;
+              
+              //---call a function to map the above speds within its maximum & minimum speed---
+              
+              double leftSpeed = Mdriver(left);
+              double rightSpeed = Mdriver(right);
+              
+              
+              mleft = leftSpeed;
+              mright = rightSpeed;
+              
+              //----------------------pass the speeds to the motor for run------------------------------
+              
+              leftMotor->setVelocity(leftSpeed);
+              rightMotor->setVelocity(rightSpeed);
+              
+              
+              //-------------print the sensor outputs from the IR array & current offset-----------------
+              std::cout<<"ir0 = "<<sensorValues[0]<<"  ";
+              std::cout<<"ir1 = "<<sensorValues[1]<<"  ";
+              std::cout<<"ir2 = "<<sensorValues[2]<<"  ";
+              std::cout<<"ir3 = "<<sensorValues[3]<<"  ";
+              std::cout<<"ir4 = "<<sensorValues[4]<<"  ";
+              std::cout<<"ir5 = "<<sensorValues[5]<<"  ";
+              std::cout<<"ir6 = "<<sensorValues[6]<<"  ";
+              std::cout<<"ir7 = "<<sensorValues[7]<<std::endl;
+                  
+              std::cout<<" offset : "<<offset<<std::endl;
+              }
+            }
 
           
           
