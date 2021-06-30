@@ -449,7 +449,7 @@ int main(int argc, char **argv) {
             
           
           }else if (stage==6){
-            double baseSpeed = 4;
+            double baseSpeed = 2;
 
             if (leftMostValue==1 && rightMostValue==0 && noOfPoles==state){
               double baseSpeed = 8;
@@ -460,7 +460,8 @@ int main(int argc, char **argv) {
               std::cout<<"###left detected#### "<<count<<std::endl;
               count = 0;}
             else if (leftMostValue==1 && rightMostValue==0 && noOfPoles!=state){
-              stage=5
+              leftMotor->setVelocity(0);
+              rightMotor->setVelocity(0);
             }
             else{
               double R_DS,L_DS = getPillars();
@@ -509,7 +510,7 @@ int main(int argc, char **argv) {
               }
             }
           else if (stage==7){
-            double baseSpeed = 4;
+            double baseSpeed = 2;
 
             if (leftMostValue==0 && rightMostValue==1 && noOfPoles==state){
               double baseSpeed = 8;
@@ -520,7 +521,8 @@ int main(int argc, char **argv) {
               std::cout<<"###right detected#### "<<count<<std::endl;
               count = 0;}
             else if (leftMostValue==0 && rightMostValue==1 && noOfPoles!=state){
-              stage=5
+              leftMotor->setVelocity(0);
+              rightMotor->setVelocity(0);
             }
             else{
               double R_DS,L_DS = getPillars();
