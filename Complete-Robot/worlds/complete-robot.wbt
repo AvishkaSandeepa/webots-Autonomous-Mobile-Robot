@@ -1,10 +1,11 @@
 #VRML_SIM R2021a utf8
 WorldInfo {
+  basicTimeStep 16
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.128755457026295 -0.9891620176687641 -0.07057290618509099 1.0121864890334369
-  position -1.7459203030219637 1.3719078938924114 2.0275653950542685
+  orientation -0.08034765701830313 -0.9817589847126437 -0.17231816488016646 2.2829998705745895
+  position -3.0245147482037957 2.1749529688989124 -1.9319380488620728
 }
 TexturedBackground {
 }
@@ -215,7 +216,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05690186335892089 0.671430779691544 0.5790918349403632
+        translation 0.05690186335892089 0.671430779691544 0.5790918349403579
         rotation -0.06470540180164862 -0.7056246885237486 -0.7056252616817582 3.270810855113288
         scale 0.005 0.005 0.005
         children [
@@ -361,10 +362,15 @@ Robot {
           ]
           name ""
           boundingObject USE sharpIR
+          physics Physics {
+            density -1
+            mass 0.001
+          }
         }
       ]
-      boundingObject USE sharpIR
       physics Physics {
+        density -1
+        mass 0.01
       }
     }
   ]
