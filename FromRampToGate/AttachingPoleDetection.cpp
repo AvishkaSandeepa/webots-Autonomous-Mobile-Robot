@@ -1,4 +1,4 @@
-//Author : Avishka Sandeepa and Ravindu Nagasinghe
+//Author :Ravindu Nagasinghe
 //Modified date : 30/06/2021
 
 // Added include files
@@ -19,7 +19,7 @@ double mleft;
 double mright;
 
 int stage = 1;
-int state = 2; // 1==right, 0,2==left
+int colordif = 2; // 1==right, 0,2==left
 bool detect = false;
 double lpos;
 double rpos;
@@ -272,7 +272,7 @@ int main(int argc, char **argv) {
               stage = 4;
               lpos = leftPsVal;
               rpos = rightPsVal;
-              std::cout<<"####T-Junction#### "<<count<<std::endl;
+              std::cout<<"####T-junction#### "<<count<<std::endl;
               count = 0;
             
             }else if(sensorValues[0]==0 && sensorValues[1]==0 && sensorValues[2]==0 && sensorValues[3]==0 && sensorValues[4]==0 && sensorValues[5]==0 && sensorValues[6]==0 && sensorValues[7]==0){
@@ -375,7 +375,10 @@ int main(int argc, char **argv) {
               
             }
           
-          }else if (stage == 4 && state == 2){
+          }
+          //.......................ramp and pole detection.................................
+
+          else if (stage == 4 && colordif == 2){
             if ((leftPsVal < lpos + 3.8) || (rightPsVal < rpos + 3.8)){
               leftMotor->setVelocity(8);
               rightMotor->setVelocity(8);
@@ -404,7 +407,7 @@ int main(int argc, char **argv) {
             }
           
           
-          }else if (stage == 4 && state == 1){
+          }else if (stage == 4 && colordif == 1){
             if ((leftPsVal < lpos + 3.8) || (rightPsVal < rpos + 3.8)){
               leftMotor->setVelocity(8);
               rightMotor->setVelocity(8);
@@ -449,9 +452,9 @@ int main(int argc, char **argv) {
             
           
           }else if (stage==6){
-            double baseSpeed = 2;
+            double baseSpeed = 1;
 
-            if (leftMostValue==1 && rightMostValue==0 && noOfPoles==state){
+            if (leftMostValue==1 && rightMostValue==0 && noOfPoles==colordif){ // code for robot when poles ae correctly found
               double baseSpeed = 8;
               stage = 2;
               detect = true;
@@ -459,12 +462,14 @@ int main(int argc, char **argv) {
               rpos = rightPsVal;
               std::cout<<"###left detected#### "<<count<<std::endl;
               count = 0;}
-            else if (leftMostValue==1 && rightMostValue==0 && noOfPoles!=state){
-              leftMotor->setVelocity(0);
-              rightMotor->setVelocity(0);
+            else if (leftMostValue==1 && rightMostValue==0 && noOfPoles!=colordif){ // code for robot when poles are not correctly found
+              lpos = leftPsVal;
+              rpos = rightPsVal;
+              noOfPoles = 0;
+              stage = 8
             }
             else{
-              double R_DS,L_DS = getPillars();
+              double R_DS,L_DS = getPillars(); // finding pillars
               if(L_DS<=150.0 && flagPillar==false){
                 noOfPoles+=1;
                 bool flagPillar = true;
@@ -510,9 +515,9 @@ int main(int argc, char **argv) {
               }
             }
           else if (stage==7){
-            double baseSpeed = 2;
+            double baseSpeed = 1;
 
-            if (leftMostValue==0 && rightMostValue==1 && noOfPoles==state){
+            if (leftMostValue==0 && rightMostValue==1 && noOfPoles==colordif){
               double baseSpeed = 8;
               stage = 3;
               detect = true;
@@ -520,9 +525,11 @@ int main(int argc, char **argv) {
               rpos = rightPsVal;
               std::cout<<"###right detected#### "<<count<<std::endl;
               count = 0;}
-            else if (leftMostValue==0 && rightMostValue==1 && noOfPoles!=state){
-              leftMotor->setVelocity(0);
-              rightMotor->setVelocity(0);
+            else if (leftMostValue==0 && rightMostValue==1 && noOfPoles!=colordif){
+              lpos = leftPsVal;
+              rpos = rightPsVal;
+              noOfPoles = 0;
+              stage = 8
             }
             else{
               double R_DS,L_DS = getPillars();
@@ -569,6 +576,17 @@ int main(int argc, char **argv) {
                   
               std::cout<<" offset : "<<offset<<std::endl;
               }
+            }
+            else if(stage==8){
+              if ((leftPsVal < lpos + 4) || (rightPsVal > rpos - 4)){  // Needs to calibrate(turn 180)
+                leftMotor->setVelocity(8);
+                rightMotor->setVelocity(-8);
+
+              }else{
+                leftMotor->setVelocity(0);
+                rightMotor->setVelocity(0);
+                stage=1
+                }
             }
 
           
@@ -628,3 +646,4 @@ int main(int argc, char **argv) {
 
 
 //left wheel sensor right wheel sensor
+
