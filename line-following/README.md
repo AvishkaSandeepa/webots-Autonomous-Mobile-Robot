@@ -8,3 +8,6 @@ You can easily download the curverd path for line following arena from [Here](ht
 
 Here is the basic curved path
 ![alt text](https://github.com/AvishkaSandeepa/webots-Autonomous-Mobile-Robot/blob/master/line-following/Arena/line-following-track/curvedTrack.png "curved Path")
+
+
+In addition to that this path contains the world , textures and proto nodes that I used to simulate my line following robot.
