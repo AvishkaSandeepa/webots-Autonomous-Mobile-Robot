@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.1252375302650803 0.9626739069937732 0.23994688955359922 4.007485972462109
-  position -4.421492921518637 3.6062694121013785 -6.964270328206968
+  orientation 0.09533344857448124 -0.9931632507286484 -0.06736683891203833 5.046368814303512
+  position 1.5151329093487202 0.12168361682820315 0.010179987935266727
 }
 TexturedBackground {
 }
@@ -66,4 +66,237 @@ DEF Arena_track Solid {
     }
   ]
   name "TRACK"
+}
+Robot {
+  translation 0.313557 0.041 -0.11
+  rotation 0 1 0 3.141592653589793
+  children [
+    DEF body Shape {
+      appearance PBRAppearance {
+      }
+      geometry Box {
+        size 0.25 0.0001 0.2
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.06 0 -0.11
+      }
+      device [
+        PositionSensor {
+        }
+        RotationalMotor {
+          name "right motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.06 0 -0.11
+        rotation 1 1.9626122691970235e-17 3.925224538394047e-17 1.5707996938995747
+        children [
+          DEF leftWheel Shape {
+            geometry Cylinder {
+              height 0.015
+              radius 0.04
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE leftWheel
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.06 0 0.11
+      }
+      device [
+        PositionSensor {
+        }
+        RotationalMotor {
+          name "left motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.06 0 0.11
+        rotation 0.12208304864257997 -0.7018187252255998 0.7018163621324652 3.3845556351263064
+        children [
+          DEF rightWheel Shape {
+            geometry Cylinder {
+              height 0.015
+              radius 0.04
+            }
+          }
+        ]
+        name "solid(2)"
+        boundingObject USE rightWheel
+        physics Physics {
+        }
+      }
+    }
+    BallJoint {
+      jointParameters BallJointParameters {
+        anchor -0.1 -0.021 0
+      }
+      jointParameters2 JointParameters {
+      }
+      jointParameters3 JointParameters {
+        axis 0 1 0
+      }
+      endPoint Solid {
+        translation -0.1 -0.021 0
+        rotation 0.3122492885331341 -0.8949285161535898 0.31875277690662646 3.152514828138132
+        children [
+          DEF caster Shape {
+            appearance PBRAppearance {
+            }
+            geometry Sphere {
+              radius 0.02
+            }
+          }
+        ]
+        boundingObject USE caster
+        physics Physics {
+        }
+      }
+    }
+    Solid {
+      translation -0.1 -0.01 0
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.02
+            radius 0.025
+          }
+        }
+      ]
+      name "solid(3)"
+    }
+    DistanceSensor {
+      translation -0.035 0 0.07
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        DEF IRsensor Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir0"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+    }
+    DistanceSensor {
+      translation -0.035 0 0.05
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir1]"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+    }
+    DistanceSensor {
+      translation -0.035 0 0.03
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir2"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+    }
+    DistanceSensor {
+      translation -0.035 0 0.01
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir3"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+    }
+    DistanceSensor {
+      translation -0.035 0 -0.01
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir4"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+    }
+    DistanceSensor {
+      translation -0.035 0 -0.03
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir5"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+    }
+    DistanceSensor {
+      translation -0.035 0 -0.05
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir6"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+    }
+    DistanceSensor {
+      translation -0.035 0 -0.07
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ir7"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+    }
+  ]
+  boundingObject USE body
+  physics Physics {
+  }
+  controller "test"
 }
