@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.09533344857448124 -0.9931632507286484 -0.06736683891203833 5.046368814303512
-  position 1.5151329093487202 0.12168361682820315 0.010179987935266727
+  orientation 1 0 0 4.71238898038469
+  position 0.3385479079117886 2.6841225813358482 -0.22877357022191872
 }
 TexturedBackground {
 }
@@ -68,8 +68,8 @@ DEF Arena_track Solid {
   name "TRACK"
 }
 Robot {
-  translation 0.313557 0.041 -0.11
-  rotation 0 1 0 3.141592653589793
+  translation 0.329109 0.041 -0.138487
+  rotation 0 1 0 3.01069
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -147,7 +147,7 @@ Robot {
       }
       endPoint Solid {
         translation -0.1 -0.021 0
-        rotation 0.3122492885331341 -0.8949285161535898 0.31875277690662646 3.152514828138132
+        rotation -0.9895050538777298 0.06481971270753044 -0.1291439243439049 2.647849519859985
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -188,6 +188,7 @@ Robot {
       boundingObject USE IRsensor
       physics Physics {
       }
+      type "infra-red"
     }
     DistanceSensor {
       translation -0.035 0 0.05
@@ -199,10 +200,11 @@ Robot {
           }
         }
       ]
-      name "ir1]"
+      name "ir1"
       boundingObject USE IRsensor
       physics Physics {
       }
+      type "infra-red"
     }
     DistanceSensor {
       translation -0.035 0 0.03
@@ -218,6 +220,7 @@ Robot {
       boundingObject USE IRsensor
       physics Physics {
       }
+      type "infra-red"
     }
     DistanceSensor {
       translation -0.035 0 0.01
@@ -233,6 +236,7 @@ Robot {
       boundingObject USE IRsensor
       physics Physics {
       }
+      type "infra-red"
     }
     DistanceSensor {
       translation -0.035 0 -0.01
@@ -248,6 +252,7 @@ Robot {
       boundingObject USE IRsensor
       physics Physics {
       }
+      type "infra-red"
     }
     DistanceSensor {
       translation -0.035 0 -0.03
@@ -263,6 +268,7 @@ Robot {
       boundingObject USE IRsensor
       physics Physics {
       }
+      type "infra-red"
     }
     DistanceSensor {
       translation -0.035 0 -0.05
@@ -278,6 +284,7 @@ Robot {
       boundingObject USE IRsensor
       physics Physics {
       }
+      type "infra-red"
     }
     DistanceSensor {
       translation -0.035 0 -0.07
@@ -293,6 +300,7 @@ Robot {
       boundingObject USE IRsensor
       physics Physics {
       }
+      type "infra-red"
     }
   ]
   boundingObject USE body
