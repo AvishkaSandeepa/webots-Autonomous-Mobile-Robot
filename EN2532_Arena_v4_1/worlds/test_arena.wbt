@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 1 0 0 4.71238898038469
-  position 0.3385479079117886 2.6841225813358482 -0.22877357022191872
+  orientation -0.8076049092772432 -0.548656562581628 -0.21621814643412363 0.9079538236506235
+  position -0.9307679709027112 3.1628772021854124 1.5604506441625217
 }
 TexturedBackground {
 }
@@ -68,8 +68,8 @@ DEF Arena_track Solid {
   name "TRACK"
 }
 Robot {
-  translation 0.329109 0.041 -0.138487
-  rotation 0 1 0 3.01069
+  translation 0.705795 0.0388186 -0.643069
+  rotation 0.0002140784534115998 -0.06882218765651732 0.9976289193164897 -0.006233952613232811
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -80,11 +80,13 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position 8.159919770675794
         axis 0 0 1
         anchor 0.06 0 -0.11
       }
       device [
         PositionSensor {
+          name "right_ps"
         }
         RotationalMotor {
           name "right motor"
@@ -92,7 +94,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.06 0 -0.11
-        rotation 1 1.9626122691970235e-17 3.925224538394047e-17 1.5707996938995747
+        rotation -0.4600930458063218 -0.6278204534489656 -0.6278183395153387 4.004021164160765
         children [
           DEF leftWheel Shape {
             geometry Cylinder {
@@ -109,11 +111,13 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position 7.391962386995727
         axis 0 0 1
         anchor 0.06 0 0.11
       }
       device [
         PositionSensor {
+          name "left_ps"
         }
         RotationalMotor {
           name "left motor"
@@ -121,7 +125,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation 0.12208304864257997 -0.7018187252255998 0.7018163621324652 3.3845556351263064
+        rotation -0.5321336829345201 0.5986802807596032 -0.5986782649438229 2.1635496919303714
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -138,16 +142,19 @@ Robot {
     }
     BallJoint {
       jointParameters BallJointParameters {
+        position 0.9151513135335658
         anchor -0.1 -0.021 0
       }
       jointParameters2 JointParameters {
+        position 0.2896086833132946
       }
       jointParameters3 JointParameters {
+        position -0.8467835062981802
         axis 0 1 0
       }
       endPoint Solid {
-        translation -0.1 -0.021 0
-        rotation -0.9895050538777298 0.06481971270753044 -0.1291439243439049 2.647849519859985
+        translation -0.10000010842199085 -0.021000041867752717 -6.92410687778626e-08
+        rotation 0.6521666092215179 0.5684464187906579 -0.5015449957686585 3.695006130115301
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -175,7 +182,7 @@ Robot {
       name "solid(3)"
     }
     DistanceSensor {
-      translation -0.035 0 0.07
+      translation -0.055 0 0.07
       rotation 0 0 1 -1.5708003061004252
       children [
         DEF IRsensor Shape {
@@ -191,7 +198,23 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.035 0 0.05
+      translation -0.1 -2.55286e-13 0.07
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        DEF IRsensor Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "leftmost"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.055 0 0.05
       rotation 0 0 1 -1.5708003061004252
       children [
         Shape {
@@ -207,7 +230,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.035 0 0.03
+      translation -0.055 0 0.03
       rotation 0 0 1 -1.5708003061004252
       children [
         Shape {
@@ -223,7 +246,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.035 0 0.01
+      translation -0.055 0 0.01
       rotation 0 0 1 -1.5708003061004252
       children [
         Shape {
@@ -239,7 +262,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.035 0 -0.01
+      translation -0.055 0 -0.01
       rotation 0 0 1 -1.5708003061004252
       children [
         Shape {
@@ -255,7 +278,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.035 0 -0.03
+      translation -0.055 0 -0.03
       rotation 0 0 1 -1.5708003061004252
       children [
         Shape {
@@ -271,7 +294,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.035 0 -0.05
+      translation -0.055 0 -0.05
       rotation 0 0 1 -1.5708003061004252
       children [
         Shape {
@@ -287,7 +310,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.035 0 -0.07
+      translation -0.055 0 -0.07
       rotation 0 0 1 -1.5708003061004252
       children [
         Shape {
@@ -302,9 +325,25 @@ Robot {
       }
       type "infra-red"
     }
+    DistanceSensor {
+      translation -0.1 0 -0.07
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "rightmost"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
   ]
   boundingObject USE body
   physics Physics {
   }
-  controller "test"
+  controller "TjunctionTest"
 }
