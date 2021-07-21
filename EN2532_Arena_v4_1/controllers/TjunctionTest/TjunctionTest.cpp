@@ -1,5 +1,5 @@
 //Author : Avishka Sandeepa
-//Modified date : 01/06/2021
+//Modified date : 21/07/2021
 
 // Added include files
 #include <webots/Robot.hpp>
@@ -11,16 +11,17 @@
 #define TIME_STEP 64
 #define MAX_SPEED 6.28
 
-double baseSpeed = 5;
+double baseSpeed = 8;
 double le = 0;
 double set = 3500;
 double sensorValues[10];
 double lpos;
 double rpos;
 int state =1;
-float advance = 2;
-float forward_speed = 5;
-float sharpturn_speed = 5;
+
+float advance = 1.6; // distance to move prior to juctions
+float forward_speed = 8;
+float sharpturn_speed = 8;
 
 int stage = 1;
 bool detect = false;
@@ -174,21 +175,21 @@ int main(int argc, char **argv) {
         if (stage==1){
           
             
-            if (leftMostValue==1 && rightMostValue==0 ){
+            if (leftMostValue==1 && rightMostValue==0 && count > 8 ){
               stage = 2;
               //detect = true;
               lpos = leftPsVal;
               rpos = rightPsVal;
               std::cout<<"###left detected#### "<<count<<std::endl;
-              //count = 0;
-            }else if (rightMostValue==1 && leftMostValue==0 ){
+              count = 0;
+            }else if (rightMostValue==1 && leftMostValue==0 && count > 8 ){
               stage = 3;
               lpos = leftPsVal;
               rpos = rightPsVal;
               std::cout<<"####right detected#### "<<count<<std::endl;
-              //count = 0;
+              count = 0;
             
-            }else if (leftMostValue==1 && rightMostValue==1 ){
+            }else if (leftMostValue==1 && rightMostValue==1 && count > 8 ){
               stage = 4;
               lpos = leftPsVal;
               rpos = rightPsVal;
@@ -346,6 +347,7 @@ int main(int argc, char **argv) {
         
     
     std::cout<<"        "<<std::endl;
+    count ++;
     }
 
     delete robot;
