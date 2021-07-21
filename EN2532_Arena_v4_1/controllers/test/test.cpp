@@ -36,9 +36,9 @@ void read(){
 
 //------function for PD calculation-------------------------------
 double PID_calc(){
- double average = 0;
- double sum = 0;
- for (int i = 0; i < 8 ; i++){ 
+double average = 0;
+double sum = 0;
+for (int i = 0; i < 8 ; i++){ 
    average += sensorValues[i] * i * 1000;
    sum += sensorValues[i];
  }
