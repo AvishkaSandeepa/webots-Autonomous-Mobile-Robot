@@ -39,7 +39,7 @@ double distance_to_wall = 16;
 
 
 // Variables related to take turns and wheels
-float advancedBy = 0.9;        // distance_to_wall of free move when a junction is detected.
+float advancedBy = 2;//0.9;        // distance_to_wall of free move when a junction is detected.
 float forward_speed = 4;    // free moving speed
 float sharpturn_speed = 4;  // speed of taking turns
 double mleft;

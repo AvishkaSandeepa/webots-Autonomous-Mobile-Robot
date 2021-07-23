@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.9190612292041905 -0.3933653223561383 0.024293623470652562 0.2997924453266627
-  position -0.37999451512339527 0.5632380584308807 1.578009173740091
+  orientation 0.9996486351216851 0.013958725431132055 -0.022533536865974896 5.36837972407527
+  position -0.10823714955706289 1.628805270672941 0.9948928506590944
 }
 TexturedBackground {
 }
@@ -12,10 +12,10 @@ TexturedBackgroundLight {
 }
 RectangleArena {
 }
-Robot {
+DEF gate Robot {
   children [
     Transform {
-      translation 0 0.025 0
+      translation 0 0.03 0
       children [
         DEF bottom Shape {
           appearance PBRAppearance {
@@ -31,6 +31,9 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position 1
+        axis 0 0 1
+        anchor 0 0.03 0.04
       }
       device [
         RotationalMotor {
@@ -41,7 +44,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.2 0.025 0.025
+        translation 0.09725441505626514 0.18146477726542137 0.04
+        rotation 0 0 1 0.9999999999999998
         children [
           DEF gate Shape {
             appearance PBRAppearance {
