@@ -17,9 +17,10 @@ double set = 3500;
 double sensorValues[10];
 double lpos;
 double rpos;
+double turn = 7;
 int state =1;
 
-float advance = 1.6; // distance to move prior to juctions
+float advance = 1; // distance to move prior to juctions
 float forward_speed = 6;
 float sharpturn_speed = 6;
 
@@ -50,15 +51,15 @@ void read(){
 double PID_calc(){
  double average = 0;
  double sum = 0;
- for (int i = 0; i < 8 ; i++){ 
+ for (int i = 0; i < 8 ; i++){
    average += sensorValues[i] * i * 1000;
    sum += sensorValues[i];
-   
+
  }
- 
- 
+
+
  double position = average / sum;  //---------weighted mean---------------------
- 
+
  double kp = 0.009;
  double kd = 0.0009;//0.004;
  //double ki = 0.0;
@@ -84,7 +85,7 @@ double Mdriver(double speed){
      speed = -10;
    }
  }
- 
+
  return speed;
 }
 //---------------------end of the driver() function----------------------------
@@ -93,13 +94,13 @@ double Mdriver(double speed){
 //---------------------------main function-------------------------------------
 int main(int argc, char **argv) {
     Robot *robot = new Robot();
-    
+
     // get a handler to the motors and set target position to infinity (speed control)
  Motor *leftMotor = robot->getMotor("left motor");
  Motor *rightMotor = robot->getMotor("right motor");
     leftMotor->setPosition(INFINITY);
     rightMotor->setPosition(INFINITY);
-    
+
 
     //------------------------------------------------------------------------
     // initialize sensors
@@ -108,7 +109,7 @@ int main(int argc, char **argv) {
     "ir0", "ir1", "ir2", "ir3", "ir4",
     "ir5", "ir6", "ir7", "leftmost", "rightmost"
     };
-    
+
     //enable the sensors to get measurements
     for (int i = 0; i < 10; i++) {
     ir[i] = robot->getDistanceSensor(sensorNames[i]);
@@ -135,46 +136,45 @@ int main(int argc, char **argv) {
     //---------------------------------------------------------------------
     leftMotor->setVelocity(0);
     rightMotor->setVelocity(0);
-    
+
     //-------------------set position sensors------------------------
-    
+
     PositionSensor *leftPs = robot->getPositionSensor("left_ps");
     leftPs->enable(TIME_STEP);
     PositionSensor *rightPs = robot->getPositionSensor("right_ps");
     rightPs->enable(TIME_STEP);
-    
+
     //----------------------------------------------------------------
-    
-    
+
+
     //---------------------main loop-----------------------------------
     while (robot->step(TIME_STEP) != -1){
 
 
         // read sensors outputs
-        
+
         for (int i = 0; i < 10 ; i++){
         sensorValues[i] = ir[i]->getValue();
         }
-        
-        
+
+
         //--------------read junction detection sensor values----------------
         read(); // call a function to get out put as binary values from the IR array
         double  leftMostValue = sensorValues[8];
         double  rightMostValue = sensorValues[9];
-        
-          
+
+
         //-------------------read position sensor values------------------------
         double leftPsVal = leftPs->getValue();
         double rightPsVal = rightPs->getValue();
-        
+
         //---------------print the position value as radians-------------------
         std::cout<<"left = "<<leftPsVal<<"  right = "<<rightPsVal<<std::endl;
         std::cout<<"leftmost = "<<leftMostValue<<"  rightmost = "<<rightMostValue<<std::endl;
         //------------------------------testing-------------------------------------
 
         if (stage==1){
-          
-            
+
             if (leftMostValue==1 && rightMostValue==0 && count > 8 ){
               stage = 2;
               //detect = true;
@@ -188,35 +188,35 @@ int main(int argc, char **argv) {
               rpos = rightPsVal;
               std::cout<<"####right detected#### "<<count<<std::endl;
               count = 0;
-            
+
             }else if (leftMostValue==1 && rightMostValue==1 && count > 8 ){
               stage = 4;
               lpos = leftPsVal;
               rpos = rightPsVal;
               std::cout<<"#### T junction detected #### "<<count<<std::endl;
               count = 0;
-            
+
             }else{
-            
+
             double offset = PID_calc(); //get the offset by calling pre defined function
-            
+
             //---------------------set motor speed values to minimize the error------------------------
-            
+
             double left = baseSpeed + offset;
             double right = baseSpeed - offset;
-            
+
             //---call a function to map the above speds within its maximum & minimum speed---
-            
+
             double leftSpeed = Mdriver(left);
             double rightSpeed = Mdriver(right);
-            
-            
+
+
             //----------------------pass the speeds to the motor for run------------------------------
-            
+
             leftMotor->setVelocity(leftSpeed);
             rightMotor->setVelocity(rightSpeed);
-            
-            
+
+
             //-------------print the sensor outputs from the IR array & current offset-----------------
             std::cout<<"ir0 = "<<sensorValues[0]<<"  ";
             std::cout<<"ir1 = "<<sensorValues[1]<<"  ";
@@ -226,10 +226,10 @@ int main(int argc, char **argv) {
             std::cout<<"ir5 = "<<sensorValues[5]<<"  ";
             std::cout<<"ir6 = "<<sensorValues[6]<<"  ";
             std::cout<<"ir7 = "<<sensorValues[7]<<std::endl;
-                
+
             std::cout<<" offset : "<<offset<<std::endl;
             }
-          
+
           }else if (stage == 2){
             if ((leftPsVal < lpos + advance) || (rightPsVal < rpos + advance)){
               leftMotor->setVelocity(forward_speed);
@@ -237,19 +237,25 @@ int main(int argc, char **argv) {
             }else{
               leftMotor->setVelocity(0);
               rightMotor->setVelocity(0);
-              if (sensorValues[2]==0){
+              // advancing is over.
+              // takjing the left turn
+              if(rightPsVal < rpos + advance + turn){
                 std::cout<<"*******stopped then turn left*****"<<std::endl;
                 leftMotor->setVelocity(0);
                 rightMotor->setVelocity(sharpturn_speed);
-              }else{
+              }
+              // if (sensorValues[2]==0){
+              //   std::cout<<"*******stopped then turn left*****"<<std::endl;
+              //   leftMotor->setVelocity(0);
+              //   rightMotor->setVelocity(sharpturn_speed);
+              // }
+              else{
                 //count = 0;
                 stage = 1;
               }
-                
-              
             }
-          
-          
+
+
           }else if (stage == 3){
             if ((leftPsVal < lpos + advance) || (rightPsVal < rpos + advance)){
               leftMotor->setVelocity(forward_speed);
@@ -257,18 +263,24 @@ int main(int argc, char **argv) {
             }else{
               leftMotor->setVelocity(0);
               rightMotor->setVelocity(0);
-              if (sensorValues[5]==0){
+              // advancing is over.
+              // takjing the left turn
+              if(leftPsVal < lpos + advance + turn){
                 std::cout<<"*******stopped then turn right*****"<<std::endl;
                 leftMotor->setVelocity(sharpturn_speed);
                 rightMotor->setVelocity(0);
-              }else{
+              }
+              // if (sensorValues[5]==0){
+              //   std::cout<<"*******stopped then turn right*****"<<std::endl;
+              //   leftMotor->setVelocity(sharpturn_speed);
+              //   rightMotor->setVelocity(0);
+              // }
+              else{
                 //count = 0;
                 stage = 1;
               }
-                
-              
             }
-          
+
           }else if (stage == 4 && state == 1){
             if ((leftPsVal < lpos + advance) || (rightPsVal < rpos + advance)){
               leftMotor->setVelocity(forward_speed);
@@ -284,11 +296,11 @@ int main(int argc, char **argv) {
                 //count = 0;
                 stage = 1;
               }
-                
-              
+
+
             }
-          
-          
+
+
           }else if (stage == 4 && state == 2){
             if ((leftPsVal < lpos + advance) || (rightPsVal < rpos + advance)){
               leftMotor->setVelocity(forward_speed);
@@ -304,34 +316,34 @@ int main(int argc, char **argv) {
                 //count = 0;
                 stage = 1;
               }
-                
-              
+
+
             }
-          
+
           }
-       
+
         //--------------------------------------------------------------------------
         /*
         read(); // call a function to get out put as binary values from the IR array
         double offset = PID_calc(); //get the offset by calling pre defined function
-        
+
         //---------------------set motor speed values to minimize the error------------------------
-        
+
         double left = baseSpeed + offset;
         double right = baseSpeed - offset;
-        
+
         //---call a function to map the above speds within its maximum & minimum speed---
-        
+
         double leftSpeed = Mdriver(left);
         double rightSpeed = Mdriver(right);
-        
-        
+
+
         //----------------------pass the speeds to the motor for run------------------------------
-        
+
         leftMotor->setVelocity(leftSpeed);
         rightMotor->setVelocity(rightSpeed);
-        
-        
+
+
         //-------------print the sensor outputs from the IR array & current offset-----------------
         std::cout<<"ir0 = "<<sensorValues[0]<<"  ";
         std::cout<<"ir1 = "<<sensorValues[1]<<"  ";
@@ -341,11 +353,11 @@ int main(int argc, char **argv) {
         std::cout<<"ir5 = "<<sensorValues[5]<<"  ";
         std::cout<<"ir6 = "<<sensorValues[6]<<"  ";
         std::cout<<"ir7 = "<<sensorValues[7]<<std::endl;
-            
+
         std::cout<<" offset : "<<offset<<std::endl; */
-        
-        
-    
+
+
+
     std::cout<<"        "<<std::endl;
     count ++;
     }
