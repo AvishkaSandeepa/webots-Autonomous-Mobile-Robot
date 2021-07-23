@@ -4,7 +4,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position 1.1973241026347936 6.189477754157649 -0.9431031536136347
+  position 0.9302900096370477 5.004471005582648 -0.8072748726816344
 }
 TexturedBackground {
 }
@@ -153,8 +153,8 @@ Robot {
         axis 0 1 0
       }
       endPoint Solid {
-        translation -0.09999986653865175 -0.020999997805773416 -2.2041241282394656e-08
-        rotation 0.7247553039792314 -0.045565841113844284 0.6874980025262327 3.466131532105342
+        translation -0.10000000941489011 -0.02100011683364437 6.755606422106597e-08
+        rotation 0.18720522589035044 0.41097055587346687 -0.8922204915851218 2.880132299517326
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -198,7 +198,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.1 -2.55286e-13 0.09
+      translation -0.09 -2.55286e-13 0.09
       rotation 0 0 1 -1.5708003061004252
       children [
         DEF IRsensor Shape {
@@ -326,7 +326,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.1 0 -0.09
+      translation -0.09 0 -0.09
       rotation 0 0 1 -1.5708003061004252
       children [
         Shape {

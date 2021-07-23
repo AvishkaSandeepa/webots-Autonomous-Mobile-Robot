@@ -11,7 +11,7 @@
 #define TIME_STEP 64
 #define MAX_SPEED 6.28
 
-double baseSpeed = 8;
+double baseSpeed = 6;
 double le = 0;
 double set = 3500;
 double sensorValues[10];
@@ -20,8 +20,8 @@ double rpos;
 int state =1;
 
 float advance = 1.6; // distance to move prior to juctions
-float forward_speed = 8;
-float sharpturn_speed = 8;
+float forward_speed = 6;
+float sharpturn_speed = 6;
 
 int stage = 1;
 bool detect = false;
@@ -59,8 +59,8 @@ double PID_calc(){
  
  double position = average / sum;  //---------weighted mean---------------------
  
- double kp = 0.002;
- double kd = 0.0002;
+ double kp = 0.005;
+ double kd = 0.036;//0.004;
  //double ki = 0.0;
  double e = position - set;
  double p = kp * e;
