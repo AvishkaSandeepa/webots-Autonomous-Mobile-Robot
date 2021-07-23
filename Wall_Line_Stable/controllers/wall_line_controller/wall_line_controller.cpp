@@ -1,4 +1,3 @@
-
 // Authors        : Team BRAND
 // Modified date  : 23/07/2021
 // License        : MIT
@@ -419,29 +418,32 @@ int main(int argc, char **argv) {
 
     else if (stage == 4 && colordif == 2 && finishedcircle==1){
       cout<<"************************stage 4 color dif 2**********************"<<'\n';
-      if ((leftPsVal < lpos + 1.5) || (rightPsVal < rpos + 1.5)){
+      if ((leftPsVal < lpos + advancedBy) || (rightPsVal < rpos + advancedBy)){
         leftMotor->setVelocity(forward_speed);
         rightMotor->setVelocity(forward_speed);
 
-        mleft = forward_speed;
-        mright = forward_speed;
+        //creating a memory to save wheels current speeds
+        mleft = forward_speed;  mright = forward_speed;
+
       }else{
+
         leftMotor->setVelocity(0);
         rightMotor->setVelocity(0);
 
-        mleft = 0;
-        mright = 0;
-        if (sensorValues[4]==0){
+        mleft = 0; mright = 0;
+
+        if(rightPsVal < rpos + advancedBy + turn){
           cout<<"*******stopped then turn left*****"<<'\n';
           leftMotor->setVelocity(0);
           rightMotor->setVelocity(sharpturn_speed);
 
-          mleft = 0;
-          mright = sharpturn_speed;
+          mleft = 0; mright = sharpturn_speed;
+
         }else{
           //count = 0;
           stage = 6;
         }
+
 
 
       }
@@ -449,40 +451,37 @@ int main(int argc, char **argv) {
 
     }else if (stage == 4 && colordif == 1 && finishedcircle == 1){
       cout<<"************************stage 4 color dif 1**********************"<<'\n';
-      if ((leftPsVal < lpos + 1.5) || (rightPsVal < rpos + 1.5)){
+      if ((leftPsVal < lpos + advancedBy) || (rightPsVal < rpos + advancedBy)){
         leftMotor->setVelocity(forward_speed);
         rightMotor->setVelocity(forward_speed);
-
-        mleft = forward_speed;
-        mright = forward_speed;
+        //creating a memory to save wheels current speeds
+        mleft = forward_speed;  mright = forward_speed;
       }else{
         leftMotor->setVelocity(0);
         rightMotor->setVelocity(0);
+        mleft = 0; mright = 0;
 
-        mleft = 0;
-        mright = 0;
-        if (sensorValues[4]==0){
+        if(leftPsVal < lpos + advancedBy + turn){
           cout<<"*******stopped then turn right*****"<<'\n';
           leftMotor->setVelocity(sharpturn_speed);
           rightMotor->setVelocity(0);
 
-          mleft = sharpturn_speed;
-          mright = 0;
+          mleft = sharpturn_speed; mright = 0;
         }else{
           //count = 0;
           stage = 7;
-        }
-
+      
+      }
+ 
 
       }
 
     }
 
     else if (stage==6){
-      double baseSpeed = 1;
+      double rampSpeed = 1;
       cout<<"************************stage 6 color dif 2**********************"<<noOfPoles<<"colordif"<<colordif<<'\n';
       if (leftMostValue==1 && rightMostValue==0 && noOfPoles==colordif){ // code for robot when poles ae correctly found
-        baseSpeed = 5;
         stage = 2;
         detect = true;
         lpos = leftPsVal;
@@ -517,8 +516,8 @@ int main(int argc, char **argv) {
 
             //---------------------set motor speed values to minimize the error------------------------
 
-            double left = baseSpeed + offset;
-            double right = baseSpeed - offset;
+            double left = rampSpeed + offset;
+            double right = rampSpeed - offset;
 
             //---call a function to map the above speds within its maximum & minimum speed---
 
@@ -549,10 +548,10 @@ int main(int argc, char **argv) {
           }}
         }
         else if (stage==7){
-          double baseSpeed = 1;
+          double rampSpeed = 1;
           cout<<"************************stage 7 color dif 1**********************"<<noOfPoles<<"colordif"<<colordif<<'\n';
           if (leftMostValue==0 && rightMostValue==1 && noOfPoles==colordif){
-            baseSpeed = 5;
+
             stage = 3;
             detect = true;
             lpos = leftPsVal;
@@ -583,8 +582,8 @@ int main(int argc, char **argv) {
 
               //---------------------set motor speed values to minimize the error------------------------
 
-              double left = baseSpeed + offset;
-              double right = baseSpeed - offset;
+              double left = rampSpeed + offset;
+              double right = rampSpeed - offset;
 
               //---call a function to map the above speds within its maximum & minimum speed---
 
