@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.06089447822226024 -0.9720529605253427 -0.2267264970310152 2.6308428906846926
-  position -1.8915761306397367 1.7006103248785127 -7.4372279868895905
+  orientation 0.0463888814099615 -0.9984232341351014 -0.03160881555416098 5.085466271053795
+  position 2.0024660209208403 0.18851499241718353 -3.969893034307974
 }
 TexturedBackground {
 }
@@ -963,7 +963,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            Shape {
+            DEF T-junction Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -987,6 +987,7 @@ DEF Ramp_Area Group {
             }
           ]
           name ""
+          boundingObject USE T-junction
         }
       ]
       name "<STL_BINARY>(6)"
@@ -998,7 +999,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            Shape {
+            DEF ramp_f Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -1071,6 +1072,7 @@ DEF Ramp_Area Group {
         }
       ]
       name "<STL_BINARY>(5)"
+      boundingObject USE ramp_f
     }
     DEF ramp-R Solid {
       translation 1.68077 0.002 -5.05
@@ -1079,7 +1081,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            Shape {
+            DEF ramp_r Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -1152,6 +1154,7 @@ DEF Ramp_Area Group {
         }
       ]
       name "<STL_BINARY>(4)"
+      boundingObject USE ramp_r
     }
     DEF ramp-L Solid {
       translation 0.490372 0.00184496 -5.05
@@ -1160,7 +1163,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            Shape {
+            DEF ramp_l Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -1233,6 +1236,7 @@ DEF Ramp_Area Group {
         }
       ]
       name "<STL_BINARY>(3)"
+      boundingObject USE ramp_l
     }
     DEF After_ramp_L-right Solid {
       translation 2.474 0.001 -4.85
@@ -1311,7 +1315,7 @@ DEF Ramp_Area Group {
         Solid {
           translation 3.62 0 -3.68
           children [
-            Shape {
+            DEF Ramp_bloc Shape {
               appearance PBRAppearance {
                 baseColor 0 0 0
                 roughness 1
@@ -1336,6 +1340,7 @@ DEF Ramp_Area Group {
             }
           ]
           name ""
+          boundingObject USE Ramp_bloc
         }
       ]
       name "<STL_BINARY>"
@@ -2169,8 +2174,8 @@ DEF Gate_A2 Solid {
   name "solid(1)"
 }
 Robot {
-  translation 0.705795 0.0388186 -0.643069
-  rotation 0.0002140784534115998 -0.06882218765651732 0.9976289193164897 -0.006233952613232811
+  translation 1.11458 0.0362689 -4.03329
+  rotation 0.0031109010153603117 0.9999903263846984 0.0031095710149262154 -1.570375307179586
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -2254,8 +2259,8 @@ Robot {
         axis 0 1 0
       }
       endPoint Solid {
-        translation -0.10000011533975242 -0.02099995857876829 -5.730257845279292e-08
-        rotation -0.12004983201647508 -0.9925648383507253 -0.0200768399558938 1.9117021041696454
+        translation -0.09999994859090612 -0.02100012378369674 1.836474637747448e-08
+        rotation 0.13566789685517172 0.6382886855792178 -0.7577478311578655 2.486199056320867
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -2282,24 +2287,157 @@ Robot {
       ]
       name "solid(3)"
     }
-    DistanceSensor {
-      translation -0.055 0 0.07
-      rotation 0 0 1 -1.5708003061004252
+    Transform {
+      translation 0 -0.008 0
       children [
-        DEF IRsensor Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
+        DistanceSensor {
+          translation -0.055 0 0.07
+          rotation 0 0 1 -1.5708003061004252
+          children [
+            DEF IRsensor Shape {
+              geometry Box {
+                size 0.01 0.01 0.01
+              }
+            }
+          ]
+          name "ir0"
+          boundingObject USE IRsensor
+          physics Physics {
           }
+          type "infra-red"
+        }
+        DistanceSensor {
+          translation -0.055 0 0.05
+          rotation 0 0 1 -1.5708003061004252
+          children [
+            Shape {
+              geometry Box {
+                size 0.01 0.01 0.01
+              }
+            }
+          ]
+          name "ir1"
+          boundingObject USE IRsensor
+          physics Physics {
+          }
+          type "infra-red"
+        }
+        DistanceSensor {
+          translation -0.055 0 0.03
+          rotation 0 0 1 -1.5708003061004252
+          children [
+            Shape {
+              geometry Box {
+                size 0.01 0.01 0.01
+              }
+            }
+          ]
+          name "ir2"
+          boundingObject USE IRsensor
+          physics Physics {
+          }
+          type "infra-red"
+        }
+        DistanceSensor {
+          translation -0.055 0 0.01
+          rotation 0 0 1 -1.5708003061004252
+          children [
+            Shape {
+              geometry Box {
+                size 0.01 0.01 0.01
+              }
+            }
+          ]
+          name "ir3"
+          boundingObject USE IRsensor
+          physics Physics {
+          }
+          type "infra-red"
+        }
+        DistanceSensor {
+          translation -0.055 0 -0.01
+          rotation 0 0 1 -1.5708003061004252
+          children [
+            Shape {
+              geometry Box {
+                size 0.01 0.01 0.01
+              }
+            }
+          ]
+          name "ir4"
+          boundingObject USE IRsensor
+          physics Physics {
+          }
+          type "infra-red"
+        }
+        DistanceSensor {
+          translation -0.055 0 -0.03
+          rotation 0 0 1 -1.5708003061004252
+          children [
+            Shape {
+              geometry Box {
+                size 0.01 0.01 0.01
+              }
+            }
+          ]
+          name "ir5"
+          boundingObject USE IRsensor
+          physics Physics {
+          }
+          type "infra-red"
+        }
+        DistanceSensor {
+          translation -0.055 0 -0.05
+          rotation 0 0 1 -1.5708003061004252
+          children [
+            Shape {
+              geometry Box {
+                size 0.01 0.01 0.01
+              }
+            }
+          ]
+          name "ir6"
+          boundingObject USE IRsensor
+          physics Physics {
+          }
+          type "infra-red"
+        }
+        DistanceSensor {
+          translation -0.055 0 -0.07
+          rotation 0 0 1 -1.5708003061004252
+          children [
+            Shape {
+              geometry Box {
+                size 0.01 0.01 0.01
+              }
+            }
+          ]
+          name "ir7"
+          boundingObject USE IRsensor
+          physics Physics {
+          }
+          type "infra-red"
+        }
+        DistanceSensor {
+          translation -0.12 -0.02 0
+          rotation 0 0 1 -1.5708003061004252
+          children [
+            Shape {
+              geometry Box {
+                size 0.01 0.01 0.01
+              }
+            }
+          ]
+          name "middle"
+          boundingObject USE IRsensor
+          physics Physics {
+          }
+          type "infra-red"
         }
       ]
-      name "ir0"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
     }
     DistanceSensor {
-      translation -0.09 -2.55286e-13 0.09
+      translation -0.09 0 0.09
       rotation 0 0 1 -1.5708003061004252
       children [
         DEF IRsensor Shape {
@@ -2309,118 +2447,6 @@ Robot {
         }
       ]
       name "leftmost"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
-    }
-    DistanceSensor {
-      translation -0.055 0 0.05
-      rotation 0 0 1 -1.5708003061004252
-      children [
-        Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "ir1"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
-    }
-    DistanceSensor {
-      translation -0.055 0 0.03
-      rotation 0 0 1 -1.5708003061004252
-      children [
-        Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "ir2"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
-    }
-    DistanceSensor {
-      translation -0.055 0 0.01
-      rotation 0 0 1 -1.5708003061004252
-      children [
-        Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "ir3"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
-    }
-    DistanceSensor {
-      translation -0.055 0 -0.01
-      rotation 0 0 1 -1.5708003061004252
-      children [
-        Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "ir4"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
-    }
-    DistanceSensor {
-      translation -0.055 0 -0.03
-      rotation 0 0 1 -1.5708003061004252
-      children [
-        Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "ir5"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
-    }
-    DistanceSensor {
-      translation -0.055 0 -0.05
-      rotation 0 0 1 -1.5708003061004252
-      children [
-        Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "ir6"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
-    }
-    DistanceSensor {
-      translation -0.055 0 -0.07
-      rotation 0 0 1 -1.5708003061004252
-      children [
-        Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "ir7"
       boundingObject USE IRsensor
       physics Physics {
       }
@@ -2437,22 +2463,6 @@ Robot {
         }
       ]
       name "rightmost"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
-    }
-    DistanceSensor {
-      translation -0.12 0 0
-      rotation 0 0 1 -1.5708003061004252
-      children [
-        Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "middle"
       boundingObject USE IRsensor
       physics Physics {
       }

@@ -27,18 +27,20 @@ double sensorValues[10];
 double lpos;
 double rpos;
 double turn = 8;
-int state =1;
+int state =2;
+int count =0; // for dotted line
 
-// Variables related to take turns
+// Variables related to take turns and wheels
 float advancedBy = 0.9;        // distance of free move when a junction is detected.
 float forward_speed = 5;    // free moving speed
 float sharpturn_speed = 5;  // speed of taking turns
+double mleft;
+double mright;
 
 // Variables related to state of the task
 int stage = 1;
 bool detect = false;
 double pos;
-int count = 0;
 int c;
 
 //==============================================================================
@@ -48,7 +50,7 @@ int c;
 //---------Reading the values of the sensors and convert to binary 1/0----------
 void read(){
   for (int i = 0; i < 10; i++){
-    if (sensorValues[i] < 700){
+    if (sensorValues[i] < 800){
       sensorValues[i] = 1;
     }else{
       sensorValues[i] = 0;
@@ -168,27 +170,29 @@ int main(int argc, char **argv) {
 
     if (stage==1){
 
-      if (leftMostValue==1 && rightMostValue==0 && count > 8 ){
+      if (leftMostValue==1 && rightMostValue==0 ){
         stage = 2;
         //detect = true;
         lpos = leftPsVal;
         rpos = rightPsVal;
         cout<<"=========left detected========= "<<count<<'\n';
         count = 0;
-      }else if (rightMostValue==1 && leftMostValue==0 && count > 8 ){
+      }else if (rightMostValue==1 && leftMostValue==0 ){
         stage = 3;
         lpos = leftPsVal;
         rpos = rightPsVal;
         cout<<"right detected"<<count<<'\n';
         count = 0;
-      }else if (leftMostValue==1 && rightMostValue==1 && count > 8 ){
+      }else if (leftMostValue==1 && rightMostValue==1 ){
         stage = 4;
         lpos = leftPsVal;
         rpos = rightPsVal;
         cout<<"#### T junction detected #### "<<count<<'\n';
         count = 0;
+      }else if(sensorValues[0]==0 && sensorValues[1]==0 && sensorValues[2]==0 && sensorValues[3]==0 && sensorValues[4]==0 && sensorValues[5]==0 && sensorValues[6]==0 && sensorValues[7]==0){
+        stage = 5;
       }else{
-
+        count = 0;
         double offset = PID_calc(); //get the offset by calling pre defined function
 
         //set motor speed values to minimize the error
@@ -198,7 +202,8 @@ int main(int argc, char **argv) {
         //Call a function to map the above speds within its maximum & minimum speed
         double leftSpeed = Mdriver(left);
         double rightSpeed = Mdriver(right);
-
+        mleft = leftSpeed;
+        mright = rightSpeed;
         //pass the speeds to the motor for run
         leftMotor->setVelocity(leftSpeed);
         rightMotor->setVelocity(rightSpeed);
@@ -219,15 +224,22 @@ int main(int argc, char **argv) {
       if ((leftPsVal < lpos + advancedBy) || (rightPsVal < rpos + advancedBy)){
         leftMotor->setVelocity(forward_speed);
         rightMotor->setVelocity(forward_speed);
+
+        //creating a memory to save wheels current speeds
+        mleft = forward_speed; mright = forward_speed;
       }else{
         leftMotor->setVelocity(0);
         rightMotor->setVelocity(0);
+
+        mleft = 0; mright = 0;
         // advancing is over.
         // taking the left turn
         if(rightPsVal < rpos + advancedBy + turn){
           cout<<"*******stopped then turn left*****"<<'\n';
           leftMotor->setVelocity(0);
           rightMotor->setVelocity(sharpturn_speed);
+
+          mleft = 0; mright = sharpturn_speed;
         }else{
           //count = 0;
           stage = 1;
@@ -239,15 +251,21 @@ int main(int argc, char **argv) {
       if ((leftPsVal < lpos + advancedBy) || (rightPsVal < rpos + advancedBy)){
         leftMotor->setVelocity(forward_speed);
         rightMotor->setVelocity(forward_speed);
+
+        //creating a memory to save wheels current speeds
+        mleft = forward_speed;  mright = forward_speed;
       }else{
         leftMotor->setVelocity(0);
         rightMotor->setVelocity(0);
+
+        mleft = 0; mright = 0;
         // advancing is over.
         // takjing the left turn
         if(leftPsVal < lpos + advancedBy + turn){
           cout<<"*******stopped then turn right*****"<<'\n';
           leftMotor->setVelocity(sharpturn_speed);
           rightMotor->setVelocity(0);
+          mleft = sharpturn_speed; mright = 0;
         }else{
           stage = 1;
         }
@@ -257,15 +275,24 @@ int main(int argc, char **argv) {
       if ((leftPsVal < lpos + advancedBy) || (rightPsVal < rpos + advancedBy)){
         leftMotor->setVelocity(forward_speed);
         rightMotor->setVelocity(forward_speed);
+
+        //creating a memory to save wheels current speeds
+        mleft = forward_speed;  mright = forward_speed;
+
       }else{
 
         leftMotor->setVelocity(0);
         rightMotor->setVelocity(0);
 
+        mleft = 0; mright = 0;
+
         if(rightPsVal < rpos + advancedBy + turn){
           cout<<"*******stopped then turn left*****"<<'\n';
           leftMotor->setVelocity(0);
           rightMotor->setVelocity(sharpturn_speed);
+
+          mleft = 0; mright = sharpturn_speed;
+
         }else{
           //count = 0;
           stage = 1;
@@ -279,23 +306,44 @@ int main(int argc, char **argv) {
       if ((leftPsVal < lpos + advancedBy) || (rightPsVal < rpos + advancedBy)){
         leftMotor->setVelocity(forward_speed);
         rightMotor->setVelocity(forward_speed);
+        //creating a memory to save wheels current speeds
+        mleft = forward_speed;  mright = forward_speed;
       }else{
         leftMotor->setVelocity(0);
         rightMotor->setVelocity(0);
+        mleft = 0; mright = 0;
 
         if(leftPsVal < lpos + advancedBy + turn){
           cout<<"*******stopped then turn right*****"<<'\n';
           leftMotor->setVelocity(sharpturn_speed);
           rightMotor->setVelocity(0);
+
+          mleft = sharpturn_speed; mright = 0;
         }else{
           //count = 0;
           stage = 1;
         }
       }
+      //-----------------------------dotted line area-----------------------------
+    }else if (stage == 5){
+      count++;
+      if (count < 7){
+        leftMotor->setVelocity(mleft);
+        rightMotor->setVelocity(mright);
+        stage = 1;
+      }else{
+        leftMotor->setVelocity(0);
+        rightMotor->setVelocity(0);
+        stage = 1;
+        
+        break;
+        
+      }
     }
-    cout << "        " <<'\n';
-    count++;
-  }
+    cout <<"  count =  "<<count<<'\n';
+    cout <<"        "<<'\n';
+    count ++;
+  } // end of main while loop
 
   delete robot;
   return 0;
