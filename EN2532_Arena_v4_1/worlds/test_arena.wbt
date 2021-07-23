@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.2708305168974103 0.9198747363380685 0.2836922638424432 1.7003470362469437
-  position 2.7571490041451554 0.6777802376503961 -0.5904329226349704
+  orientation -0.8755781297126997 -0.43291057222469254 -0.2143627188316576 1.029377411370784
+  position -0.5938039683636336 5.218758772298176 1.4461069867887488
 }
 TexturedBackground {
 }
@@ -398,7 +398,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            Shape {
+            DEF Pole_3 Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -468,6 +468,7 @@ DEF Ramp_Area Group {
             }
           ]
           name ""
+          boundingObject USE Pole_3
         }
       ]
       name "<STL_BINARY>(11)"
@@ -478,7 +479,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            Shape {
+            DEF Pole_2 Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -548,6 +549,7 @@ DEF Ramp_Area Group {
             }
           ]
           name ""
+          boundingObject USE Pole_2
         }
       ]
       name "<STL_BINARY>(10)"
@@ -558,7 +560,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            Shape {
+            DEF pole_1 Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -628,6 +630,7 @@ DEF Ramp_Area Group {
             }
           ]
           name ""
+          boundingObject USE pole_1
         }
       ]
       name "<STL_BINARY>(9)"
@@ -2174,8 +2177,8 @@ DEF Gate_A2 Solid {
   name "solid(1)"
 }
 Robot {
-  translation 2.01586 0.0271886 -0.634421
-  rotation -0.0675824843546477 0.997708769030314 -0.0031336892745506004 -0.09150530717958638
+  translation 0.357988 0.0271886 -0.136367
+  rotation 0 1 0 3.14159
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -2200,7 +2203,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.06 0 -0.11
-        rotation 0.20956555506665253 -0.69140635568337 -0.6914040276497146 2.7284418799852377
+        rotation 0.2095655550666525 -0.69140635568337 -0.6914040276497146 2.7284418799852377
         children [
           DEF leftWheel Shape {
             geometry Cylinder {
@@ -2231,7 +2234,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation 0.10521187951175136 0.7031834007717989 -0.7031810330836663 3.351244396892072
+        rotation 0.1052118795117513 0.703183400771799 -0.7031810330836665 3.3512443968920715
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2259,8 +2262,8 @@ Robot {
         axis 0 1 0
       }
       endPoint Solid {
-        translation -0.1000774155492313 -0.021056570884314854 -6.418021829116722e-05
-        rotation -0.5909202306851798 -0.6989490858450349 -0.40284420855135006 3.482060476340752
+        translation -0.10002798773477245 -0.021058236329929703 -9.55915750130495e-05
+        rotation 0.0333950586954361 -0.8355644232572778 -0.5483765719297837 1.4798758776802161
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -2491,6 +2494,10 @@ Robot {
         }
       ]
       name "left_ultrasound"
+      lookupTable [
+        0 0 0
+        0.2 20 0
+      ]
     }
     DistanceSensor {
       translation -0.02 0.01 -0.09
@@ -2515,6 +2522,10 @@ Robot {
         }
       ]
       name "right_ultrasound"
+      lookupTable [
+        0 0 0
+        0.2 20 0
+      ]
     }
   ]
   boundingObject USE body

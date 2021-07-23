@@ -30,8 +30,17 @@ double turn = 8;
 int state =1;
 int count =0; // for dotted line
 
+//variables for wall following
+float kpp = 0.5;//0.005;
+float kdd = 0.1;//0
+double right_prev_wall = 0;
+double left_prev_wall = 0;
+double mid_prev_wall = 0;
+double distance_to_wall = 16;
+
+
 // Variables related to take turns and wheels
-float advancedBy = 0.9;        // distance of free move when a junction is detected.
+float advancedBy = 0.9;        // distance_to_wall of free move when a junction is detected.
 float forward_speed = 5;    // free moving speed
 float sharpturn_speed = 5;  // speed of taking turns
 double mleft;
@@ -124,6 +133,13 @@ int main(int argc, char **argv) {
   PositionSensor *rightPs = robot->getPositionSensor("right_ps");
   rightPs->enable(TIME_STEP);
 
+  // initializing distance_to_wall sensors
+  DistanceSensor*right_ultrasound = robot->getDistanceSensor("right_ultrasound");
+  DistanceSensor*left_ultrasound = robot->getDistanceSensor("left_ultrasound");
+
+  right_ultrasound->enable(TIME_STEP);
+  left_ultrasound->enable(TIME_STEP);
+
   //----------------------------------------------------------------------------
 
   // initialize infrared sensors
@@ -160,12 +176,18 @@ int main(int argc, char **argv) {
     double leftPsVal = leftPs->getValue();
     double rightPsVal = rightPs->getValue();
 
+    double R_DS=right_ultrasound->getValue();
+    double L_DS=left_ultrasound->getValue();
+    
+    
+    
     //print the position value as radians
-    cout<< "Left PS = " << leftPsVal;
-    cout<<"  Right PS = " <<rightPsVal<<'\n';
-    cout<< "Left Most IR = " <<leftMostValue;
-    cout<<"  Right Most IR = " <<rightMostValue<<'\n';
+    // cout<< "Left PS = " << leftPsVal;
+    // cout<<"  Right PS = " <<rightPsVal<<'\n';
+    // cout<< "Left Most IR = " <<leftMostValue;
+    // cout<<"  Right Most IR = " <<rightMostValue<<'\n';
 
+    
     //------------------------------testing-------------------------------------
 
     if (stage==1){
@@ -191,6 +213,9 @@ int main(int argc, char **argv) {
         count = 0;
       }else if(sensorValues[0]==0 && sensorValues[1]==0 && sensorValues[2]==0 && sensorValues[3]==0 && sensorValues[4]==0 && sensorValues[5]==0 && sensorValues[6]==0 && sensorValues[7]==0){
         stage = 5;
+      }else if((R_DS <=15 || L_DS <=15)){
+        stage = 20;
+        cout << "Wall following started" << '\n';
       }else{
         count = 0;
         double offset = PID_calc(); //get the offset by calling pre defined function
@@ -337,9 +362,50 @@ int main(int argc, char **argv) {
         stage = 1;
         count =0;
         break;
-        
+
       }
-    }
+    }else if(stage == 20){
+      
+      cout << "right = " <<R_DS << "  left = " << L_DS <<'\n'; 
+      
+      double left_wall_error = L_DS -10;
+      double right_wall_error = R_DS - 10;
+
+      double left_motor_speed;
+      double right_motor_speed;
+
+      if (R_DS < distance_to_wall){
+        double wall_offset = kpp*right_wall_error +kdd*(right_wall_error - right_prev_wall);
+        right_prev_wall = right_wall_error;
+        left_motor_speed = baseSpeed + wall_offset;
+        right_motor_speed = baseSpeed - wall_offset;
+
+        leftMotor->setVelocity(Mdriver(left_motor_speed));
+        rightMotor->setVelocity(Mdriver(right_motor_speed));
+
+      }else if(L_DS < distance_to_wall){
+        double wall_offset = kpp*left_wall_error +kdd*(left_wall_error - left_prev_wall);
+        left_prev_wall = left_wall_error;
+
+        left_motor_speed = baseSpeed - wall_offset;
+        right_motor_speed = baseSpeed + wall_offset;
+
+        leftMotor->setVelocity(Mdriver(left_motor_speed));
+        rightMotor->setVelocity(Mdriver(right_motor_speed));
+      }else if(L_DS < distance_to_wall && R_DS < distance_to_wall){
+        double wall_offset = kpp*(R_DS - L_DS) + kdd*(R_DS -L_DS - mid_prev_wall);
+        mid_prev_wall = R_DS - L_DS;
+
+        left_motor_speed = baseSpeed + wall_offset;
+        right_motor_speed = baseSpeed - wall_offset;
+
+        leftMotor->setVelocity(Mdriver(left_motor_speed));
+        rightMotor->setVelocity(Mdriver(right_motor_speed));
+
+      }else{
+        stage = 1;
+      }
+    } //end of stage 20
     cout <<"  count =  "<<count<<'\n';
     cout <<"        "<<'\n';
     //count ++;
