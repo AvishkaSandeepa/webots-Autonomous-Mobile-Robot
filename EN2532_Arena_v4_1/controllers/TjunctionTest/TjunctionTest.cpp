@@ -11,18 +11,18 @@
 #define TIME_STEP 64
 #define MAX_SPEED 6.28
 
-double baseSpeed = 6;
+double baseSpeed = 5;
 double le = 0;
 double set = 3500;
 double sensorValues[10];
 double lpos;
 double rpos;
-double turn = 7;
+double turn = 8;
 int state =1;
 
 float advance = 1; // distance to move prior to juctions
-float forward_speed = 6;
-float sharpturn_speed = 6;
+float forward_speed = 5;
+float sharpturn_speed = 5;
 
 int stage = 1;
 bool detect = false;
@@ -60,8 +60,8 @@ double PID_calc(){
 
  double position = average / sum;  //---------weighted mean---------------------
 
- double kp = 0.009;
- double kd = 0.0009;//0.004;
+ double kp = 0.007;
+ double kd = 0.0007;//0.004;
  //double ki = 0.0;
  double e = position - set;
  double p = kp * e;
@@ -250,6 +250,8 @@ int main(int argc, char **argv) {
               //   rightMotor->setVelocity(sharpturn_speed);
               // }
               else{
+                // leftMotor->setVelocity(0);
+                // rightMotor->setVelocity(0);
                 //count = 0;
                 stage = 1;
               }
@@ -276,6 +278,8 @@ int main(int argc, char **argv) {
               //   rightMotor->setVelocity(0);
               // }
               else{
+                // leftMotor->setVelocity(0);
+                // rightMotor->setVelocity(0);
                 //count = 0;
                 stage = 1;
               }
@@ -288,11 +292,19 @@ int main(int argc, char **argv) {
             }else{
               leftMotor->setVelocity(0);
               rightMotor->setVelocity(0);
-              if (sensorValues[2]==0){
+
+              if(rightPsVal < rpos + advance + turn){
                 std::cout<<"*******stopped then turn left*****"<<std::endl;
                 leftMotor->setVelocity(0);
                 rightMotor->setVelocity(sharpturn_speed);
-              }else{
+              }
+
+              // if (sensorValues[2]==0){
+              //   std::cout<<"*******stopped then turn left*****"<<std::endl;
+              //   leftMotor->setVelocity(0);
+              //   rightMotor->setVelocity(sharpturn_speed);
+              //}
+              else{
                 //count = 0;
                 stage = 1;
               }
@@ -308,11 +320,19 @@ int main(int argc, char **argv) {
             }else{
               leftMotor->setVelocity(0);
               rightMotor->setVelocity(0);
-              if (sensorValues[5]==0){
+
+              if(leftPsVal < lpos + advance + turn){
                 std::cout<<"*******stopped then turn right*****"<<std::endl;
                 leftMotor->setVelocity(sharpturn_speed);
                 rightMotor->setVelocity(0);
-              }else{
+              }
+
+              // if (sensorValues[5]==0){
+              //   std::cout<<"*******stopped then turn right*****"<<std::endl;
+              //   leftMotor->setVelocity(sharpturn_speed);
+              //   rightMotor->setVelocity(0);
+              // }
+              else{
                 //count = 0;
                 stage = 1;
               }
