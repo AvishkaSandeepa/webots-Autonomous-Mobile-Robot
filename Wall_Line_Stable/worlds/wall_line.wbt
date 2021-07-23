@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.810544503565856 0.542579237273083 0.22051163012263042 5.353638179817214
-  position -2.38615117914151 7.2104528763113525 4.471410772547124
+  orientation 0.8043361557627386 -0.49130640360922445 -0.3341576967621562 4.879325133138426
+  position 2.770554051000442 5.212826305974529 -2.3271216816935323
 }
 TexturedBackground {
 }
@@ -555,7 +555,7 @@ DEF Ramp_Area Group {
       name "<STL_BINARY>(10)"
     }
     DEF pole_1 Solid {
-      translation -0.07 0 -4.855
+      translation 1.91 0 -4.855
       scale 0.001 0.001 0.001
       children [
         Solid {
@@ -2177,8 +2177,8 @@ DEF Gate_A2 Solid {
   name "solid(1)"
 }
 Robot {
-  translation 1.48034 0.0438402 -2.79643
-  rotation -0.002354609626523033 0.9999938413857384 -0.0026024995872039078 -1.681135307179586
+  translation 2.0409 0.0469698 -2.40663
+  rotation 0.002029129536643875 -0.9999817716519963 0.005686738701420899 0.895746
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -2264,8 +2264,8 @@ Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.10002907947763558 -0.021069690705040625 -8.723601461685851e-05
-            rotation -0.3262513429881474 -0.7737105841823394 -0.5430764155463329 3.002832853349224
+            translation -0.09995903825091425 -0.021006355465306364 -0.00010767671896664481
+            rotation -0.22026936680179457 -0.471029179581253 -0.8541738219073142 3.6783832411471526
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
@@ -2535,5 +2535,5 @@ Robot {
   boundingObject USE body
   physics Physics {
   }
-  controller "TjunctionTest"
+  controller "wall_line_controller"
 }
