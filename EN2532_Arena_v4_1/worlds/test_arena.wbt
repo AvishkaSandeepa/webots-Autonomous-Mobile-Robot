@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.0463888814099615 -0.9984232341351014 -0.03160881555416098 5.085466271053795
-  position 2.0024660209208403 0.18851499241718353 -3.969893034307974
+  orientation -0.2708305168974103 0.9198747363380685 0.2836922638424432 1.7003470362469437
+  position 2.7571490041451554 0.6777802376503961 -0.5904329226349704
 }
 TexturedBackground {
 }
@@ -1346,8 +1346,8 @@ DEF Ramp_Area Group {
       name "<STL_BINARY>"
     }
     DEF Color_Box Solid {
-      translation 1.38656 0.024950957591820155 -1.75344
-      rotation 5.144945454282833e-18 1 -1.8975088692014463e-16 0.7853996938995745
+      translation 1.38656 0.024950950006004953 -1.75344
+      rotation -6.775944846787432e-17 1 -2.7251788470474155e-17 0.7853996938995745
       scale 0.001 0.001 0.001
       children [
         Solid {
@@ -2174,8 +2174,8 @@ DEF Gate_A2 Solid {
   name "solid(1)"
 }
 Robot {
-  translation 1.11458 0.0362689 -4.03329
-  rotation 0.0031109010153603117 0.9999903263846984 0.0031095710149262154 -1.570375307179586
+  translation 2.01586 0.0271886 -0.634421
+  rotation -0.0675824843546477 0.997708769030314 -0.0031336892745506004 -0.09150530717958638
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -2186,7 +2186,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 8.159919770675794
+        position 123.11071105280067
         axis 0 0 1
         anchor 0.06 0 -0.11
       }
@@ -2200,7 +2200,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.06 0 -0.11
-        rotation -0.4600930458063218 -0.6278204534489656 -0.6278183395153387 4.004021164160765
+        rotation 0.20956555506665253 -0.69140635568337 -0.6914040276497146 2.7284418799852377
         children [
           DEF leftWheel Shape {
             geometry Cylinder {
@@ -2217,7 +2217,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 7.391962386995727
+        position 131.3053924578144
         axis 0 0 1
         anchor 0.06 0 0.11
       }
@@ -2231,7 +2231,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation -0.5321336829345201 0.5986802807596032 -0.5986782649438229 2.1635496919303714
+        rotation 0.10521187951175136 0.7031834007717989 -0.7031810330836663 3.351244396892072
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2248,19 +2248,19 @@ Robot {
     }
     BallJoint {
       jointParameters BallJointParameters {
-        position 0.9151513135335658
+        position 5.5420823782117665
         anchor -0.1 -0.021 0
       }
       jointParameters2 JointParameters {
-        position 0.2896086833132946
+        position 5.989195630742834
       }
       jointParameters3 JointParameters {
-        position -0.8467835062981802
+        position -1.366185568860705
         axis 0 1 0
       }
       endPoint Solid {
-        translation -0.09999994859090612 -0.02100012378369674 1.836474637747448e-08
-        rotation 0.13566789685517172 0.6382886855792178 -0.7577478311578655 2.486199056320867
+        translation -0.1000774155492313 -0.021056570884314854 -6.418021829116722e-05
+        rotation -0.5909202306851798 -0.6989490858450349 -0.40284420855135006 3.482060476340752
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -2287,7 +2287,7 @@ Robot {
       ]
       name "solid(3)"
     }
-    Transform {
+    DEF IR_panel Transform {
       translation 0 -0.008 0
       children [
         DistanceSensor {
@@ -2437,7 +2437,7 @@ Robot {
       ]
     }
     DistanceSensor {
-      translation -0.09 0 0.09
+      translation -0.09 -0.008 0.09
       rotation 0 0 1 -1.5708003061004252
       children [
         DEF IRsensor Shape {
@@ -2453,7 +2453,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.09 0 -0.09
+      translation -0.09 -0.008 -0.09
       rotation 0 0 1 -1.5708003061004252
       children [
         Shape {
@@ -2467,6 +2467,54 @@ Robot {
       physics Physics {
       }
       type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.02 0.01 0.09
+      rotation 0 1 0 -1.5707996938995747
+      children [
+        Solid {
+          translation 0.01 0.02 0.022
+          rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 2.0944
+          scale 0.001 0.001 0.001
+          children [
+            DEF ultrasound Shape {
+              appearance PBRAppearance {
+              }
+              geometry Mesh {
+                url [
+                  "E:/webots-Autonomous-Mobile-Robot/STL-VRML/Ultrasonic Sensor.STL"
+                ]
+              }
+            }
+          ]
+          boundingObject USE ultrasound
+        }
+      ]
+      name "left_ultrasound"
+    }
+    DistanceSensor {
+      translation -0.02 0.01 -0.09
+      rotation 0 1 0 1.5707996938995747
+      children [
+        Solid {
+          translation 0.01 0.02 0.022
+          rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 2.0944
+          scale 0.001 0.001 0.001
+          children [
+            DEF ultrasound Shape {
+              appearance PBRAppearance {
+              }
+              geometry Mesh {
+                url [
+                  "E:/webots-Autonomous-Mobile-Robot/STL-VRML/Ultrasonic Sensor.STL"
+                ]
+              }
+            }
+          ]
+          boundingObject USE ultrasound
+        }
+      ]
+      name "right_ultrasound"
     }
   ]
   boundingObject USE body

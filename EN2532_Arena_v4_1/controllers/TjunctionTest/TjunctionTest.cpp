@@ -27,7 +27,7 @@ double sensorValues[10];
 double lpos;
 double rpos;
 double turn = 8;
-int state =2;
+int state =1;
 int count =0; // for dotted line
 
 // Variables related to take turns and wheels
@@ -187,7 +187,7 @@ int main(int argc, char **argv) {
         stage = 4;
         lpos = leftPsVal;
         rpos = rightPsVal;
-        cout<<"#### T junction detected #### "<<count<<'\n';
+        cout<<"############################################################ T junction detected ######################################################################## "<<count<<'\n';
         count = 0;
       }else if(sensorValues[0]==0 && sensorValues[1]==0 && sensorValues[2]==0 && sensorValues[3]==0 && sensorValues[4]==0 && sensorValues[5]==0 && sensorValues[6]==0 && sensorValues[7]==0){
         stage = 5;
@@ -327,7 +327,7 @@ int main(int argc, char **argv) {
       //-----------------------------dotted line area-----------------------------
     }else if (stage == 5){
       count++;
-      if (count < 7){
+      if (count < 4){
         leftMotor->setVelocity(mleft);
         rightMotor->setVelocity(mright);
         stage = 1;
@@ -335,14 +335,14 @@ int main(int argc, char **argv) {
         leftMotor->setVelocity(0);
         rightMotor->setVelocity(0);
         stage = 1;
-        
+        count =0;
         break;
         
       }
     }
     cout <<"  count =  "<<count<<'\n';
     cout <<"        "<<'\n';
-    count ++;
+    //count ++;
   } // end of main while loop
 
   delete robot;
