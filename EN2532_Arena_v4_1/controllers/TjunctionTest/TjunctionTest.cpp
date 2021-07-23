@@ -18,9 +18,9 @@ double sensorValues[10];
 double lpos;
 double rpos;
 double turn = 8;
-int state =1;
+int state =2;
 
-float advance = 1; // distance to move prior to juctions
+float advance = 0.9; // distance to move prior to juctions
 float forward_speed = 5;
 float sharpturn_speed = 5;
 
@@ -60,8 +60,8 @@ double PID_calc(){
 
  double position = average / sum;  //---------weighted mean---------------------
 
- double kp = 0.007;
- double kd = 0.0007;//0.004;
+ double kp = 0.008;
+ double kd = 0.0004;//0.004;
  //double ki = 0.0;
  double e = position - set;
  double p = kp * e;
