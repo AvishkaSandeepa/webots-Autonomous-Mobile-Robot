@@ -59,8 +59,8 @@ double PID_calc(){
  
  double position = average / sum;  //---------weighted mean---------------------
  
- double kp = 0.005;
- double kd = 0.036;//0.004;
+ double kp = 0.009;
+ double kd = 0.0009;//0.004;
  //double ki = 0.0;
  double e = position - set;
  double p = kp * e;

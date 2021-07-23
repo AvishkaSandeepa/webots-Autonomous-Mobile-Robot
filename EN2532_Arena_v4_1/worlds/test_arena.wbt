@@ -4,7 +4,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position 0.9302900096370477 5.004471005582648 -0.8072748726816344
+  position 1.212852436442 4.154134177270452 -1.587931262107195
 }
 TexturedBackground {
 }
@@ -153,8 +153,8 @@ Robot {
         axis 0 1 0
       }
       endPoint Solid {
-        translation -0.10000000941489011 -0.02100011683364437 6.755606422106597e-08
-        rotation 0.18720522589035044 0.41097055587346687 -0.8922204915851218 2.880132299517326
+        translation -0.09999995785494652 -0.020999939296926312 1.1332031474055377e-07
+        rotation -0.2467460437942184 0.7199198824775235 0.648715463578178 0.8347042883283771
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -336,6 +336,22 @@ Robot {
         }
       ]
       name "rightmost"
+      boundingObject USE IRsensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.12 0 0
+      rotation 0 0 1 -1.5708003061004252
+      children [
+        Shape {
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "middle"
       boundingObject USE IRsensor
       physics Physics {
       }
