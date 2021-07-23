@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.8755781297126997 -0.43291057222469254 -0.2143627188316576 1.029377411370784
-  position -0.5938039683636336 5.218758772298176 1.4461069867887488
+  orientation 0.7830114342093584 0.5798248205924319 0.2251583250123301 5.3624076948801775
+  position -2.38615117914151 7.2104528763113525 4.471410772547124
 }
 TexturedBackground {
 }
@@ -1349,8 +1349,8 @@ DEF Ramp_Area Group {
       name "<STL_BINARY>"
     }
     DEF Color_Box Solid {
-      translation 1.38656 0.024950950006004953 -1.75344
-      rotation -6.775944846787432e-17 1 -2.7251788470474155e-17 0.7853996938995745
+      translation 1.38656 0.024950950000168913 -1.75344
+      rotation -2.1556304642810058e-17 1 -3.806554049140759e-19 0.7853996938995745
       scale 0.001 0.001 0.001
       children [
         Solid {
@@ -2177,8 +2177,8 @@ DEF Gate_A2 Solid {
   name "solid(1)"
 }
 Robot {
-  translation 0.357988 0.0271886 -0.136367
-  rotation 0 1 0 3.14159
+  translation 1.48034 0.0438402 -2.79643
+  rotation -0.002354609626523033 0.9999938413857384 -0.0026024995872039078 -1.681135307179586
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -2189,7 +2189,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 123.11071105280067
+        position 124.85110834757248
         axis 0 0 1
         anchor 0.06 0 -0.11
       }
@@ -2203,7 +2203,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.06 0 -0.11
-        rotation 0.2095655550666525 -0.69140635568337 -0.6914040276497146 2.7284418799852377
+        rotation 0.8542927404739759 -0.3675491962383972 -0.3675479586638624 1.72763408320927
         children [
           DEF leftWheel Shape {
             geometry Cylinder {
@@ -2220,7 +2220,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 131.3053924578144
+        position 133.82560501919482
         axis 0 0 1
         anchor 0.06 0 0.11
       }
@@ -2234,7 +2234,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation 0.1052118795117513 0.703183400771799 -0.7031810330836665 3.3512443968920715
+        rotation -0.8195093371169974 0.4052194171990079 -0.40521805278510986 1.7685475736862633
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2249,46 +2249,50 @@ Robot {
         }
       }
     }
-    BallJoint {
-      jointParameters BallJointParameters {
-        position 5.5420823782117665
-        anchor -0.1 -0.021 0
-      }
-      jointParameters2 JointParameters {
-        position 5.989195630742834
-      }
-      jointParameters3 JointParameters {
-        position -1.366185568860705
-        axis 0 1 0
-      }
-      endPoint Solid {
-        translation -0.10002798773477245 -0.021058236329929703 -9.55915750130495e-05
-        rotation 0.0333950586954361 -0.8355644232572778 -0.5483765719297837 1.4798758776802161
-        children [
-          DEF caster Shape {
-            appearance PBRAppearance {
-            }
-            geometry Sphere {
-              radius 0.02
-            }
-          }
-        ]
-        boundingObject USE caster
-        physics Physics {
-        }
-      }
-    }
-    Solid {
-      translation -0.1 -0.01 0
+    DEF CasterW1 Transform {
       children [
-        Shape {
-          geometry Cylinder {
-            height 0.02
-            radius 0.025
+        BallJoint {
+          jointParameters BallJointParameters {
+            position 5.529608262058479
+            anchor -0.1 -0.021 0
           }
+          jointParameters2 JointParameters {
+            position 6.390828025479615
+          }
+          jointParameters3 JointParameters {
+            position -0.8107690875941651
+            axis 0 1 0
+          }
+          endPoint Solid {
+            translation -0.10006562713109918 -0.020912770550156938 3.737158517669027e-05
+            rotation -0.020621868307959975 -0.355486840656254 0.9344537680740146 4.167710385507429
+            children [
+              DEF caster Shape {
+                appearance PBRAppearance {
+                }
+                geometry Sphere {
+                  radius 0.02
+                }
+              }
+            ]
+            boundingObject USE caster
+            physics Physics {
+            }
+          }
+        }
+        Solid {
+          translation -0.1 -0.01 0
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.02
+                radius 0.025
+              }
+            }
+          ]
+          name "solid(3)"
         }
       ]
-      name "solid(3)"
     }
     DEF IR_panel Transform {
       translation 0 -0.008 0
@@ -2422,7 +2426,7 @@ Robot {
           type "infra-red"
         }
         DistanceSensor {
-          translation -0.12 -0.02 0
+          translation -0.12 0 0
           rotation 0 0 1 -1.5708003061004252
           children [
             Shape {

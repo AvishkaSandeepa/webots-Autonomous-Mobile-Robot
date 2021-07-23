@@ -59,7 +59,7 @@ int c;
 //---------Reading the values of the sensors and convert to binary 1/0----------
 void read(){
   for (int i = 0; i < 10; i++){
-    if (sensorValues[i] < 800){
+    if (sensorValues[i] < 700){
       sensorValues[i] = 1;
     }else{
       sensorValues[i] = 0;
@@ -182,10 +182,10 @@ int main(int argc, char **argv) {
     
     
     //print the position value as radians
-    // cout<< "Left PS = " << leftPsVal;
-    // cout<<"  Right PS = " <<rightPsVal<<'\n';
-    // cout<< "Left Most IR = " <<leftMostValue;
-    // cout<<"  Right Most IR = " <<rightMostValue<<'\n';
+    cout<< "Left PS = " << leftPsVal;
+    cout<<"  Right PS = " <<rightPsVal<<'\n';
+    cout<< "Left Most IR = " <<leftMostValue;
+    cout<<"  Right Most IR = " <<rightMostValue<<'\n';
 
     
     //------------------------------testing-------------------------------------
