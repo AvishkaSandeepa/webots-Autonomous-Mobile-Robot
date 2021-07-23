@@ -27,7 +27,7 @@ double sensorValues[10];
 double lpos;
 double rpos;
 double turn = 8;
-int state =2;
+int state =1;
 
 // Variables related to take turns
 float advancedBy = 0.9;        // distance of free move when a junction is detected.

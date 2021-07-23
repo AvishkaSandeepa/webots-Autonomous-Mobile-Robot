@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.9813879990991654 -0.15434292832404264 -0.11426222341831056 1.2925636878841074
-  position 0.9242200026058689 7.524585025809696 0.29530150083933404
+  orientation -0.06089447822226024 -0.9720529605253427 -0.2267264970310152 2.6308428906846926
+  position -1.8915761306397367 1.7006103248785127 -7.4372279868895905
 }
 TexturedBackground {
 }
@@ -1480,8 +1480,6 @@ DEF Ramp_Area Group {
       boundingObject USE Inside_Box
       physics Physics {
       }
-      linearVelocity -2.5309765460843214e-17 -5.932920635131011e-08 6.128193097185243e-17
-      angularVelocity 2.9219058813104133e-15 -6.133813973145542e-17 2.398695662670506e-15
     }
     DEF Dotted_5 Solid {
       translation 1.36036 0 -3.57402
@@ -2133,6 +2131,43 @@ DEF Ramp_Area Group {
     }
   ]
 }
+DEF Gate_A1 Solid {
+  translation 2.584 0 -4.85
+  rotation 0 -1 0 1.5708
+  scale 0.001 0.001 0.001
+  children [
+    DEF Gate_Area Shape {
+      appearance PBRAppearance {
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "gate_part.STL"
+        ]
+      }
+    }
+  ]
+}
+DEF Gate_A2 Solid {
+  translation -0.16 0 -4.85
+  rotation 0 -1 0 1.5708
+  scale 0.001 0.001 0.001
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "gate_part.STL"
+        ]
+      }
+    }
+  ]
+  name "solid(1)"
+}
 Robot {
   translation 0.705795 0.0388186 -0.643069
   rotation 0.0002140784534115998 -0.06882218765651732 0.9976289193164897 -0.006233952613232811
@@ -2219,8 +2254,8 @@ Robot {
         axis 0 1 0
       }
       endPoint Solid {
-        translation -0.09999995138600112 -0.021000105449861854 -6.942310975515688e-08
-        rotation -0.27582052409819946 0.76760408202157 -0.5785386864765548 3.080160853306223
+        translation -0.10000011533975242 -0.02099995857876829 -5.730257845279292e-08
+        rotation -0.12004983201647508 -0.9925648383507253 -0.0200768399558938 1.9117021041696454
         children [
           DEF caster Shape {
             appearance PBRAppearance {
