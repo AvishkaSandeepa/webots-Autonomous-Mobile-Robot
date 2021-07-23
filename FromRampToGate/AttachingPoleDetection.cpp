@@ -585,9 +585,47 @@ int main(int argc, char **argv) {
               }else{
                 leftMotor->setVelocity(0);
                 rightMotor->setVelocity(0);
-                stage=1
+                wrongPillar=1;
+                stage=1;
                 }
             }
+              //turned right and pillar count is wrong 
+            else if(stage ==9 && wrongPillar==1){
+              if ((leftPsVal < lpos + 5) || (rightPsVal < rpos + 5)){
+                leftMotor->setVelocity(8);
+                rightMotor->setVelocity(8);
+              
+                mleft = 8;
+                mright = 8;
+            } else{
+                leftMotor->setVelocity(0);
+                rightMotor->setVelocity(0);
+              
+                mleft = 0;
+                mright = 0;
+                wrongPillar=0;
+                stage=6;
+
+            }  }
+          
+          //turned left and pillar count is wrong 
+            else if(stage ==10 && wrongPillar==1){
+              if ((leftPsVal < lpos + 5) || (rightPsVal < rpos + 5)){
+                leftMotor->setVelocity(8);
+                rightMotor->setVelocity(8);
+              
+                mleft = 8;
+                mright = 8;
+            } else{
+                leftMotor->setVelocity(0);
+                rightMotor->setVelocity(0);
+              
+                mleft = 0;
+                mright = 0;
+                wrongPillar=0;
+                stage=7;
+
+            }  }
 
           
           
