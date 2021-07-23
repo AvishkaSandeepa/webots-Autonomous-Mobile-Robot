@@ -1,0 +1,66 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.9190612292041905 -0.3933653223561383 0.024293623470652562 0.2997924453266627
+  position -0.37999451512339527 0.5632380584308807 1.578009173740091
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Robot {
+  children [
+    Transform {
+      translation 0 0.025 0
+      children [
+        DEF bottom Shape {
+          appearance PBRAppearance {
+            baseColor 0.341176 0.172549 0
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+      }
+      device [
+        RotationalMotor {
+          name "gateMotor"
+        }
+        PositionSensor {
+          name "ps"
+        }
+      ]
+      endPoint Solid {
+        translation 0.2 0.025 0.025
+        children [
+          DEF gate Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0
+              roughness 0.9
+              metalness 0
+            }
+            geometry Box {
+              size 0.4 0.03 0.01
+            }
+          }
+        ]
+        boundingObject USE gate
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject USE bottom
+  physics Physics {
+  }
+}
