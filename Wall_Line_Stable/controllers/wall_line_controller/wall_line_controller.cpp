@@ -26,7 +26,7 @@ double sensorValues[10];
 double lpos;
 double rpos;
 double turn = 8;
-int state =3; // after the circular area
+int state =1; // after the circular area
 int count =0; // for dotted line
 
 //variables for wall following
@@ -50,12 +50,13 @@ int stage = 1;
 bool detect = false;
 double pos;
 int c;
-
+int countB=0;
+int detectingTurn=0;
 //Variables for pillar detecting
-float advancedonRamp = 2;
+float advancedonRamp = 1.5;
 int noOfPoles=0;
 bool flagPillar=false;
-int colordif=2;
+int colordif=1;
 int wrongPillar=0;
 int finishedcircle=1;
 
@@ -200,24 +201,39 @@ int main(int argc, char **argv) {
     if (stage==1){
 
       if (leftMostValue==1 && rightMostValue==0 ){
+        if (countB>detectingTurn){
+        countB=0;
         stage = 2;
         //detect = true;
         lpos = leftPsVal;
         rpos = rightPsVal;
         cout<<"=========left detected========= "<<count<<'\n';
-        count = 0;
+        count = 0;}
+        else{
+          countB++;
+        }
       }else if (rightMostValue==1 && leftMostValue==0 ){
+        if (countB>detectingTurn){
+        countB=0;
         stage = 3;
         lpos = leftPsVal;
         rpos = rightPsVal;
         cout<<"right detected"<<count<<'\n';
-        count = 0;
+        count = 0;}
+        else{
+          countB++;
+        }
       }else if (leftMostValue==1 && rightMostValue==1 ){
+        if (countB>detectingTurn){
+        countB=0;
         stage = 4;
         lpos = leftPsVal;
         rpos = rightPsVal;
         cout<<"############################################################ T junction detected ######################################################################## "<<count<<'\n';
-        count = 0;
+        count = 0;}
+        else{
+          countB++;
+        }
       }else if(sensorValues[0]==0 && sensorValues[1]==0 && sensorValues[2]==0 && sensorValues[3]==0 && sensorValues[4]==0 && sensorValues[5]==0 && sensorValues[6]==0 && sensorValues[7]==0){
         stage = 5;
       }else if((R_DS <=15 || L_DS <=15)){
