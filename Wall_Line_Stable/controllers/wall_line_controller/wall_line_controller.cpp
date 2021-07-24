@@ -39,7 +39,7 @@ double distance_to_wall = 16;
 
 
 // Variables related to take turns and wheels
-float advancedBy = 2;//0.9;        // distance_to_wall of free move when a junction is detected.
+float advancedBy = 0.9;        // distance_to_wall of free move when a junction is detected.
 float forward_speed = 4;    // free moving speed
 float sharpturn_speed = 4;  // speed of taking turns
 double mleft;
@@ -52,6 +52,7 @@ double pos;
 int c;
 
 //Variables for pillar detecting
+float advancedonRamp = 2;
 int noOfPoles=0;
 bool flagPillar=false;
 int colordif=2;
@@ -418,7 +419,7 @@ int main(int argc, char **argv) {
 
     else if (stage == 4 && colordif == 2 && finishedcircle==1){
       cout<<"************************stage 4 color dif 2**********************"<<'\n';
-      if ((leftPsVal < lpos + advancedBy) || (rightPsVal < rpos + advancedBy)){
+      if ((leftPsVal < lpos + advancedonRamp) || (rightPsVal < rpos + advancedonRamp)){
         leftMotor->setVelocity(forward_speed);
         rightMotor->setVelocity(forward_speed);
 
@@ -432,7 +433,7 @@ int main(int argc, char **argv) {
 
         mleft = 0; mright = 0;
 
-        if(rightPsVal < rpos + advancedBy + turn){
+        if(rightPsVal < rpos + advancedonRamp + turn){
           cout<<"*******stopped then turn left*****"<<'\n';
           leftMotor->setVelocity(0);
           rightMotor->setVelocity(sharpturn_speed);
@@ -451,7 +452,7 @@ int main(int argc, char **argv) {
 
     }else if (stage == 4 && colordif == 1 && finishedcircle == 1){
       cout<<"************************stage 4 color dif 1**********************"<<'\n';
-      if ((leftPsVal < lpos + advancedBy) || (rightPsVal < rpos + advancedBy)){
+      if ((leftPsVal < lpos + advancedonRamp) || (rightPsVal < rpos + advancedonRamp)){
         leftMotor->setVelocity(forward_speed);
         rightMotor->setVelocity(forward_speed);
         //creating a memory to save wheels current speeds
@@ -461,7 +462,7 @@ int main(int argc, char **argv) {
         rightMotor->setVelocity(0);
         mleft = 0; mright = 0;
 
-        if(leftPsVal < lpos + advancedBy + turn){
+        if(leftPsVal < lpos + advancedonRamp + turn){
           cout<<"*******stopped then turn right*****"<<'\n';
           leftMotor->setVelocity(sharpturn_speed);
           rightMotor->setVelocity(0);
@@ -470,9 +471,9 @@ int main(int argc, char **argv) {
         }else{
           //count = 0;
           stage = 7;
-      
+
       }
- 
+
 
       }
 
