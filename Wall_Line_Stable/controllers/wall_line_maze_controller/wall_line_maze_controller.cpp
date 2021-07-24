@@ -70,7 +70,11 @@ bool third_exit = false;
 float reverse = 3;
 bool box_detected = false;
 
-
+// varibales for the color detection
+const double distance_to_box = 5.0;
+double diff;
+double constant = 0.08;
+double threshold = 3;
 //==============================================================================
 //*                         Defining custom functions                          *
 //==============================================================================
@@ -204,7 +208,8 @@ int main(int argc, char **argv) {
 
     // maze related
     double sharp_ir_value = sharp_IR->getValue();
-    double sharp_ir = sharp_ir_value
+    double sharp_ir = sharp_ir_value;
+    
 
     if (sharp_ir_value < 600){  // Needs to calibrate Front IR Sensor
       sharp_ir_value = 1;
@@ -544,8 +549,17 @@ int main(int argc, char **argv) {
                 state = 2;
                 lpos = leftPsVal;
                 rpos = rightPsVal;
+                cout << "SharpIR at circular 6 = " << sharp_ir << '\n';
+                diff = constant*sharp_ir - distance_to_box;
               }else if (circular == 7){       // Go 10 cm straight
-                if ((leftPsVal < lpos + 2) || (rightPsVal < rpos + 2)){  // Needs to calibrate
+ //*******************************************************            
+                // maintainng constant distance to the box
+                // double diff = constant*sharp_ir - distance_to_box;
+                cout << "diff = " << diff << '\n';
+                if(abs(diff) < threshold){
+                  cout << "=============less than threshold!============="<<'\n';
+                  if (diff >=0) {
+                  if ((leftPsVal < lpos + diff) || (rightPsVal < rpos + diff)){  // Needs to calibrate
                   leftMotor->setVelocity(8);
                   rightMotor->setVelocity(8);
 
@@ -565,6 +579,60 @@ int main(int argc, char **argv) {
                   lpos = leftPsVal;
                   rpos = rightPsVal;
                 }
+                }else{
+                  if ((leftPsVal > lpos + 1.1*diff) || (rightPsVal > rpos + 1.1*diff)){  // Needs to calibrate
+                  leftMotor->setVelocity(-8);
+                  rightMotor->setVelocity(-8);
+                  
+
+                }else{
+                  leftMotor->setVelocity(0);
+                  rightMotor->setVelocity(0);
+                  
+                   //------------------------------------------------
+
+                  // Color detection Algorithm
+
+                  //------------------------------------------------
+
+                  
+                  circular = 8;
+                  stage = 4;
+                  state = 0;
+                  lpos = leftPsVal;
+                  rpos = rightPsVal;                // turn left
+                }
+                }
+                  
+                }else{
+                  
+                  if ((leftPsVal < lpos + 2) || (rightPsVal < rpos + 2)){  // Needs to calibrate
+                  leftMotor->setVelocity(8);
+                  rightMotor->setVelocity(8);
+
+                }else{
+                  leftMotor->setVelocity(0);
+                  rightMotor->setVelocity(0);
+
+                  //------------------------------------------------
+
+                  // //Color detection Algorithm
+
+                  //------------------------------------------------
+
+                  circular = 8;
+                  stage = 4;
+                  state = 0;
+                  lpos = leftPsVal;
+                  rpos = rightPsVal;
+                }
+                
+                }
+                
+                
+                
+             
+//*******************************************************
               }else if (circular == 8){         // turn 180 degree
                 if ((leftPsVal < lpos + 8.2) || (rightPsVal > rpos - 8.2)){  // Needs to calibrate
                   leftMotor->setVelocity(8);
@@ -593,6 +661,9 @@ int main(int argc, char **argv) {
                         stage = 4;
                         state = 0;
                         third_exit = true;
+                        // part for  7
+                        lpos = leftPsVal;
+                        rpos = rightPsVal;
                       }else{
                         circular = 19;
                         stage = 4;
@@ -636,6 +707,7 @@ int main(int argc, char **argv) {
                   circular = 7;
                   state = 0;
                   lpos =  leftPsVal;  rpos =  rightPsVal;
+                  diff = constant*sharp_ir - distance_to_box;
                 }else{                          // If not detected, turn left
                   stage = 4;
                   state = 1;
@@ -668,6 +740,7 @@ int main(int argc, char **argv) {
                   circular = 7;
                   state = 0;
                   lpos =  leftPsVal;  rpos =  rightPsVal;
+                  diff = constant*sharp_ir - distance_to_box;
                 }else{                      // If not detected, go circular 18
                   stage = 4;
                   lpos =  leftPsVal;  rpos =  rightPsVal;
@@ -676,9 +749,25 @@ int main(int argc, char **argv) {
                   third_exit = true;    //////////////////////////
                 }
               }else if (circular == 17){       // line follow & turn right
-                stage = 1;
-                circular = 14;
-                state = 2;
+                
+                //part of 7, 8***************************************
+                if ((leftPsVal > lpos - reverse ) || (rightPsVal > rpos - reverse)){  // Needs to calibrate
+                  leftMotor->setVelocity(-8);
+                  rightMotor->setVelocity(-8);
+                  
+
+                }else{
+                  leftMotor->setVelocity(0);
+                  rightMotor->setVelocity(0);
+                  stage = 1;
+                  circular = 14;
+                  state = 2;
+                  //box_detected = true;                // turn left
+                }
+                //*****************************************************
+                // stage = 1;
+                // circular = 14;
+                // state = 2;
               }else if (circular == 18){       // turn 180 degree
                 if ((leftPsVal < lpos + 8.2) || (rightPsVal > rpos - 8.2)){  // Needs to calibrate
                   leftMotor->setVelocity(8);
@@ -692,6 +781,7 @@ int main(int argc, char **argv) {
                   state = 0;
                   circular = 7;
                   lpos =  leftPsVal;  rpos =  rightPsVal;
+                  diff = constant*sharp_ir - distance_to_box;
                 }
               }else if (circular == 19){       // line follow & turn left
                 stage = 1;
