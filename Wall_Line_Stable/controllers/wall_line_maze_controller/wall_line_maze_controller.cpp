@@ -464,19 +464,34 @@ int main(int argc, char **argv) {
                 state = 1;
 
               }else if (circular == 1){          // line follow & turn right
-                //turn  = turn + additional;
+                turn  = turn + additional;
                 stage = 1;
                 circular = 2;
               }else if (circular == 2){         // check the box availability
-                if (sharp_ir_value == 1){         // If detected, turn left
+                turn  = turn - additional;
+                if (sharp_ir_value == 1){         // If detected, go 22
                   cout<<"================box detected=========$$$$$$$$$$$$$$$$$$$$$$$"<<"\n";
                   cout<<" "<<"\n";
-                  stage = 2;
-                  circular = 3;
+                  //stage = 2;
+                  circular = 22;
+                  lpos = leftPsVal;
+                  rpos = rightPsVal;
                 }else{                          // If not detected, line follow
                   stage = 1;
                   state = 0;
                   circular = 12;
+                  first_exit = true;      //////////////////////////////////
+                }
+              }else if (circular == 22){        // go 10 cm backward
+                if ((leftPsVal > lpos - 16) || (rightPsVal > rpos - 16)){  // Needs to calibrate
+                  leftMotor->setVelocity(-8);
+                  rightMotor->setVelocity(-8);
+
+                }else{
+                  leftMotor->setVelocity(0);
+                  rightMotor->setVelocity(0);
+                  circular = 3;
+                  stage = 2;                // turn left
                 }
               }else if (circular == 3){         // line follow and turn left
                 stage = 1;
@@ -522,7 +537,7 @@ int main(int argc, char **argv) {
                   leftMotor->setVelocity(0);
                   rightMotor->setVelocity(0);
                   if (first_exit == false){
-                    circular = 10; // previously in case 1 this was 9
+                    circular = 9; // previously in case 1 this was 9
                     stage = 4;
                     state = 0;
                     first_exit = true;
@@ -547,10 +562,10 @@ int main(int argc, char **argv) {
                     }
                   }
                 }
-              }else if (circular == 9){       // line follow & turn right
+              }else if (circular == 9){       // line follow & turn left
                 stage = 1;
-                circular = 21; // prev: in ca1 this was 10
-                state = 2; // previouly in case 1 this was 1
+                circular = 10; // prev: in ca1 this was 10
+                state = 1; // previouly in case 1 this was 1
               }else if (circular == 10){     // line follow & turn left
                 stage = 1;
                 circular = 11;
@@ -573,6 +588,7 @@ int main(int argc, char **argv) {
                   stage = 4;
                   state = 1;
                   circular = 16;
+                  second_exit = true;      //////////////////////////
                 }
               }else if (circular == 13){        // go 20 cm straight
                 if ((leftPsVal < lpos + 4) || (rightPsVal < rpos + 4)){  // Needs to calibrate
@@ -605,6 +621,7 @@ int main(int argc, char **argv) {
                   lpos =  leftPsVal;  rpos =  rightPsVal;
                   circular = 18;
                   state = 0;
+                  third_exit = true;    //////////////////////////
                 }
               }else if (circular == 17){       // line follow & turn right
                 stage = 1;
