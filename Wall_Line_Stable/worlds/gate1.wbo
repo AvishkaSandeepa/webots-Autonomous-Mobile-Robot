@@ -1,0 +1,85 @@
+#VRML_OBJ R2021a utf8
+DEF gate_1 Robot {
+  children [
+    Solid {
+      translation 0 0.025 0
+      children [
+        DEF robot_base Shape {
+          appearance PBRAppearance {
+            metalness 0
+          }
+          geometry Box {
+            size 0.05 0.05 0.05
+          }
+        }
+      ]
+      name "solid(2)"
+      boundingObject USE robot_base
+      physics Physics {
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0 0.025 -0.03
+      }
+      device [
+        RotationalMotor {
+          name "gateMotor"
+        }
+        PositionSensor {
+          name "gate_ps"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.025 -0.03
+        rotation 0 0 1 0
+        children [
+          DEF axis Shape {
+            appearance PBRAppearance {
+              baseColor 0 0 0
+            }
+            geometry Box {
+              size 0.01 0.01 0.01
+            }
+          }
+          Solid {
+            translation -0.19 0 -0.01
+            children [
+              DEF arm Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.4 0.03 0.01
+                }
+              }
+            ]
+            boundingObject USE arm
+            physics Physics {
+              density 10
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE axis
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject Transform {
+    translation 0 0.025 0
+    children [
+      Box {
+        size 0.05 0.05 0.05
+      }
+    ]
+  }
+  physics Physics {
+  }
+  locked TRUE
+  controller "gate_controller1"
+}
