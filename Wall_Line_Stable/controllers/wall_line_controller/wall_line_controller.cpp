@@ -25,8 +25,8 @@ double set = 3500;
 double sensorValues[10];
 double lpos;
 double rpos;
-double turn = 8;
-int state =1; // after the circular area
+double turn = 8.5;
+int state =3; // after the circular area
 int count =0; // for dotted line
 
 //variables for wall following
@@ -39,7 +39,7 @@ double distance_to_wall = 16;
 
 
 // Variables related to take turns and wheels
-float advancedBy = 0.9;        // distance_to_wall of free move when a junction is detected.
+float advancedBy = 0.7; //0.9;       // distance_to_wall of free move when a junction is detected.
 float forward_speed = 4;    // free moving speed
 float sharpturn_speed = 4;  // speed of taking turns
 double mleft;
@@ -51,12 +51,12 @@ bool detect = false;
 double pos;
 int c;
 int countB=0;
-int detectingTurn=0;
+int detectingTurn=1;
 //Variables for pillar detecting
 float advancedonRamp = 1.5;
 int noOfPoles=0;
 bool flagPillar=false;
-int colordif=1;
+int colordif=2;
 int wrongPillar=0;
 int finishedcircle=1;
 
@@ -210,7 +210,10 @@ int main(int argc, char **argv) {
         cout<<"=========left detected========= "<<count<<'\n';
         count = 0;}
         else{
-          countB++;
+          leftMotor->setVelocity(2);
+          rightMotor->setVelocity(2);
+          countB=countB+1;
+          cout<<"=========CountB========= "<<countB<<'\n';
         }
       }else if (rightMostValue==1 && leftMostValue==0 ){
         if (countB>detectingTurn){
@@ -221,7 +224,10 @@ int main(int argc, char **argv) {
         cout<<"right detected"<<count<<'\n';
         count = 0;}
         else{
-          countB++;
+          leftMotor->setVelocity(2);
+          rightMotor->setVelocity(2);
+          countB=countB+1;
+          cout<<"=========CountB========= "<<countB<<'\n';
         }
       }else if (leftMostValue==1 && rightMostValue==1 ){
         if (countB>detectingTurn){
@@ -232,7 +238,10 @@ int main(int argc, char **argv) {
         cout<<"############################################################ T junction detected ######################################################################## "<<count<<'\n';
         count = 0;}
         else{
-          countB++;
+          leftMotor->setVelocity(2);
+          rightMotor->setVelocity(2);
+          countB=countB+1;
+          cout<<"=========CountB========= "<<countB<<'\n';
         }
       }else if(sensorValues[0]==0 && sensorValues[1]==0 && sensorValues[2]==0 && sensorValues[3]==0 && sensorValues[4]==0 && sensorValues[5]==0 && sensorValues[6]==0 && sensorValues[7]==0){
         stage = 5;
@@ -281,6 +290,14 @@ int main(int argc, char **argv) {
 
         mleft = 0; mright = 0;
         // advancing is over.
+        if (wrongPillar==1){
+            leftMotor->setVelocity(15);
+            rightMotor->setVelocity(15);
+            wrongPillar=0;
+            stage=6;
+        }
+        // taking the left turn
+        else {
         // taking the left turn
         if(rightPsVal < rpos + advancedBy + turn){
           cout<<"*******stopped then turn left*****"<<'\n';
@@ -291,7 +308,7 @@ int main(int argc, char **argv) {
         }else{
           //count = 0;
           stage = 1;
-        }
+        }}
       }
 
 
@@ -308,6 +325,14 @@ int main(int argc, char **argv) {
 
         mleft = 0; mright = 0;
         // advancing is over.
+        if (wrongPillar==1){
+            leftMotor->setVelocity(15);
+            rightMotor->setVelocity(15);
+            wrongPillar=0;
+            stage=7;
+        }
+        // taking the left turn
+        else {
         // takjing the left turn
         if(leftPsVal < lpos + advancedBy + turn){
           cout<<"*******stopped then turn right*****"<<'\n';
@@ -317,7 +342,7 @@ int main(int argc, char **argv) {
         }else{
           stage = 1;
         }
-      }
+      }}
 
     }else if (stage == 4 && state == 1){
       if ((leftPsVal < lpos + advancedBy) || (rightPsVal < rpos + advancedBy)){
@@ -496,7 +521,7 @@ int main(int argc, char **argv) {
     }
 
     else if (stage==6){
-      double rampSpeed = 1;
+      double rampSpeed = 3;
       cout<<"************************stage 6 color dif 2**********************"<<noOfPoles<<"colordif"<<colordif<<'\n';
       if (leftMostValue==1 && rightMostValue==0 && noOfPoles==colordif){ // code for robot when poles ae correctly found
         stage = 2;
@@ -565,7 +590,7 @@ int main(int argc, char **argv) {
           }}
         }
         else if (stage==7){
-          double rampSpeed = 1;
+          double rampSpeed = 3;
           cout<<"************************stage 7 color dif 1**********************"<<noOfPoles<<"colordif"<<colordif<<'\n';
           if (leftMostValue==0 && rightMostValue==1 && noOfPoles==colordif){
 
