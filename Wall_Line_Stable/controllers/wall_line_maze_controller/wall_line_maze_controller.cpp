@@ -501,6 +501,7 @@ int main(int argc, char **argv) {
                 }else{
                   leftMotor->setVelocity(0);
                   rightMotor->setVelocity(0);
+
                   //------------------------------------------------
 
                   // Color detection Algorithm
