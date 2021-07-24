@@ -67,6 +67,8 @@ int circular = 0; // Initially circular algorithm is not activated
 bool first_exit = false;
 bool second_exit = false;
 bool third_exit = false;
+float reverse = 3;
+bool box_detected = false;
 
 
 //==============================================================================
@@ -202,6 +204,7 @@ int main(int argc, char **argv) {
 
     // maze related
     double sharp_ir_value = sharp_IR->getValue();
+    double sharp_ir = sharp_ir_value
 
     if (sharp_ir_value < 600){  // Needs to calibrate Front IR Sensor
       sharp_ir_value = 1;
@@ -312,11 +315,17 @@ int main(int argc, char **argv) {
 
               mleft = 0; mright = 0;
               // advancing is over.
-              if (wrongPillar==1){
+              if (wrongPillar==1 or box_detected == true){
                 leftMotor->setVelocity(15);
                 rightMotor->setVelocity(15);
                 wrongPillar=0;
                 stage=6;
+                if(box_detected){
+                  stage = 4;
+                  state = 0;
+                  circular = 5;
+                  box_detected = false;
+                }
               }
               // taking the left turn
               else {
@@ -483,15 +492,42 @@ int main(int argc, char **argv) {
                   first_exit = true;      //////////////////////////////////
                 }
               }else if (circular == 22){        // go 10 cm backward
-                if ((leftPsVal > lpos - 16) || (rightPsVal > rpos - 16)){  // Needs to calibrate
+              if ((leftPsVal < lpos + 8.2) || (rightPsVal > rpos - 8.2)){  // Needs to calibrate
+                  leftMotor->setVelocity(8);
+                  rightMotor->setVelocity(-8);
+                  cout << "@@@@@@@@@@@ 180 turn @@@@@@@@@@@@@@@@@@@@"<< '\n';
+
+                }else{
+                  leftMotor->setVelocity(0);
+                  rightMotor->setVelocity(0);
+                  stage = 4;
+                  state = 0;
+                  circular = 23;
+                  lpos =  leftPsVal;  rpos =  rightPsVal;
+                }
+                // if ((leftPsVal > lpos - reverse) || (rightPsVal > rpos - reverse)){  // Needs to calibrate
+                  // leftMotor->setVelocity(-8);
+                  // rightMotor->setVelocity(-8);
+
+                // }else{
+                  // leftMotor->setVelocity(0);
+                  // rightMotor->setVelocity(0);
+                  // circular = 3;
+                  // stage = 2;                // turn left
+                // }
+              }else if(circular == 23){
+                if ((leftPsVal > lpos - reverse) || (rightPsVal > rpos - reverse)){  // Needs to calibrate
                   leftMotor->setVelocity(-8);
                   rightMotor->setVelocity(-8);
+                  
 
                 }else{
                   leftMotor->setVelocity(0);
                   rightMotor->setVelocity(0);
                   circular = 3;
-                  stage = 2;                // turn left
+                  state = 2;
+                  stage = 1;
+                  box_detected = true;                // turn left
                 }
               }else if (circular == 3){         // line follow and turn left
                 stage = 1;
@@ -542,6 +578,8 @@ int main(int argc, char **argv) {
                     stage = 4;
                     state = 0;
                     first_exit = true;
+                    lpos = leftPsVal;
+                    rpos = rightPsVal;
                   }else{
                     if (second_exit == false){
                       lpos =  leftPsVal;  rpos =  rightPsVal;
@@ -564,9 +602,22 @@ int main(int argc, char **argv) {
                   }
                 }
               }else if (circular == 9){       // line follow & turn left
-                stage = 1;
-                circular = 10; // prev: in ca1 this was 10
-                state = 1; // previouly in case 1 this was 1
+                if ((leftPsVal > lpos - 2*reverse ) || (rightPsVal > rpos - 2*reverse)){  // Needs to calibrate
+                  leftMotor->setVelocity(-8);
+                  rightMotor->setVelocity(-8);
+                  
+
+                }else{
+                  leftMotor->setVelocity(0);
+                  rightMotor->setVelocity(0);
+                  circular = 10;
+                  state = 1;
+                  stage = 1;
+                  //box_detected = true;                // turn left
+                }
+                // stage = 1;
+                // circular = 10; // prev: in ca1 this was 10
+                // state = 1; // previouly in case 1 this was 1
               }else if (circular == 10){     // line follow & turn left
                 stage = 1;
                 circular = 11;
