@@ -522,13 +522,13 @@ int main(int argc, char **argv) {
                   leftMotor->setVelocity(0);
                   rightMotor->setVelocity(0);
                   if (first_exit == false){
-                    circular = 9;
+                    circular = 10; // previously in case 1 this was 9
                     stage = 4;
                     state = 0;
                     first_exit = true;
                   }else{
                     if (second_exit == false){
-                      lpos =  leftPsVal;  rpos =  rightPsVal; 
+                      lpos =  leftPsVal;  rpos =  rightPsVal;
                       circular = 13;
                       stage = 4;
                       state = 0;
@@ -547,17 +547,21 @@ int main(int argc, char **argv) {
                     }
                   }
                 }
-              }else if (circular == 9){       // line follow & turn left
+              }else if (circular == 9){       // line follow & turn right
                 stage = 1;
-                circular = 10;
-                state = 1;
+                circular = 21; // prev: in ca1 this was 10
+                state = 2; // previouly in case 1 this was 1
               }else if (circular == 10){     // line follow & turn left
                 stage = 1;
                 circular = 11;
                 state = 1;
+              }else if (circular == 21){     // line follow & turn left
+                stage = 1;
+                circular = 0;
+                state = 3;               //----------End of circular(3)
               }else if (circular == 11){     // line follow & turn right
                 stage = 1;
-                circular = 0; 
+                circular = 0;
                 state = 3;               //----------End of circular(1)
               }else if (circular == 12){     // check the box availability
                 if (sharp_ir_value == 1){         // If detected, go 10 cm straight
@@ -588,7 +592,7 @@ int main(int argc, char **argv) {
                 circular = 15;
               }else if (circular == 15){       // line follow & turn left
                 stage = 1;
-                circular = 0;   
+                circular = 0;
                 state = 3;              //----------End of circular(2)
               }else if (circular == 16){      // check the box availability
                 if (sharp_ir_value == 1){          // If detected, go 10 cm straight
@@ -598,7 +602,7 @@ int main(int argc, char **argv) {
                   lpos =  leftPsVal;  rpos =  rightPsVal;
                 }else{                      // If not detected, go circular 18
                   stage = 4;
-                  lpos =  leftPsVal;  rpos =  rightPsVal;                  
+                  lpos =  leftPsVal;  rpos =  rightPsVal;
                   circular = 18;
                   state = 0;
                 }

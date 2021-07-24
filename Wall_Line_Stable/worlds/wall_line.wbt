@@ -1349,7 +1349,7 @@ DEF Ramp_Area Group {
       name "<STL_BINARY>"
     }
     DEF Color_Box Solid {
-      translation 1.24622 0.0249504 -1.63334
+      translation 1.23908 0.0249501 -2.16365
       rotation -3.57378e-08 1 -1.20732e-06 -0.7853053071795859
       scale 0.001 0.001 0.001
       children [
@@ -2234,7 +2234,7 @@ DEF main Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation -0.9557141505820856 0.2080994401766322 -0.20809873948521354 1.6160806250948938
+        rotation -0.9557141505820858 0.208099440176632 -0.20809873948521354 1.616080625094894
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2264,8 +2264,8 @@ DEF main Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.0999196274666442 -0.021053108517599065 -8.263249268186163e-05
-            rotation -0.0961641680796903 -0.5525434570845476 -0.8279179795188638 4.303886898650627
+            translation -0.09994282459444953 -0.02103754150004829 0.00010691116116047004
+            rotation -0.09967677855638368 0.8856203392509759 -0.453586986719866 3.106036394642356
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
