@@ -17,46 +17,7 @@ RectangleArena {
     type "dark strip"
   }
 }
-Solid {
-  translation -0.3062019585894871 0.04921525062762608 0.33138698959190893
-  rotation -1.4109561710617483e-09 1 -5.353982122872174e-09 -0.02287371347873084
-  children [
-    DEF obstacle Shape {
-      appearance PBRAppearance {
-      }
-      geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  boundingObject USE obstacle
-  physics Physics {
-    density 2000
-  }
-}
-Transform {
-  translation 0.23 0 0.5
-  children [
-    Solid {
-      translation 0 0.025 0
-      children [
-        DEF base Shape {
-          appearance PBRAppearance {
-            metalness 0
-          }
-          geometry Box {
-            size 0.05 0.05 0.05
-          }
-        }
-      ]
-      name "solid(1)"
-      boundingObject USE base
-      physics Physics {
-      }
-    }
-  ]
-}
-Robot {
+DEF gate_1 Robot {
   children [
     Solid {
       translation 0 0.025 0
