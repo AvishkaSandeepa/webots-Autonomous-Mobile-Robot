@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
       else time = -1;
       
       // double PSVal = gate_ps->getValue();
-      cout << "time = " << time << '\n';
+      //cout << "time = " << time << '\n';
       time++;
 
        // cout << "Position = " << PSVal << '\n';
