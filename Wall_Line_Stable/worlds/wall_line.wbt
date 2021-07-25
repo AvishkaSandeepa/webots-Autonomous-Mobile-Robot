@@ -4,7 +4,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.9454032472855438 -0.26493289095452116 -0.18979795392055337 4.986271975714834
-  position 2.1087803279943973 6.393484806425691 0.48281904148645327
+  position 1.6481600309154503 2.8806316566831955 -0.6181428664809654
 }
 TexturedBackground {
 }
@@ -1349,7 +1349,7 @@ DEF Ramp_Area Group {
       name "<STL_BINARY>"
     }
     DEF Color_Box Solid {
-      translation 1.77642 0.0249509 -2.16374
+      translation 1.26029 0.0249509 -2.14247
       rotation -2.868337625002793e-11 1 -9.690122360196472e-10 -0.7853053071794973
       scale 0.001 0.001 0.001
       children [
@@ -2529,8 +2529,8 @@ DEF gate_22 Robot {
   controller "gate_controller2"
 }
 DEF main Robot {
-  translation 0.433216 0.0391891 -0.124356
-  rotation 0 1 0 3.14159
+  translation 0.263216 0.0391891 -0.824356
+  rotation 0 1 0 -1.5707953071795862
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -2618,8 +2618,8 @@ DEF main Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.09994348013345705 -0.02108834856931907 -7.147322989525513e-05
-            rotation 0.2418929265036359 0.4956789442177208 0.8341403936788532 1.356620935517607
+            translation -0.10004075306165952 -0.020914665639678403 -8.46500001199283e-05
+            rotation 0.9787193053103499 -0.06493973521686518 -0.1946570116969574 2.0382368174199104
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
