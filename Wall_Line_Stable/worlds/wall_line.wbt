@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.9454032472855438 -0.26493289095452116 -0.18979795392055337 4.986271975714834
-  position 1.6481600309154503 2.8806316566831955 -0.6181428664809654
+  orientation 0.5470077482113449 -0.6322338295111335 -0.5486919975892129 4.26638579024547
+  position 2.2562608763813157 9.833402818955754 -3.213052453662115
 }
 TexturedBackground {
 }
@@ -1349,7 +1349,7 @@ DEF Ramp_Area Group {
       name "<STL_BINARY>"
     }
     DEF Color_Box Solid {
-      translation 1.26029 0.0249509 -2.14247
+      translation 1.23914 0.0249509 -2.1637
       rotation -2.868337625002793e-11 1 -9.690122360196472e-10 -0.7853053071794973
       scale 0.001 0.001 0.001
       children [
@@ -2529,8 +2529,8 @@ DEF gate_22 Robot {
   controller "gate_controller2"
 }
 DEF main Robot {
-  translation 0.263216 0.0391891 -0.824356
-  rotation 0 1 0 -1.5707953071795862
+  translation 0.423216 0.0391891 -0.104356
+  rotation 0 1 0 3.14159
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -2618,8 +2618,8 @@ DEF main Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.10004075306165952 -0.020914665639678403 -8.46500001199283e-05
-            rotation 0.9787193053103499 -0.06493973521686518 -0.1946570116969574 2.0382368174199104
+            translation -0.1000309267366249 -0.021017429626557164 0.00012185291414747847
+            rotation 0.9824225776849816 -0.18115870270024434 0.045026695312456705 4.694663796443682
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
@@ -2892,5 +2892,5 @@ DEF main Robot {
   boundingObject USE body
   physics Physics {
   }
-  controller "wall_line_maze_controller"
+  controller "constant_dist_to_box_controller"
 }
