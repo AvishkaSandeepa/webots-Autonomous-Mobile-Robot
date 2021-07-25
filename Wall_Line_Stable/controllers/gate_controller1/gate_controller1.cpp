@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     int time = 0;
 
     while (robot->step(TIME_STEP) != -1) {      
-
+      
       if(time < 1) gateMotor->setVelocity(-1.5);
       else if(  1 <= time && time <= 9 ) gateMotor->setVelocity(0);
       else if(time < 11) gateMotor->setVelocity(1.5);
