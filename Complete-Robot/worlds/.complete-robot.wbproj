@@ -7,4 +7,5 @@ centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: -1
 globalOptionalRendering: CoordinateSystem::DistanceSensorRays
+centerOfMass: robot
 consoles: Console:All:All

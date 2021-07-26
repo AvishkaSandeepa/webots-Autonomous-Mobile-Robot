@@ -78,6 +78,14 @@ bool flag2_const_dist_to_box = false;
 // variables for gate area
 int gate_count = 0;
 int gate = 0;
+
+// variables for color detection
+double linear = 0.0;
+double end_position = -0.16; 
+bool flag1 = true;
+double arm_ps_val;
+
+
 //==============================================================================
 //*                         Defining custom functions                          *
 //==============================================================================
@@ -183,6 +191,18 @@ int main(int argc, char **argv) {
 
   DistanceSensor *sharp_IR = robot->getDistanceSensor("middle");
   sharp_IR->enable(TIME_STEP);
+  
+  // cloor detection
+  Motor *linear_actuator;
+  linear_actuator=robot->getMotor("linear motor");
+  Motor *arm_motor;
+  arm_motor=robot->getMotor("arm_motor");
+  arm_motor->setPosition(INFINITY);
+  arm_motor->setVelocity(0);
+  
+  
+  PositionSensor *arm_ps = robot->getPositionSensor("arm_ps");
+  arm_ps->enable(TIME_STEP);
 
   //----------------------------------------------------------------------------
 
@@ -219,7 +239,11 @@ int main(int argc, char **argv) {
       sharp_ir_value = 0;
     }
 
-
+  // color detection
+    
+    double arm_ps_val = arm_ps->getValue();
+    
+    
     //print the position value as radians
     // cout<< "Left PS = " << leftPsVal;
     // cout<<"  Right PS = " <<rightPsVal<<'\n';
@@ -578,16 +602,17 @@ int main(int argc, char **argv) {
                   //------------------------------------------------
 
                   // Color detection Algorithm
-                  
-                  
+                  circular = 25;
+                  stage = 4;
+                  state = 0;
 
                   //------------------------------------------------
 
-                  circular = 8;
-                  stage = 4;
-                  state = 0;
-                  lpos = leftPsVal;
-                  rpos = rightPsVal;
+                  // circular = 8;
+                  // stage = 4;
+                  // state = 0;
+                  // lpos = leftPsVal;
+                  // rpos = rightPsVal;
                 }
               }else if (circular == 8){         // turn 180 degree
                 if ((leftPsVal < lpos + 8.2) || (rightPsVal > rpos - 8.2)){  // Needs to calibrate
@@ -753,8 +778,42 @@ int main(int argc, char **argv) {
                 // stage = 1;
                 // circular = 14;
                 // state = 1;
+              }else if(circular == 25){
+//==================== box manipulation==================
+              // linear_actuator, end_position
+              
+              if (arm_ps_val < 2.19){
+                arm_motor->setVelocity(1.5);
+              }else{
+                arm_motor->setVelocity(0);
+                circular = 26;
               }
-
+              //--------------------------------------
+              }else if (circular == 26){
+              if(linear > end_position && flag1){
+                  linear_actuator->setPosition(linear);
+                  linear -= 0.02;
+                  cout << linear << '\n';      
+              }else if(linear <= 0){
+                  flag1 = false;
+                  linear_actuator->setPosition(linear);
+                  linear += 0.02; 
+                  cout << linear << '\n';
+              }else{
+                  circular = 27;
+              }
+              }else if (circular == 27){
+              if (arm_ps_val > -1.57){
+                arm_motor->setVelocity(-1.5);
+              }else{
+                arm_motor->setVelocity(0);
+                circular = 8;
+                stage = 4;
+                state = 0;
+                lpos = leftPsVal;
+                rpos = rightPsVal;
+              }
+              }
             }
             //--------------------------------End of Circular algo--------------------------------------------
 
@@ -1096,7 +1155,7 @@ int main(int argc, char **argv) {
                         
                         }
                         // cout << "Sharp IR at + point: " << sharp_ir << '\n';
-                        // leftMotor->setVelocity(0);
+                        // leftMotÇor->setVelocity(0);
                         // rightMotor->setVelocity(0);
                         // if(sharp_ir_value == 1){
                            // gate_count++;
@@ -1113,7 +1172,7 @@ int main(int argc, char **argv) {
                       // cout <<"        "<<'\n';
                       //count ++;
                       
-                      
+                      cout << "arm position = " << arm_ps_val << '\n';
                     } // end of main while loop
 
                     delete robot;
