@@ -27,13 +27,18 @@ int main(int argc, char **argv) {
     Motor *rmidm = robot->getMotor("rmidm");
     Motor *lmidm = robot->getMotor("lmidm");
     
+    Motor *rotate90degreeM1 = robot->getMotor("rotate90degreeM1");
+    Motor *rotate90degreeM2 = robot->getMotor("rotate90degreeM2");
+    
     lm1->setPosition(INFINITY);
     lm2->setPosition(INFINITY);
     rm1->setPosition(INFINITY);
     rm2->setPosition(INFINITY);
     rmidm->setPosition(INFINITY);
     lmidm->setPosition(INFINITY);
-   
+    
+    rotate90degreeM1->setPosition(INFINITY);
+    rotate90degreeM2->setPosition(INFINITY);
 
     lm1->setVelocity(0);
     lm2->setVelocity(0);
@@ -41,6 +46,9 @@ int main(int argc, char **argv) {
     rm2->setVelocity(0);
     rmidm->setVelocity(0);
     lmidm->setVelocity(0);
+    
+    rotate90degreeM1->setVelocity(0);
+    rotate90degreeM2->setVelocity(0);
     
     //-------------------set position sensors------------------------
     
@@ -60,6 +68,11 @@ int main(int argc, char **argv) {
     PositionSensor *lmidp = robot->getPositionSensor("lmidp");
     lmidp->enable(TIME_STEP);
     
+    PositionSensor *rotate90degreePS1 = robot->getPositionSensor("rotate90degreePS1");
+    rotate90degreePS1->enable(TIME_STEP);
+    PositionSensor *rotate90degreePS2 = robot->getPositionSensor("rotate90degreePS2");
+    rotate90degreePS2->enable(TIME_STEP);
+    
     //----------------------------------------------------------------
     
     
@@ -72,6 +85,8 @@ int main(int argc, char **argv) {
     double rp2_Val = rp2->getValue();
     double rmidp_Val = rmidp->getValue();
     double lmidp_Val = lmidp->getValue();
+    double rotate90degreePS1_val = rotate90degreePS1->getValue();
+    double rotate90degreePS2_val = rotate90degreePS2->getValue();
     
     //std::cout<<"lp_1"<<lp1_Val<<std::endl;
     std::cout<<"lp 1 = "<<lp1_Val<<" lp 2 = "<<lp2_Val<<" rp 1 = "<<rp1_Val<<" rp 2 = "<<rp2_Val<<" left mid = "<<lmidp_Val<<" right mid = "<<rmidp_Val<<std::endl;
@@ -103,10 +118,41 @@ int main(int argc, char **argv) {
     }else{
       lm1->setVelocity(0);
       rm1->setVelocity(0);
-      break;
+      stage =4;
     }
     
-        
+    // rotation happenss here    
+    }else if(stage == 4){
+      if  (rotate90degreePS1_val > -1 || rotate90degreePS2_val > -1){
+        rotate90degreeM1->setVelocity(-1);
+        rotate90degreeM2->setVelocity(-1);
+    }else{
+      rotate90degreeM1->setVelocity(0);
+      rotate90degreeM2->setVelocity(0);
+      stage = 5;
+      
+    } 
+    // ================================    
+    }else if(stage == 5){
+      if(lp1_Val > 0.15 || rp1_Val > 0.15){
+        lm1->setVelocity(-2);
+        rm1->setVelocity(-2);
+    }else{
+      lm1->setVelocity(0);
+      rm1->setVelocity(0);
+      stage = 6;
+      }
+      
+    }else if (stage == 6){
+      if(lp2_Val < -0.064 || rp2_Val > 0.064){
+        lm2->setVelocity(1);
+        rm2->setVelocity(-1);
+      }else{
+        lm2->setVelocity(0);
+        rm2->setVelocity(0);
+        break;
+      }
+      
     }
     
    }
