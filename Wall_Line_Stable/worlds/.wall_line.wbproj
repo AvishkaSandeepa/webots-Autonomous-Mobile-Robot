@@ -5,7 +5,7 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000fa01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 1 "controllers/color_detection_controller/color_detection_controller.cpp" "controllers/gate_area_controller/gate_area_controller.cpp" "controllers/gate_controller2/gate_controller2.cpp"
+textFiles: 0 "controllers/gate_area_controller/gate_area_controller.cpp"
 globalOptionalRendering: CoordinateSystem::DistanceSensorRays::JointAxes
 centerOfMass: robot
 consoles: Console:All:All
