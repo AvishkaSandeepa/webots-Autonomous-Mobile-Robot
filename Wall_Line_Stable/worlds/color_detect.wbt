@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.16116231399992334 0.9705786520494498 0.17889602771460064 1.704650422752117
-  position 2.3558378740136323 0.2369815920640936 -1.7539605853504414
+  orientation 0.20491725561358742 -0.91654465030542 -0.34344551583666266 4.142447598328661
+  position 4.166911279742264 2.9461983407440693 -2.5388084234265165
 }
 TexturedBackground {
 }
@@ -2000,7 +2000,7 @@ DEF Ramp_Area Group {
 }
 DEF CUBE Solid {
   translation 1.791289997716414 0.024960778654637368 -1.6121200085223404
-  rotation 5.923300599935553e-07 0.9999999999997661 -3.419832892771244e-07 -0.523595307179703
+  rotation 0 0.9999999999997661 0 -0.7853996938995746
   children [
     DEF Cube_faces Group {
       children [
@@ -2519,7 +2519,7 @@ DEF gate_22 Robot {
   controller "gate_controller2"
 }
 DEF main Robot {
-  translation 1.6199786424626126 0.04032651515166944 -1.7871236711699081
+  translation 1.64164 0.0405209 -1.76637
   rotation -0.0032409337091845306 0.9999939007911003 -0.0013018176875895968 2.37799847151057
   children [
     DEF body Shape {
@@ -2547,7 +2547,7 @@ DEF main Robot {
       ]
       endPoint Solid {
         translation 0.06 0 -0.11
-        rotation -0.8760661618489197 -0.34096104098734337 -0.3409598929377612 4.5804563648399
+        rotation -0.8760661618489198 -0.3409610409873434 -0.340959892937761 4.5804563648399
         children [
           DEF leftWheel Shape {
             geometry Cylinder {
@@ -2578,7 +2578,7 @@ DEF main Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation 0.3603360087145398 0.6596062805706959 -0.6596040596110423 3.833296519603508
+        rotation 0.36033600871453986 0.6596062805706959 -0.6596040596110423 3.833296519603508
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2608,8 +2608,8 @@ DEF main Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.09998064387180323 -0.02087466018468473 2.862601436149995e-06
-            rotation 0.21751927281856737 0.06044828279318587 -0.9741824115943772 2.914309717778677
+            translation -0.09993888885513223 -0.021110238984792033 -1.4342862126824268e-05
+            rotation -0.017309277467324313 0.9327554164679672 -0.3600940459980254 4.852549901806764
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
@@ -2908,5 +2908,5 @@ DEF main Robot {
   boundingObject USE body
   physics Physics {
   }
-  controller "get_color_controller"
+  controller "robot_arm2_controller"
 }

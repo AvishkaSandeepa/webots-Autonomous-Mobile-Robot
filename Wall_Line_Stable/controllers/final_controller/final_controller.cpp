@@ -61,6 +61,7 @@ bool flagPillar=false;
 int colordif=2;
 int wrongPillar=0;
 int finishedcircle=1;
+bool ramp_over = false;
 
 // variables for circular maze
 int circular = 0; // Initially circular algorithm is not activated
@@ -69,8 +70,14 @@ bool second_exit = false;
 bool third_exit = false;
 float reverse = 3;
 bool box_detected = false;
+double SIR_threshold = 50;
+bool flag1_const_dist_to_box = false;
+bool flag2_const_dist_to_box = false;
 
 
+// variables for gate area
+int gate_count = 0;
+int gate = 0;
 //==============================================================================
 //*                         Defining custom functions                          *
 //==============================================================================
@@ -183,7 +190,7 @@ int main(int argc, char **argv) {
   //*                                 main loop                                *
   //============================================================================
 
-  while(robot->step(TIME_STEP) != -1){
+  while (robot->step(TIME_STEP) != -1){
 
     // read sensors outputs
     for (int i = 0; i < 10 ; i++){
@@ -218,7 +225,7 @@ int main(int argc, char **argv) {
     // cout<<"  Right PS = " <<rightPsVal<<'\n';
     // cout<< "Left Most IR = " <<leftMostValue;
     // cout<<"  Right Most IR = " <<rightMostValue<<'\n';
-    cout<<"  sharp IR = " <<sharp_ir_value<<'\n';
+    //cout<<"  sharp IR = " <<sharp_ir_value<<'\n';
 
 
     //------------------------------testing-------------------------------------
@@ -273,6 +280,11 @@ int main(int argc, char **argv) {
             }else if((R_DS <=15 || L_DS <=15)){
               stage = 20;
               cout << "Wall following started" << '\n';
+            }else if(sensorValues[2]==1 && sensorValues[3]==1 && sensorValues[4]==1 && sensorValues[5]==1 && ramp_over == true && gate_count <3){
+              stage = 580;
+              cout << "Gate area started" << '\n'; 
+              leftMotor->setVelocity(0);
+              rightMotor->setVelocity(0);        
             }else{
               count = 0;
               double offset = PID_calc(); //get the offset by calling pre defined function
@@ -545,17 +557,29 @@ int main(int argc, char **argv) {
                 lpos = leftPsVal;
                 rpos = rightPsVal;
               }else if (circular == 7){       // Go 10 cm straight
-                if ((leftPsVal < lpos + 2) || (rightPsVal < rpos + 2)){  // Needs to calibrate
+                if (sharp_ir > SIR_threshold && !flag2_const_dist_to_box){  // Needs to calibrate
+                cout << "======Moved forward======" << '\n';
                   leftMotor->setVelocity(8);
                   rightMotor->setVelocity(8);
+                  flag1_const_dist_to_box = true;
 
+                }else if(sharp_ir < SIR_threshold && !flag1_const_dist_to_box){
+                  cout << "======Moved backward======" << '\n';
+                  leftMotor->setVelocity(-8);
+                  rightMotor->setVelocity(-8);
+                  flag2_const_dist_to_box = true;
+                  
                 }else{
+                  flag1_const_dist_to_box = false;
+                  flag2_const_dist_to_box = false;
                   leftMotor->setVelocity(0);
                   rightMotor->setVelocity(0);
 
                   //------------------------------------------------
 
                   // Color detection Algorithm
+                  
+                  
 
                   //------------------------------------------------
 
@@ -593,16 +617,20 @@ int main(int argc, char **argv) {
                         stage = 4;
                         state = 0;
                         third_exit = true;
+                        lpos = leftPsVal;
+                        rpos = rightPsVal;
                       }else{
                         circular = 19;
                         stage = 4;
                         state = 0;
+                        lpos = leftPsVal;
+                        rpos = rightPsVal;
                       }
                     }
                   }
                 }
               }else if (circular == 9){       // line follow & turn left
-                if ((leftPsVal > lpos - reverse ) || (rightPsVal > rpos - reverse)){  // Needs to calibrate
+                if ((leftPsVal > lpos - 1.7*reverse ) || (rightPsVal > rpos - 1.7*reverse)){  // Needs to calibrate
                   leftMotor->setVelocity(-8);
                   rightMotor->setVelocity(-8);
 
@@ -630,6 +658,7 @@ int main(int argc, char **argv) {
                 stage = 1;
                 circular = 0;
                 state = 3;               //----------End of circular(1)
+                cout << "=======================End of the maze=========================" << '\n';                
               }else if (circular == 12){     // check the box availability
                 if (sharp_ir_value == 1){         // If detected, go 10 cm straight
                   stage = 4;
@@ -662,6 +691,7 @@ int main(int argc, char **argv) {
                 stage = 1;
                 circular = 0;
                 state = 3;              //----------End of circular(2)
+                cout << "=======================End of the maze=========================" << '\n';
               }else if (circular == 16){      // check the box availability
                 if (sharp_ir_value == 1){          // If detected, go 10 cm straight
                   stage = 4;
@@ -676,9 +706,22 @@ int main(int argc, char **argv) {
                   third_exit = true;    //////////////////////////
                 }
               }else if (circular == 17){       // line follow & turn right
-                stage = 1;
+              if ((leftPsVal > lpos - 1.7*reverse ) || (rightPsVal > rpos - 1.7*reverse)){  // Needs to calibrate
+                  leftMotor->setVelocity(-8);
+                  rightMotor->setVelocity(-8);
+
+
+                }else{
+                  leftMotor->setVelocity(0);
+                  rightMotor->setVelocity(0);
+                  stage = 1;
                 circular = 14;
                 state = 2;
+                  //box_detected = true;                // turn left
+                }
+                // stage = 1;
+                // circular = 14;
+                // state = 2;
               }else if (circular == 18){       // turn 180 degree
                 if ((leftPsVal < lpos + 8.2) || (rightPsVal > rpos - 8.2)){  // Needs to calibrate
                   leftMotor->setVelocity(8);
@@ -694,9 +737,22 @@ int main(int argc, char **argv) {
                   lpos =  leftPsVal;  rpos =  rightPsVal;
                 }
               }else if (circular == 19){       // line follow & turn left
-                stage = 1;
+                if ((leftPsVal > lpos - 1.7*reverse ) || (rightPsVal > rpos - 1.7*reverse)){  // Needs to calibrate
+                  leftMotor->setVelocity(-8);
+                  rightMotor->setVelocity(-8);
+
+
+                }else{
+                  leftMotor->setVelocity(0);
+                  rightMotor->setVelocity(0);
+                  stage = 1;
                 circular = 14;
                 state = 1;
+                  //box_detected = true;                // turn left
+                }
+                // stage = 1;
+                // circular = 14;
+                // state = 1;
               }
 
             }
@@ -813,9 +869,10 @@ int main(int argc, char **argv) {
             else if (stage==6){
               double rampSpeed = 3;
               cout<<"************************stage 6 color dif 2**********************"<<noOfPoles<<"colordif"<<colordif<<'\n';
-              if (leftMostValue==1 && rightMostValue==0 && noOfPoles==colordif){ // code for robot when poles ae correctly found
+              if (leftMostValue==1 && rightMostValue==0 && noOfPoles==colordif ){ // code for robot when poles ae correctly found
                 stage = 2;
                 detect = true;
+                ramp_over = true;
                 lpos = leftPsVal;
                 rpos = rightPsVal;
                 cout<<"###left detected#### "<<count<<'\n';
@@ -886,6 +943,7 @@ int main(int argc, char **argv) {
 
                     stage = 3;
                     detect = true;
+                    ramp_over = true;
                     lpos = leftPsVal;
                     rpos = rightPsVal;
                     cout<<"###right detected ramp#### "<<count<<'\n';
@@ -1010,12 +1068,59 @@ int main(int argc, char **argv) {
                         stage=7;
 
                       }  }
+//============================ Gate area algorithm ===========================
+                      else if (stage == 580){
+                      cout << "Execute gate area" << '\n';
+                        if(gate == 0){
+                          
+                          if(sharp_ir_value == 1){
+                           gate = 1;
+                          }
+                        }else if(gate ==1){
+                          
+                          if(sharp_ir_value == 0){
+                          gate = 2;
+                          lpos =  leftPsVal;
+                          rpos =  rightPsVal;}
+                                                 
+                        }else if(gate == 2){
+                        
+                          if ((leftPsVal < lpos + 2) || (rightPsVal < rpos + 2)){  // Needs to calibrate
+                          leftMotor->setVelocity(8);
+                          rightMotor->setVelocity(8);
 
-                      cout <<"  count =  "<<count<<'\n';
-                      cout <<"        "<<'\n';
+                          }else{
+                          
+                            leftMotor->setVelocity(0);
+                            rightMotor->setVelocity(0);
+                            gate_count++;
+                            stage = 1;
+                            gate =0;
+                           }
+                        }
+                        
+                        }
+                        // cout << "Sharp IR at + point: " << sharp_ir << '\n';
+                        // leftMotor->setVelocity(0);
+                        // rightMotor->setVelocity(0);
+                        // if(sharp_ir_value == 1){
+                           // gate_count++;
+                           
+                          // if(sharp_ir_value == 0){
+                          // leftMotor->setVelocity(2);
+                          // rightMotor->setVelocity(2);
+                          // stage ==1;
+                          // }
+                        // }
+                      
+
+                      // cout <<"  count =  "<<count<<'\n';
+                      // cout <<"        "<<'\n';
                       //count ++;
+                      
+                      
                     } // end of main while loop
 
-                    delete robot;
-                    return 0;
-                  }
+  delete robot;
+  return 0;
+}

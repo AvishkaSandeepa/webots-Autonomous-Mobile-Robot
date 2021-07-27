@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.07108062199122316 0.9932271855271069 0.0919092112208725 1.8315717970226761
-  position 2.381467247239085 0.17680071359163116 -1.809384863160764
+  orientation 0.7745531486739654 0.5721561010895516 0.2696383056341385 5.189984680748953
+  position -2.1238749641472956 5.380706858099263 1.2458855842882162
 }
 TexturedBackground {
 }
@@ -2000,7 +2000,7 @@ DEF Ramp_Area Group {
 }
 DEF CUBE Solid {
   translation 1.79129 0.025 -1.61212
-  rotation 0 1 0 -0.523595307179586
+  rotation 0 1 0 -0.7853953061004253
   children [
     DEF Cube_faces Group {
       children [
@@ -2519,8 +2519,8 @@ DEF gate_22 Robot {
   controller "gate_controller2"
 }
 DEF main Robot {
-  translation 1.62016 0.0592934 -1.7873
-  rotation -0.0015193094567250382 0.9999926424224425 -0.003522328740485025 2.37801
+  translation 0.466895 0.0708615 -0.132731
+  rotation -5.1713082575549694e-05 0.9999936630574119 -0.0035596588005917503 -3.119785307179586
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -2578,7 +2578,7 @@ DEF main Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation 0.3603360097032823 0.6596062803006253 -0.6596040593409724 3.8332965213537347
+        rotation 0.3603360097032822 0.6596062803006253 -0.6596040593409724 3.8332965213537347
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2608,8 +2608,8 @@ DEF main Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.09997099658402758 -0.020936521633129056 0.00010600795445509247
-            rotation -0.015978344781440033 0.5945505401663689 -0.8038994636681409 3.0074314889093796
+            translation -0.09994416923019088 -0.020931229358772514 -9.089505846913028e-05
+            rotation -0.2929191115713013 -0.17424285019863262 -0.9401264932076621 3.6353811915271814
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
@@ -2906,5 +2906,5 @@ DEF main Robot {
   boundingObject USE body
   physics Physics {
   }
-  controller "get_color_controller"
+  controller "final_controller"
 }

@@ -1,74 +1,10 @@
-#VRML_SIM R2021a utf8
-WorldInfo {
-  coordinateSystem "NUE"
-}
-Viewpoint {
-  orientation -0.29048737675655184 0.9221102657749322 0.25559683428708774 1.5239451598006488
-  position 1.0074397371263184 0.4625309027239587 -0.05908366658993629
-}
-TexturedBackground {
-}
-TexturedBackgroundLight {
-}
-RectangleArena {
-  floorSize 2 2
-  floorTileSize 4 4
-  floorAppearance PBRAppearance {
-    baseColor 0 0 0
-    roughness 1
-    roughnessMap ImageTexture {
-      url [
-        "textures/parquetry/chequered_parquetry_normal.jpg"
-        ""
-        ""
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "textures/parquetry/chequered_parquetry_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "textures/parquetry/chequered_parquetry_normal.jpg"
-      ]
-    }
-  }
-}
-Solid {
-  translation 0 0.0249505 -0.25
-  rotation -0.9488011440274867 0.22768602383517678 -0.21894169005070674 -2.640417956399907e-16
+#VRML_OBJ R2021a utf8
+Group {
   children [
-    DEF base Shape {
-      appearance PBRAppearance {
-        baseColor 0.184314 1 0.0392157
-        metalness 0
-      }
-      geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  boundingObject USE base
-  physics Physics {
-  }
-}
-Robot {
-  translation -2.1461794591356612e-07 0.01674398100045051 -5.964775501598356e-06
-  rotation 0.9993595948353056 -4.4681921756354364e-05 -0.035782652419014585 -0.00023881748188706562
-  children [
-    DEF bot Shape {
-      appearance PBRAppearance {
-      }
-      geometry Box {
-        size 0.2 0.05 0.21
-      }
-    }
     HingeJoint {
       jointParameters HingeJointParameters {
         position 3.1
-        anchor 0.09 0.0341 -0.005
+        anchor 0.07 0.032 -0.07
       }
       device [
         RotationalMotor {
@@ -79,7 +15,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.09 0.04097995362966966 -0.16993946051912961
+        translation 0.09 0.03407903312166453 -0.020043242486335988
         rotation 1 0 0 3.1
         children [
           DEF main_arm Shape {
@@ -87,7 +23,7 @@ Robot {
               metalness 0
             }
             geometry Box {
-              size 0.01 0.01 0.05
+              size 0.01 0.01 0.1
             }
           }
           HingeJoint {
@@ -104,7 +40,7 @@ Robot {
               }
             ]
             endPoint Solid {
-              translation -1.38617e-08 -0.012 -0.06
+              translation -1.3861700703943214e-08 -0.012 -0.08999999999999814
               rotation 0 1 0 2.8429603618888453e-07
               children [
                 DEF second_arm Shape {
@@ -277,9 +213,4 @@ Robot {
       }
     }
   ]
-  boundingObject USE bot
-  physics Physics {
-    density 10000
-  }
-  controller "robot_arm2_controller"
 }
