@@ -8,4 +8,4 @@ orthographicViewHeight: 1
 textFiles: 0 "controllers/get_color_controller/get_color_controller.cpp"
 globalOptionalRendering: CameraFrustums::CoordinateSystem::DistanceSensorRays
 consoles: Console:All:All
-renderingDevicePerspectives: robot:color_sensor;1;2.82813;0;0
+renderingDevicePerspectives: robot:color_sensor;1;2.82813;0;0.00143472
