@@ -1,0 +1,262 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.04130102499900741 0.9913013960889916 0.12496306432721548 2.5083733876233993
+  position 0.7160974187803582 0.32177550951176315 -1.0907931501804733
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+  floorTileSize 4 4
+  floorAppearance PBRAppearance {
+    baseColor 0 0 0
+    roughness 1
+    roughnessMap ImageTexture {
+      url [
+        "textures/parquetry/chequered_parquetry_normal.jpg"
+        ""
+        ""
+      ]
+    }
+    metalness 0
+    normalMap ImageTexture {
+      url [
+        "textures/parquetry/chequered_parquetry_normal.jpg"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "textures/parquetry/chequered_parquetry_normal.jpg"
+      ]
+    }
+  }
+}
+Solid {
+  translation 0 0.0249505 -0.25
+  rotation -0.9488011440274867 0.22768602383517678 -0.21894169005070674 -2.640417956399907e-16
+  children [
+    DEF base Shape {
+      appearance PBRAppearance {
+        baseColor 0.184314 1 0.0392157
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject USE base
+  physics Physics {
+  }
+}
+Robot {
+  translation -2.1461794591356612e-07 0.01674398100045051 -5.964775501598356e-06
+  rotation 0.9993595948353056 -4.4681921756354364e-05 -0.035782652419014585 -0.00023881748188706562
+  children [
+    DEF bot Shape {
+      appearance PBRAppearance {
+      }
+      geometry Box {
+        size 0.2 0.05 0.21
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 3.1
+        anchor 0.07 0.032 -0.07
+      }
+      device [
+        RotationalMotor {
+          name "rm1"
+        }
+        PositionSensor {
+          name "rp1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.09 0.03407903312166453 -0.020043242486335988
+        rotation 1 0 0 3.1
+        children [
+          DEF main_arm Shape {
+            appearance PBRAppearance {
+              metalness 0
+            }
+            geometry Box {
+              size 0.01 0.01 0.1
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+              anchor 0 -0.012 -0.04
+            }
+            device [
+              RotationalMotor {
+                name "rm2"
+              }
+              PositionSensor {
+                name "rp2"
+              }
+            ]
+            endPoint Solid {
+              translation -1.3861700703943214e-08 -0.012 -0.08999999999999814
+              rotation 0 1 0 2.8429603618888453e-07
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 1 0.05 0.005
+                    anchor 0.005 -0.015 -0.05
+                  }
+                  device [
+                    RotationalMotor {
+                      name "rmidm"
+                    }
+                    PositionSensor {
+                      name "rmidp"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation -0.003999999999999975 -0.015000000000000041 -0.05000000000000017
+                    rotation -3.699026540875479e-15 -1 9.247560925012485e-16 0.3926996938995632
+                    children [
+                      DEF hright Shape {
+                        appearance PBRAppearance {
+                        }
+                        geometry Box {
+                          size 0.001 0.04 0.1
+                        }
+                      }
+                    ]
+                    name "solid(1)"
+                    boundingObject USE hright
+                    physics Physics {
+                    }
+                  }
+                }
+                DEF second_arm Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0.666667 0
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.01 0.01 0.1
+                  }
+                }
+              ]
+              boundingObject USE second_arm
+              physics Physics {
+              }
+            }
+          }
+        ]
+        boundingObject USE main_arm
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 3.1
+        anchor 0.07 0.032 -0.07
+      }
+      device [
+        RotationalMotor {
+          name "lm1"
+        }
+        PositionSensor {
+          name "lp1"
+        }
+      ]
+      endPoint Solid {
+        translation -0.08999999999999983 0.03407903312166452 -0.020043242486336127
+        rotation 1 0 0 3.1
+        children [
+          DEF main_arm Shape {
+            appearance PBRAppearance {
+              metalness 0
+            }
+            geometry Box {
+              size 0.01 0.01 0.1
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+              anchor 0 -0.012 -0.04
+            }
+            device [
+              RotationalMotor {
+                name "lm2"
+              }
+              PositionSensor {
+                name "lp2"
+              }
+            ]
+            endPoint Solid {
+              translation -1.3861700710882108e-08 -0.012 -0.0899999999999985
+              rotation 0 1 0 2.8272965492323474e-07
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    anchor 0.005 -0.015 -0.05
+                  }
+                  device [
+                    RotationalMotor {
+                      name "lmidm"
+                    }
+                    PositionSensor {
+                      name "lmidp"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0.005 -0.015 -0.05
+                    rotation 0 1 0 0.3926996938995746
+                    children [
+                      DEF hleft Shape {
+                        appearance PBRAppearance {
+                        }
+                        geometry Box {
+                          size 0.001 0.04 0.1
+                        }
+                      }
+                    ]
+                    name "solid(1)"
+                    boundingObject USE hleft
+                    physics Physics {
+                    }
+                  }
+                }
+                DEF second_arm Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0.666667 0
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.01 0.01 0.1
+                  }
+                }
+              ]
+              boundingObject USE second_arm
+              physics Physics {
+              }
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE main_arm
+        physics Physics {
+        }
+      }
+    }
+  ]
+  boundingObject USE bot
+  physics Physics {
+    density 10000
+  }
+  controller "robot_arm1_controller"
+}
