@@ -5,7 +5,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.3225476320743481 0.9113652865088903 0.2556879731035456 4.851420383773609
-  position -5.596470853644968 4.303228018216773 -0.5363933389381188
+  position -5.956528299159598 4.528463665942615 -0.4520002993633617
 }
 TexturedBackground {
 }
@@ -2575,7 +2575,7 @@ DEF main Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation 0.12208304864258025 -0.7018187252255994 0.7018163621324656 3.384555635126307
+        rotation 0.12208304864258024 -0.7018187252255994 0.7018163621324656 3.384555635126307
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2605,8 +2605,8 @@ DEF main Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.09998018893385956 -0.02110824575852216 -6.304600648009668e-05
-            rotation -0.14259172694254266 -0.8863972531744261 -0.4404174258273345 3.761268101133953
+            translation -0.10001484756098009 -0.02097952803006452 -0.00012427739091503955
+            rotation 0.2494119486844634 0.5300861683380248 0.810433423539608 3.27386813619989
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
@@ -2935,5 +2935,5 @@ DEF main Robot {
   boundingObject USE body
   physics Physics {
   }
-  controller "final_and_color_detection_controller"
+  controller "final_controller"
 }

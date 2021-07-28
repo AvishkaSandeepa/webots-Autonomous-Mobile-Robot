@@ -1,0 +1,16 @@
+#VRML_OBJ R2021a utf8
+Display {
+  translation 0 0.01 0
+  children [
+    DEF display Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        metalness 0
+      }
+      geometry Plane {
+        size 0.025 0.05
+      }
+    }
+  ]
+  boundingObject USE display
+}

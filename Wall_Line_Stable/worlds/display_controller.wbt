@@ -1,11 +1,11 @@
 #VRML_SIM R2021a utf8
 WorldInfo {
-  basicTimeStep 16
+  basicTimeStep 64
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.3225476320743481 0.9113652865088903 0.2556879731035456 4.851420383773609
-  position -5.596470853644968 4.303228018216773 -0.5363933389381188
+  orientation -0.5602985232140955 -0.8120222167577514 -0.16335692325680867 0.6894216465488965
+  position -2.300217333892723 2.94384542554276 2.1471699588737043
 }
 TexturedBackground {
 }
@@ -2000,7 +2000,7 @@ DEF Ramp_Area Group {
   ]
 }
 DEF CUBE Solid {
-  translation 1.791289997716414 0.024960760018447783 -1.6121200085223404
+  translation 1.79129 0.025 -1.61212
   rotation -1.2927208157027412e-16 1 5.626845528999462e-17 -2.3561996938995744
   children [
     DEF Cube_faces Group {
@@ -2202,7 +2202,7 @@ DEF gate_11 Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.025 -0.03
+        translation 1.3877787807814457e-17 0.024999999999999023 -0.03000000000000025
         rotation 0 0 1 0
         children [
           DEF axis Shape {
@@ -2575,7 +2575,7 @@ DEF main Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation 0.12208304864258025 -0.7018187252255994 0.7018163621324656 3.384555635126307
+        rotation 0.12208304864257999 -0.7018187252255994 0.7018163621324656 3.384555635126307
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2605,8 +2605,8 @@ DEF main Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.09998018893385956 -0.02110824575852216 -6.304600648009668e-05
-            rotation -0.14259172694254266 -0.8863972531744261 -0.4404174258273345 3.761268101133953
+            translation -0.10002130670122504 -0.02090597403453794 -8.239880954591908e-05
+            rotation 0.9527749952506526 -0.015391099522880827 0.3032868649984633 2.3826401319160677
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
@@ -2927,6 +2927,28 @@ DEF main Robot {
           boundingObject USE cam_holder
           physics Physics {
             density 100
+          }
+        }
+      ]
+    }
+    Display {
+      translation 0 0.02 0
+      children [
+        Solid {
+          children [
+            DEF display Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                metalness 0
+              }
+              geometry Box {
+                size 0.05 0.01 0.1
+              }
+            }
+          ]
+          name "solid(6)"
+          boundingObject USE display
+          physics Physics {
           }
         }
       ]

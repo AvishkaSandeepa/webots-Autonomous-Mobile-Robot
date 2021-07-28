@@ -1,0 +1,216 @@
+#VRML_OBJ R2021a utf8
+Group {
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 3.1
+        anchor 0.07 0.032 -0.07
+      }
+      device [
+        RotationalMotor {
+          name "rm1"
+        }
+        PositionSensor {
+          name "rp1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.09 0.03407903312166453 -0.020043242486335988
+        rotation 1 0 0 3.1
+        children [
+          DEF main_arm Shape {
+            appearance PBRAppearance {
+              metalness 0
+            }
+            geometry Box {
+              size 0.01 0.01 0.1
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+              anchor 0 -0.012 -0.04
+            }
+            device [
+              RotationalMotor {
+                name "rm2"
+              }
+              PositionSensor {
+                name "rp2"
+              }
+            ]
+            endPoint Solid {
+              translation -1.3861700703943214e-08 -0.012 -0.08999999999999814
+              rotation 0 1 0 2.8429603618888453e-07
+              children [
+                DEF second_arm Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0.666667 0
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.01 0.01 0.1
+                  }
+                }
+                Hinge2Joint {
+                  jointParameters HingeJointParameters {
+                    axis 0 1 0
+                    anchor 0.005 -0.015 -0.05
+                  }
+                  jointParameters2 JointParameters {
+                    axis 1 0 0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "rmidm"
+                    }
+                    PositionSensor {
+                      name "rmidp"
+                    }
+                  ]
+                  device2 [
+                    RotationalMotor {
+                      name "rotate90degreeM1"
+                    }
+                    PositionSensor {
+                      name "rotate90degreePS1"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation -0.003999999999999975 -0.015000000000000041 -0.05000000000000017
+                    rotation -3.699026540875479e-15 -1 9.247560925012485e-16 0.3926996938995632
+                    children [
+                      DEF hright Shape {
+                        appearance PBRAppearance {
+                        }
+                        geometry Box {
+                          size 0.001 0.04 0.1
+                        }
+                      }
+                    ]
+                    name "solid(2)"
+                    boundingObject USE hright
+                    physics Physics {
+                    }
+                  }
+                }
+              ]
+              boundingObject USE second_arm
+              physics Physics {
+              }
+            }
+          }
+        ]
+        boundingObject USE main_arm
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 3.1
+        anchor 0.07 0.032 -0.07
+      }
+      device [
+        RotationalMotor {
+          name "lm1"
+        }
+        PositionSensor {
+          name "lp1"
+        }
+      ]
+      endPoint Solid {
+        translation -0.08999999999999983 0.03407903312166452 -0.020043242486336127
+        rotation 1 0 0 3.1
+        children [
+          DEF main_arm Shape {
+            appearance PBRAppearance {
+              metalness 0
+            }
+            geometry Box {
+              size 0.01 0.01 0.1
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+              anchor 0 -0.012 -0.04
+            }
+            device [
+              RotationalMotor {
+                name "lm2"
+              }
+              PositionSensor {
+                name "lp2"
+              }
+            ]
+            endPoint Solid {
+              translation -1.3861700710882108e-08 -0.012 -0.0899999999999985
+              rotation 0 1 0 2.8272965492323474e-07
+              children [
+                Hinge2Joint {
+                  jointParameters HingeJointParameters {
+                    axis 0 1 0
+                    anchor 0.07 0.032 -0.07
+                  }
+                  jointParameters2 JointParameters {
+                    axis 1 0 0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "lmidm"
+                    }
+                    PositionSensor {
+                      name "lmidp"
+                    }
+                  ]
+                  device2 [
+                    RotationalMotor {
+                      name "rotate90degreeM2"
+                    }
+                    PositionSensor {
+                      name "rotate90degreePS2"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0.0050000000000000044 -0.015 -0.05
+                    rotation 0 1 0 0.3926996938995746
+                    children [
+                      DEF hleft Shape {
+                        appearance PBRAppearance {
+                        }
+                        geometry Box {
+                          size 0.001 0.04 0.1
+                        }
+                      }
+                    ]
+                    name "solid(2)"
+                    boundingObject USE hleft
+                    physics Physics {
+                    }
+                  }
+                }
+                DEF second_arm Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0.666667 0
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.01 0.01 0.1
+                  }
+                }
+              ]
+              boundingObject USE second_arm
+              physics Physics {
+              }
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE main_arm
+        physics Physics {
+        }
+      }
+    }
+  ]
+}

@@ -1,74 +1,5 @@
-#VRML_SIM R2021a utf8
-WorldInfo {
-  basicTimeStep 16
-  coordinateSystem "NUE"
-}
-Viewpoint {
-  orientation 0.3225476320743481 0.9113652865088903 0.2556879731035456 4.851420383773609
-  position -5.596470853644968 4.303228018216773 -0.5363933389381188
-}
-TexturedBackground {
-}
-TexturedBackgroundLight {
-  luminosity 0.3
-}
-Floor {
-  translation 1 0 -2.5
-  size 4 6
-  appearance Parquetry {
-    type "dark strip"
-    colorOverride 0 0 0
-  }
-}
-DEF Light SpotLight {
-  attenuation 0 0 1
-  beamWidth 1.5
-  cutOffAngle 1.57
-  direction 0 -1 0
-  intensity 10
-  location 1 3.8 -2.5
-  radius 10
-  castShadows TRUE
-}
-DEF Arena_walls Solid {
-  rotation 1 0 0 -1.5707953071795862
-  scale 0.01 0.01 0.01
-  children [
-    DEF WALLS Shape {
-      appearance PBRAppearance {
-        baseColor 0.666667 0.333333 0
-        roughness 0.9
-        metalness 0
-      }
-      geometry Mesh {
-        url [
-          "wall1.stl"
-        ]
-      }
-    }
-  ]
-  name "WALLS"
-  boundingObject USE WALLS
-}
-DEF Arena_track Solid {
-  rotation 1 0 0 -1.5707953071795862
-  scale 0.01 0.01 0.01
-  children [
-    DEF TRACK Shape {
-      appearance PBRAppearance {
-        roughness 0.9
-        metalness 0
-      }
-      geometry Mesh {
-        url [
-          "samplearena3.stl"
-        ]
-      }
-    }
-  ]
-  name "TRACK"
-}
-DEF Ramp_Area Group {
+#VRML_OBJ R2021a utf8
+Group {
   children [
     DEF Dotted_3 Solid {
       translation 1.40402 0 -3.50768
@@ -394,12 +325,12 @@ DEF Ramp_Area Group {
       name "<STL_BINARY>(14)"
     }
     DEF pole_3 Solid {
-      translation 2.144 0 -4.855
+      translation 2.214 0 -4.855
       scale 0.001 0.001 0.001
       children [
         Solid {
           children [
-            DEF Pole_3 Shape {
+            Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -469,7 +400,6 @@ DEF Ramp_Area Group {
             }
           ]
           name ""
-          boundingObject USE Pole_3
         }
       ]
       name "<STL_BINARY>(11)"
@@ -480,7 +410,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            DEF Pole_2 Shape {
+            Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -550,18 +480,17 @@ DEF Ramp_Area Group {
             }
           ]
           name ""
-          boundingObject USE Pole_2
         }
       ]
       name "<STL_BINARY>(10)"
     }
     DEF pole_1 Solid {
-      translation 1.91 0 -4.855
+      translation -0.07 0 -4.855
       scale 0.001 0.001 0.001
       children [
         Solid {
           children [
-            DEF pole_1 Shape {
+            Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -631,7 +560,6 @@ DEF Ramp_Area Group {
             }
           ]
           name ""
-          boundingObject USE pole_1
         }
       ]
       name "<STL_BINARY>(9)"
@@ -967,7 +895,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            DEF T-junction Shape {
+            Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -991,7 +919,6 @@ DEF Ramp_Area Group {
             }
           ]
           name ""
-          boundingObject USE T-junction
         }
       ]
       name "<STL_BINARY>(6)"
@@ -1003,7 +930,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            DEF ramp_f Shape {
+            Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -1076,7 +1003,6 @@ DEF Ramp_Area Group {
         }
       ]
       name "<STL_BINARY>(5)"
-      boundingObject USE ramp_f
     }
     DEF ramp-R Solid {
       translation 1.68077 0.002 -5.05
@@ -1085,7 +1011,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            DEF ramp_r Shape {
+            Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -1158,7 +1084,6 @@ DEF Ramp_Area Group {
         }
       ]
       name "<STL_BINARY>(4)"
-      boundingObject USE ramp_r
     }
     DEF ramp-L Solid {
       translation 0.490372 0.00184496 -5.05
@@ -1167,7 +1092,7 @@ DEF Ramp_Area Group {
       children [
         Solid {
           children [
-            DEF ramp_l Shape {
+            Shape {
               appearance PBRAppearance {
                 roughness 1
                 metalness 0
@@ -1240,7 +1165,6 @@ DEF Ramp_Area Group {
         }
       ]
       name "<STL_BINARY>(3)"
-      boundingObject USE ramp_l
     }
     DEF After_ramp_L-right Solid {
       translation 2.474 0.001 -4.85
@@ -1319,7 +1243,7 @@ DEF Ramp_Area Group {
         Solid {
           translation 3.62 0 -3.68
           children [
-            DEF Ramp_bloc Shape {
+            Shape {
               appearance PBRAppearance {
                 baseColor 0 0 0
                 roughness 1
@@ -1344,10 +1268,152 @@ DEF Ramp_Area Group {
             }
           ]
           name ""
-          boundingObject USE Ramp_bloc
         }
       ]
       name "<STL_BINARY>"
+    }
+    DEF Color_Box Solid {
+      translation 1.38656 0.024950957591820155 -1.75344
+      rotation 5.144945454282833e-18 1 -1.8975088692014463e-16 0.7853996938995745
+      scale 0.001 0.001 0.001
+      children [
+        Solid {
+          children [
+            DEF Inside_Box Shape {
+              appearance PBRAppearance {
+                transparency 1
+              }
+              geometry Box {
+                size 50 50 50
+              }
+            }
+          ]
+        }
+        Solid {
+          translation -25 -5 -25
+          children [
+            DEF Blue_Box Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 1
+                metalness 0
+                name "color_255"
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    0 30 50
+                    0 -20 50
+                    50 -20 50
+                    50 30 50
+                    50 30 0
+                    50 -20 0
+                    0 -20 0
+                    0 30 0
+                  ]
+                }
+                coordIndex [
+                  0, 1, 2, -1, 0, 2, 3, -1, 4, 5
+                  6, -1, 4, 6, 7, -1
+                ]
+              }
+            }
+          ]
+          name "group_0_255"
+        }
+        Solid {
+          translation -25 -5 -25
+          children [
+            DEF Green_Box Shape {
+              appearance PBRAppearance {
+                baseColor 0 1 0
+                roughness 1
+                metalness 0
+                name "color_65280"
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    0 -20 0
+                    50 -20 50
+                    0 -20 50
+                    50 -20 0
+                    0 30 0
+                    50 30 50
+                    50 30 0
+                    0 30 50
+                  ]
+                }
+                coordIndex [
+                  0, 1, 2, -1, 3, 1, 0, -1, 4, 5
+                  6, -1, 7, 5, 4, -1
+                ]
+              }
+            }
+          ]
+          name "group_0_65280"
+        }
+        Solid {
+          translation -25 -5 -25
+          children [
+            DEF Red_box1 Shape {
+              appearance PBRAppearance {
+                baseColor 0.9137255 0.11372549 0.1764706
+                roughness 1
+                metalness 0
+                name "color_15277357"
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    50 30 50
+                    50 -20 50
+                    50 -20 0
+                    50 30 0
+                  ]
+                }
+                coordIndex [
+                  0, 1, 2, -1, 0, 2, 3, -1
+                ]
+              }
+            }
+          ]
+          name "group_0_15277357"
+        }
+        Solid {
+          translation -25 -5 -25
+          children [
+            DEF Red_box2 Shape {
+              appearance PBRAppearance {
+                baseColor 1 0 0
+                roughness 1
+                metalness 0
+                name "color_16711680"
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    0 -20 50
+                    0 30 0
+                    0 -20 0
+                    0 30 50
+                  ]
+                }
+                coordIndex [
+                  0, 1, 2, -1, 1, 0, 3, -1
+                ]
+              }
+            }
+          ]
+          name "group_0_16711680"
+        }
+      ]
+      name "tinker.obj"
+      boundingObject USE Inside_Box
+      physics Physics {
+      }
+      linearVelocity -2.5309765460843214e-17 -5.932920635131011e-08 6.128193097185243e-17
+      angularVelocity 2.9219058813104133e-15 -6.133813973145542e-17 2.398695662670506e-15
     }
     DEF Dotted_5 Solid {
       translation 1.36036 0 -3.57402
@@ -1998,942 +2064,4 @@ DEF Ramp_Area Group {
       name "<STL_BINARY>(25)"
     }
   ]
-}
-DEF CUBE Solid {
-  translation 1.791289997716414 0.024960760018447783 -1.6121200085223404
-  rotation -1.2927208157027412e-16 1 5.626845528999462e-17 -2.3561996938995744
-  children [
-    DEF Cube_faces Group {
-      children [
-        DEF Blue_1 Transform {
-          translation -0.025 0.025 0.025
-          rotation 1 0 0 3.14159
-          scale 0.5 0.5 0.5
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0 0 1
-                roughness 0.9
-                metalness 0
-              }
-              geometry Mesh {
-                url [
-                  "box_side.STL"
-                ]
-              }
-            }
-          ]
-        }
-        DEF Green_1 Transform {
-          translation 0.025 0.025 -0.025
-          rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
-          scale 0.5 0.5 0.5
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0 1 0
-                roughness 0.9
-                metalness 0
-              }
-              geometry Mesh {
-                url [
-                  "box_side.STL"
-                ]
-              }
-            }
-          ]
-        }
-        DEF Green_2 Transform {
-          translation -0.025 -0.025 -0.025
-          rotation 0.5773509358554485 0.5773489358556708 0.5773509358554485 2.0944
-          scale 0.5 0.5 0.5
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0 1 0
-                roughness 0.9
-                metalness 0
-              }
-              geometry Mesh {
-                url [
-                  "box_side.STL"
-                ]
-              }
-            }
-          ]
-        }
-        DEF Red_2 Transform {
-          translation -0.025 -0.025 0.025
-          rotation 1 0 0 -1.5707953071795862
-          scale 0.5 0.5 0.5
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 1 0 0
-                roughness 0.9
-                metalness 0
-              }
-              geometry Mesh {
-                url [
-                  "box_side.STL"
-                ]
-              }
-            }
-          ]
-        }
-        DEF Red_1 Transform {
-          translation -0.025 0.025 -0.025
-          rotation 1 0 0 1.5708
-          scale 0.5 0.5 0.5
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 1 0 0
-                roughness 0.9
-                metalness 0
-              }
-              geometry Mesh {
-                url [
-                  "box_side.STL"
-                ]
-              }
-            }
-          ]
-        }
-        DEF Blue_2 Transform {
-          translation -0.025 -0.025 -0.025
-          scale 0.5 0.5 0.5
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0 0 1
-                roughness 0.9
-                metalness 0
-              }
-              geometry Mesh {
-                url [
-                  "box_side.STL"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ]
-  name "solid(2)"
-  boundingObject Box {
-    size 0.05 0.05 0.05
-  }
-  physics Physics {
-    density -1
-    mass 0.1
-  }
-}
-DEF Gate_A1 Solid {
-  translation 2.584 0 -4.85
-  rotation 0 -1 0 1.5708
-  scale 0.001 0.001 0.001
-  children [
-    DEF Gate_Area Shape {
-      appearance PBRAppearance {
-        roughness 0.9
-        metalness 0
-      }
-      geometry Mesh {
-        url [
-          "gate_part.STL"
-        ]
-      }
-    }
-  ]
-}
-DEF Gate_A2 Solid {
-  translation -0.16 0 -4.85
-  rotation 0 -1 0 1.5708
-  scale 0.001 0.001 0.001
-  children [
-    Shape {
-      appearance PBRAppearance {
-        roughness 0.9
-        metalness 0
-      }
-      geometry Mesh {
-        url [
-          "gate_part.STL"
-        ]
-      }
-    }
-  ]
-  name "solid(1)"
-}
-DEF gate_11 Robot {
-  translation 2.2 0.05 -4.27951
-  rotation 0 0 1 -1.5707996938995747
-  children [
-    Solid {
-      translation 0 0.025 0
-      children [
-        DEF robot_base Shape {
-          appearance PBRAppearance {
-            metalness 0
-          }
-          geometry Box {
-            size 0.05 0.05 0.05
-          }
-        }
-      ]
-      name "solid(2)"
-      boundingObject USE robot_base
-      physics Physics {
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 0 1
-        anchor 0 0.025 -0.03
-      }
-      device [
-        RotationalMotor {
-          name "gateMotor"
-        }
-        PositionSensor {
-          name "gate_ps"
-        }
-      ]
-      endPoint Solid {
-        translation 0 0.025 -0.03
-        rotation 0 0 1 0
-        children [
-          DEF axis Shape {
-            appearance PBRAppearance {
-              baseColor 0 0 0
-            }
-            geometry Box {
-              size 0.01 0.01 0.01
-            }
-          }
-          Solid {
-            translation -0.19 0 -0.01
-            children [
-              DEF arm Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 0
-                  roughness 1
-                  metalness 0
-                }
-                geometry Box {
-                  size 0.4 0.03 0.01
-                }
-              }
-            ]
-            boundingObject USE arm
-            physics Physics {
-              density 10
-            }
-          }
-        ]
-        name "solid(1)"
-        boundingObject USE axis
-        physics Physics {
-        }
-      }
-    }
-  ]
-  name "robot(1)"
-  boundingObject Transform {
-    translation 0 0.025 0
-    children [
-      Box {
-        size 0.05 0.05 0.05
-      }
-    ]
-  }
-  physics Physics {
-  }
-  locked TRUE
-  controller "gate_controller1"
-}
-DEF gate_12 Robot {
-  translation 0 0 -4.23049
-  rotation 0 0 1 0
-  children [
-    Solid {
-      translation 0 0.025 0
-      children [
-        DEF robot_base Shape {
-          appearance PBRAppearance {
-            metalness 0
-          }
-          geometry Box {
-            size 0.05 0.05 0.05
-          }
-        }
-      ]
-      name "solid(2)"
-      boundingObject USE robot_base
-      physics Physics {
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 0 1
-        anchor 0 0.025 -0.03
-      }
-      device [
-        RotationalMotor {
-          name "gateMotor"
-        }
-        PositionSensor {
-          name "gate_ps"
-        }
-      ]
-      endPoint Solid {
-        translation 0 0.025 -0.03
-        rotation 0 0 1 0
-        children [
-          DEF axis Shape {
-            appearance PBRAppearance {
-              baseColor 0 0 0
-            }
-            geometry Box {
-              size 0.01 0.01 0.01
-            }
-          }
-          Solid {
-            translation -0.19 0 -0.01
-            children [
-              DEF arm Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 0
-                  roughness 1
-                  metalness 0
-                }
-                geometry Box {
-                  size 0.4 0.03 0.01
-                }
-              }
-            ]
-            boundingObject USE arm
-            physics Physics {
-              density 10
-            }
-          }
-        ]
-        name "solid(1)"
-        boundingObject USE axis
-        physics Physics {
-        }
-      }
-    }
-  ]
-  name "robot(3)"
-  boundingObject Transform {
-    translation 0 0.025 0
-    children [
-      Box {
-        size 0.05 0.05 0.05
-      }
-    ]
-  }
-  physics Physics {
-  }
-  locked TRUE
-  controller "gate_controller1"
-}
-DEF gate_21 Robot {
-  translation 2.2379475378659482e-08 -4.9424331461725424e-05 -3.559999977695694
-  rotation 0.3236876679377117 0.00016394982944242974 -0.946163974554886 -7.570737919966491e-05
-  children [
-    Solid {
-      translation 0 0.025 0
-      children [
-        DEF robot_base Shape {
-          appearance PBRAppearance {
-            metalness 0
-          }
-          geometry Box {
-            size 0.05 0.05 0.05
-          }
-        }
-      ]
-      name "solid(2)"
-      boundingObject USE robot_base
-      physics Physics {
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        position 1.5115639935198502e-06
-        axis 0 0 1
-        anchor 0 0.025 -0.03
-      }
-      device [
-        RotationalMotor {
-          name "gateMotor"
-        }
-        PositionSensor {
-          name "gate_ps"
-        }
-      ]
-      endPoint Solid {
-        translation 0 0.025 -0.03
-        rotation 0 0 1 1.511421481741222e-06
-        children [
-          DEF axis Shape {
-            appearance PBRAppearance {
-              baseColor 0 0 0
-            }
-            geometry Box {
-              size 0.01 0.01 0.01
-            }
-          }
-          Solid {
-            translation -0.19 0 -0.01
-            children [
-              DEF arm Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 0
-                  roughness 1
-                  metalness 0
-                }
-                geometry Box {
-                  size 0.4 0.03 0.01
-                }
-              }
-            ]
-            boundingObject USE arm
-            physics Physics {
-              density 10
-            }
-          }
-        ]
-        name "solid(1)"
-        boundingObject USE axis
-        physics Physics {
-        }
-      }
-    }
-  ]
-  name "robot(2)"
-  boundingObject Transform {
-    translation 0 0.025 0
-    children [
-      Box {
-        size 0.05 0.05 0.05
-      }
-    ]
-  }
-  physics Physics {
-  }
-  locked TRUE
-  controller "gate_controller2"
-}
-DEF gate_22 Robot {
-  translation 2.1499999999173243 -4.942433146172889e-05 -3.5600000000207572
-  rotation 3.581579746179376e-05 0.9999999992835492 1.2252772310686727e-05 3.141592652113758
-  children [
-    Solid {
-      translation 0 0.025 0
-      children [
-        DEF robot_base Shape {
-          appearance PBRAppearance {
-            metalness 0
-          }
-          geometry Box {
-            size 0.05 0.05 0.05
-          }
-        }
-      ]
-      name "solid(2)"
-      boundingObject USE robot_base
-      physics Physics {
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        position 1.5115640039541142e-06
-        axis 0 0 1
-        anchor 0 0.025 -0.03
-      }
-      device [
-        RotationalMotor {
-          name "gateMotor"
-        }
-        PositionSensor {
-          name "gate_ps"
-        }
-      ]
-      endPoint Solid {
-        translation 0 0.025 -0.03
-        rotation 0 0 1 1.511421481741222e-06
-        children [
-          DEF axis Shape {
-            appearance PBRAppearance {
-              baseColor 0 0 0
-            }
-            geometry Box {
-              size 0.01 0.01 0.01
-            }
-          }
-          Solid {
-            translation -0.19 0 -0.01
-            children [
-              DEF arm Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 0
-                  roughness 1
-                  metalness 0
-                }
-                geometry Box {
-                  size 0.4 0.03 0.01
-                }
-              }
-            ]
-            boundingObject USE arm
-            physics Physics {
-              density 10
-            }
-          }
-        ]
-        name "solid(1)"
-        boundingObject USE axis
-        physics Physics {
-        }
-      }
-    }
-  ]
-  name "robot(4)"
-  boundingObject Transform {
-    translation 0 0.025 0
-    children [
-      Box {
-        size 0.05 0.05 0.05
-      }
-    ]
-  }
-  physics Physics {
-  }
-  locked TRUE
-  controller "gate_controller2"
-}
-DEF main Robot {
-  translation 0.116769 0.0403171 -0.115696
-  rotation -0.0022652399503793014 0.9999949780948375 -0.0022164099514489356 -3.119785307179586
-  children [
-    DEF body Shape {
-      appearance PBRAppearance {
-        baseColor 1 0 1
-        metalness 0
-      }
-      geometry Box {
-        size 0.25 0.0001 0.2
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 0 1
-        anchor 0.06 0 -0.11
-      }
-      device [
-        PositionSensor {
-          name "right_ps"
-        }
-        RotationalMotor {
-          name "right motor"
-        }
-      ]
-      endPoint Solid {
-        translation 0.06 0 -0.11
-        rotation 1 -7.457926622948696e-16 3.9252245383940506e-17 1.5707996938995727
-        children [
-          DEF leftWheel Shape {
-            geometry Cylinder {
-              height 0.015
-              radius 0.04
-            }
-          }
-        ]
-        name "solid(1)"
-        boundingObject USE leftWheel
-        physics Physics {
-        }
-      }
-    }
-    HingeJoint {
-      jointParameters HingeJointParameters {
-        axis 0 0 1
-        anchor 0.06 0 0.11
-      }
-      device [
-        PositionSensor {
-          name "left_ps"
-        }
-        RotationalMotor {
-          name "left motor"
-        }
-      ]
-      endPoint Solid {
-        translation 0.06 0 0.11
-        rotation 0.12208304864258025 -0.7018187252255994 0.7018163621324656 3.384555635126307
-        children [
-          DEF rightWheel Shape {
-            geometry Cylinder {
-              height 0.015
-              radius 0.04
-            }
-          }
-        ]
-        name "solid(2)"
-        boundingObject USE rightWheel
-        physics Physics {
-        }
-      }
-    }
-    DEF CasterW1 Transform {
-      children [
-        BallJoint {
-          jointParameters BallJointParameters {
-            position 28.206784098059096
-            anchor -0.1 -0.021 0
-          }
-          jointParameters2 JointParameters {
-            position 0.7352072665994797
-          }
-          jointParameters3 JointParameters {
-            position 38.665162458987076
-            axis 0 1 0
-          }
-          endPoint Solid {
-            translation -0.09998018893385956 -0.02110824575852216 -6.304600648009668e-05
-            rotation -0.14259172694254266 -0.8863972531744261 -0.4404174258273345 3.761268101133953
-            children [
-              DEF caster Shape {
-                appearance PBRAppearance {
-                }
-                geometry Sphere {
-                  radius 0.02
-                }
-              }
-            ]
-            boundingObject USE caster
-            physics Physics {
-            }
-          }
-        }
-        Solid {
-          translation -0.1 -0.01 0
-          children [
-            Shape {
-              geometry Cylinder {
-                height 0.02
-                radius 0.025
-              }
-            }
-          ]
-          name "solid(3)"
-        }
-      ]
-    }
-    DEF IR_panel Transform {
-      translation 0 -0.008 0
-      children [
-        DistanceSensor {
-          translation -0.055 0 0.07
-          rotation 0 0 1 -1.5708003061004252
-          children [
-            DEF IRsensor Shape {
-              geometry Box {
-                size 0.01 0.01 0.01
-              }
-            }
-          ]
-          name "ir0"
-          boundingObject USE IRsensor
-          physics Physics {
-          }
-          type "infra-red"
-        }
-        DistanceSensor {
-          translation -0.055 0 0.05
-          rotation 0 0 1 -1.5708003061004252
-          children [
-            Shape {
-              geometry Box {
-                size 0.01 0.01 0.01
-              }
-            }
-          ]
-          name "ir1"
-          boundingObject USE IRsensor
-          physics Physics {
-          }
-          type "infra-red"
-        }
-        DistanceSensor {
-          translation -0.055 0 0.03
-          rotation 0 0 1 -1.5708003061004252
-          children [
-            Shape {
-              geometry Box {
-                size 0.01 0.01 0.01
-              }
-            }
-          ]
-          name "ir2"
-          boundingObject USE IRsensor
-          physics Physics {
-          }
-          type "infra-red"
-        }
-        DistanceSensor {
-          translation -0.055 0 0.01
-          rotation 0 0 1 -1.5708003061004252
-          children [
-            Shape {
-              geometry Box {
-                size 0.01 0.01 0.01
-              }
-            }
-          ]
-          name "ir3"
-          boundingObject USE IRsensor
-          physics Physics {
-          }
-          type "infra-red"
-        }
-        DistanceSensor {
-          translation -0.055 0 -0.01
-          rotation 0 0 1 -1.5708003061004252
-          children [
-            Shape {
-              geometry Box {
-                size 0.01 0.01 0.01
-              }
-            }
-          ]
-          name "ir4"
-          boundingObject USE IRsensor
-          physics Physics {
-          }
-          type "infra-red"
-        }
-        DistanceSensor {
-          translation -0.055 0 -0.03
-          rotation 0 0 1 -1.5708003061004252
-          children [
-            Shape {
-              geometry Box {
-                size 0.01 0.01 0.01
-              }
-            }
-          ]
-          name "ir5"
-          boundingObject USE IRsensor
-          physics Physics {
-          }
-          type "infra-red"
-        }
-        DistanceSensor {
-          translation -0.055 0 -0.05
-          rotation 0 0 1 -1.5708003061004252
-          children [
-            Shape {
-              geometry Box {
-                size 0.01 0.01 0.01
-              }
-            }
-          ]
-          name "ir6"
-          boundingObject USE IRsensor
-          physics Physics {
-          }
-          type "infra-red"
-        }
-        DistanceSensor {
-          translation -0.055 0 -0.07
-          rotation 0 0 1 -1.5708003061004252
-          children [
-            Shape {
-              geometry Box {
-                size 0.01 0.01 0.01
-              }
-            }
-          ]
-          name "ir7"
-          boundingObject USE IRsensor
-          physics Physics {
-          }
-          type "infra-red"
-        }
-        DistanceSensor {
-          translation -0.12 0.001 0
-          rotation 0 0 1 3.141592653589793
-          children [
-            Shape {
-              geometry Box {
-                size 0.01 0.01 0.01
-              }
-            }
-          ]
-          name "middle"
-          boundingObject USE IRsensor
-          physics Physics {
-          }
-          lookupTable [
-            0 0 0
-            0.8 800 0
-          ]
-        }
-      ]
-    }
-    DistanceSensor {
-      translation -0.09 -0.008 0.09
-      rotation 0 0 1 -1.5708003061004252
-      children [
-        DEF IRsensor Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "leftmost"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
-    }
-    DistanceSensor {
-      translation -0.09 -0.008 -0.09
-      rotation 0 0 1 -1.5708003061004252
-      children [
-        Shape {
-          geometry Box {
-            size 0.01 0.01 0.01
-          }
-        }
-      ]
-      name "rightmost"
-      boundingObject USE IRsensor
-      physics Physics {
-      }
-      type "infra-red"
-    }
-    DistanceSensor {
-      translation -0.02 0.01 0.09
-      rotation 0 1 0 -1.5707996938995747
-      children [
-        Solid {
-          translation 0.01 0.02 0.022
-          rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 2.0944
-          scale 0.001 0.001 0.001
-          children [
-            DEF ultrasound Shape {
-              appearance PBRAppearance {
-              }
-              geometry Mesh {
-                url [
-                  "Ultrasonic Sensor.STL"
-                ]
-              }
-            }
-          ]
-          boundingObject USE ultrasound
-        }
-      ]
-      name "left_ultrasound"
-      lookupTable [
-        0 0 0
-        0.2 20 0
-      ]
-    }
-    DistanceSensor {
-      translation -0.02 0.01 -0.09
-      rotation 0 1 0 1.5707996938995747
-      children [
-        Solid {
-          translation 0.01 0.02 0.022
-          rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 2.0944
-          scale 0.001 0.001 0.001
-          children [
-            DEF ultrasound Shape {
-              appearance PBRAppearance {
-              }
-              geometry Mesh {
-                url [
-                  "Ultrasonic Sensor.STL"
-                ]
-              }
-            }
-          ]
-          boundingObject USE ultrasound
-        }
-      ]
-      name "right_ultrasound"
-      lookupTable [
-        0 0 0
-        0.2 20 0
-      ]
-    }
-    DEF Color_sensor Group {
-      children [
-        DEF camera Solid {
-          translation -0.13 0.023 0
-          rotation 0 1 0 1.5707996938995747
-          children [
-            DEF color_sensor Shape {
-              appearance PBRAppearance {
-                baseColor 0 0.333333 1
-                metalness 0
-              }
-              geometry Box {
-                size 0.025 0.025 0.001
-              }
-            }
-            Camera {
-              translation 0 0 0.003
-              rotation 1 0 0 -0.5235996938995747
-              name "color_sensor"
-            }
-          ]
-          name "solid(5)"
-          boundingObject USE color_sensor
-          physics Physics {
-            density 100
-          }
-        }
-        DEF Camera_holder Solid {
-          translation -0.11 0.025 0
-          children [
-            DEF cam_holder Shape {
-              geometry Box {
-                size 0.01 0.05 0.01
-              }
-            }
-            Solid {
-              translation -0.006 0.02 0
-              rotation 0 0 1 0
-              children [
-                Shape {
-                  geometry Box {
-                    size 0.02 0.01 0.01
-                  }
-                }
-              ]
-              name "solid(1)"
-            }
-          ]
-          name "solid(4)"
-          boundingObject USE cam_holder
-          physics Physics {
-            density 100
-          }
-        }
-      ]
-    }
-  ]
-  boundingObject USE body
-  physics Physics {
-  }
-  controller "final_and_color_detection_controller"
 }

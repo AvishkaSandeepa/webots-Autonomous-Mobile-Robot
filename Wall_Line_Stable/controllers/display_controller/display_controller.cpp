@@ -2,7 +2,7 @@
 // Modified date  : 23/07/2021
 // License        : MIT
 
-//=============================================================================
+//==============================================================================
 //*                                  Preamble                                  *
 //==============================================================================
 
@@ -12,13 +12,21 @@
 #include <webots/DistanceSensor.hpp>
 #include <webots/PositionSensor.hpp>
 #include <webots/Camera.hpp>
+#include <webots/Display.hpp>
 #include <dos.h>
 using namespace webots;
 using namespace std;
 
 // defining variables
-#define TIME_STEP 16
+#define TIME_STEP 32
 #define MAX_SPEED 10
+
+// variables for display
+
+#define LIGHT_GRAY 0x505050
+#define RED 0xBB2222
+#define GREEN 0x22BB11
+#define BLUE 0x2222BB
 
 double baseSpeed = 4;
 double le = 0;
@@ -32,7 +40,7 @@ int count =0; // for dotted line
 bool begin_task = false;
 bool end_task = false;
 float free_forward = 4;
-
+float velocity_at_junction = 2;
 //variables for wall following
 float kpp = 0.5;//0.005;
 float kdd = 0.1;//0
@@ -89,6 +97,10 @@ string colors[4] = {"gray","red","green","blue"};
 // int color;
 Camera *camera;
 int get_color_at(int x, int y);
+
+
+Display *display;
+
 //==============================================================================
 //*                         Defining custom functions                          *
 //==============================================================================
@@ -142,26 +154,38 @@ double Mdriver(double speed){
   return speed;
 }
 //---------------------end of the driver() function----------------------------
-// function for getting color 
+// function for getting color
 
 int get_color_at(int x, int y){
   // x,y specify the point of color extraction
   const unsigned char* image = camera->getImage();
   int image_width = camera->getWidth();
-   
+
   int r = camera->imageGetRed(image, image_width, x, y);
   int g = camera->imageGetGreen(image, image_width, x, y);
   int b = camera->imageGetBlue(image, image_width, x, y);
-  
+
   int color;
   if(r > g && r > b) color = 1;
   if(g > r && g > b) color = 2;
   if(b > g && b > r) color = 3;
-  
+
   cout << "Detected color = " << colors[color] << '\n';
   return color;
 }
 
+void display_quadrant(string text){
+  // paint the display's background
+
+  // get the properties of the Display
+  int width = display->getWidth();
+  int height = display->getHeight();
+
+  display->setColor(LIGHT_GRAY);
+  display->fillRectangle(0, 0, width, height);
+  display->setColor(RED);
+  display->drawText(text, 10, 10);
+}
 
 //==============================================================================
 //*                                                                            *
@@ -219,11 +243,16 @@ int main(int argc, char **argv) {
   camera=robot->getCamera("color_sensor");
   camera->enable(TIME_STEP);
 
+  display=robot->getDisplay("display");
+
+
   //============================================================================
   //*                                 main loop                                *
   //============================================================================
 
   while (robot->step(TIME_STEP) != -1){
+
+
 
     // read sensors outputs
     for (int i = 0; i < 10 ; i++){
@@ -260,7 +289,7 @@ int main(int argc, char **argv) {
     // cout<<"  Right Most IR = " <<rightMostValue<<'\n';
     //cout<<"  sharp IR = " <<sharp_ir_value<<'\n';
 
-    
+
     //------------------------------testing-------------------------------------
 
     if (stage==1){
@@ -271,7 +300,7 @@ int main(int argc, char **argv) {
               stage = 1;
               begin_task = false;
               cout << "Move forward to identify the line." << '\n';
-   
+
              }else{
 
              leftMotor->setVelocity(0);
@@ -279,8 +308,8 @@ int main(int argc, char **argv) {
              begin_task = true;
              stage = 1;
              cout << "Identifed the line." << '\n';
-            
-           }    
+
+           }
        }else if (leftMostValue==1 && rightMostValue==0 ){
         if (countB>detectingTurn){
           countB=0;
@@ -291,8 +320,8 @@ int main(int argc, char **argv) {
           cout<<"=========left detected========= "<<count<<'\n';
           count = 0;}
           else{
-            leftMotor->setVelocity(2);
-            rightMotor->setVelocity(2);
+            leftMotor->setVelocity(velocity_at_junction);
+            rightMotor->setVelocity(velocity_at_junction);
             countB=countB+1;
             cout<<"=========CountB========= "<<countB<<'\n';
           }
@@ -305,8 +334,8 @@ int main(int argc, char **argv) {
             cout<<"right detected"<<count<<'\n';
             count = 0;}
             else{
-              leftMotor->setVelocity(2);
-              rightMotor->setVelocity(2);
+              leftMotor->setVelocity(velocity_at_junction);
+              rightMotor->setVelocity(velocity_at_junction);
               countB=countB+1;
               cout<<"=========CountB========= "<<countB<<'\n';
             }
@@ -319,8 +348,8 @@ int main(int argc, char **argv) {
               cout<<"############################################################ T junction detected ######################################################################## "<<count<<'\n';
               count = 0;}
               else{
-                leftMotor->setVelocity(2);
-                rightMotor->setVelocity(2);
+                leftMotor->setVelocity(velocity_at_junction);
+                rightMotor->setVelocity(velocity_at_junction);
                 countB=countB+1;
                 cout<<"=========CountB========= "<<countB<<'\n';
                 lpos = leftPsVal;
@@ -379,13 +408,13 @@ int main(int argc, char **argv) {
               mleft = 0; mright = 0;
               // advancing is over.
               if (wrongPillar==1 or box_detected == true){
-              
+
                 if ((leftPsVal < lpos + free_forward) || (rightPsVal <  rpos + free_forward)){  // Needs to calibrate
               leftMotor->setVelocity(8);
               rightMotor->setVelocity(8);
-             
-             
-   
+
+
+
              }else{
 
              leftMotor->setVelocity(0);
@@ -398,11 +427,11 @@ int main(int argc, char **argv) {
                   circular = 5;
                   box_detected = false;
                 }
-             
-            
+
+
            }
-              
-               
+
+
               }
               // taking the left turn
               else {
@@ -440,24 +469,24 @@ int main(int argc, char **argv) {
               mleft = 0; mright = 0;
               // advancing is over.
               if (wrongPillar==1){
-              
+
                 if ((leftPsVal < lpos + free_forward) || (rightPsVal <  rpos + free_forward)){  // Needs to calibrate
               leftMotor->setVelocity(8);
               rightMotor->setVelocity(8);
-             
-             
-   
+
+
+
              }else{
 
              leftMotor->setVelocity(0);
              rightMotor->setVelocity(0);
                 wrongPillar=0;
                 stage=7;
-               
-             
-            
+
+
+
            }
-                
+
               }
               // taking the left turn
               else {
@@ -541,7 +570,7 @@ int main(int argc, char **argv) {
                   }
                 }
               }
-              
+
             }else if(gate_count == 2 && stage == 4){
             cout << "Task Completed " << '\n';
             if ((leftPsVal < lpos + free_forward) || (rightPsVal < rpos + free_forward)){  // Needs to calibrate
@@ -578,12 +607,14 @@ int main(int argc, char **argv) {
               if (circular == 0){                 // turn left
                 circular = 1;
                 state = 1;
+                display_quadrant("Q = 1");
 
               }else if (circular == 1){          // line follow & turn right
                 turn  = turn + additional;
                 stage = 1;
                 circular = 2;
               }else if (circular == 2){         // check the box availability
+                display_quadrant(" ");
                 turn  = turn - additional;
                 if (sharp_ir_value == 1){         // If detected, go 22
                   cout<<"================box detected=========$$$$$$$$$$$$$$$$$$$$$$$"<<"\n";
@@ -643,6 +674,7 @@ int main(int argc, char **argv) {
                 stage = 3;
                 circular = 5;
               }else if (circular == 5){         // line follow & turn right
+                display_quadrant("Q = 2");
                 stage = 1;
                 circular = 6;
               }else if (circular == 6){        // line follow & turn right
