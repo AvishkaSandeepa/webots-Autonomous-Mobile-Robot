@@ -55,7 +55,7 @@ double rightWheelPrevSpeed;
 // Variables related to state of the task
 int stage = 1;
 int count2 = 0;
-int detectingTurn=1;
+int detectingTurn=2;
 
 //Variables for pillar detecting
 int state = 0; // after the circular area
@@ -66,6 +66,8 @@ int colorDiff = 1; // absolute difference between detected front and top colors
 int wrongPillar=0; // if the count of pillars is wrong, make this flag 1
 int finishedcircle=1;
 bool rampOver = false;
+double distanceToLeftPillars;
+double distanceToRightPillars;
 
 // variables for circular maze
 int circular = 0; // Initially circular algorithm is not activated
@@ -317,7 +319,7 @@ int main(int argc, char **argv) {
               }
             }else if(IRsensorValues[0]==0 && IRsensorValues[1]==0 && IRsensorValues[2]==0 && IRsensorValues[3]==0 && IRsensorValues[4]==0 && IRsensorValues[5]==0 && IRsensorValues[6]==0 && IRsensorValues[7]==0){
               stage = 5;
-            }else if((distanceToRightWall <=15 || distanceToLeftWall <=15)){
+            }else if((distanceToRightWall <=15 || distanceToLeftWall <=15) && wrongPillar==0){
               stage = 20;
               cout << "Wall following started" << '\n';
             }else if(IRsensorValues[2]==1 && IRsensorValues[3]==1 && IRsensorValues[4]==1 && IRsensorValues[5]==1 && rampOver == true && gateCount <3){
@@ -367,18 +369,16 @@ int main(int argc, char **argv) {
 
               leftWheelPrevSpeed = 0; rightWheelPrevSpeed = 0;
               // advancing is over.
-              if (wrongPillar==1 or box_detected == true){
+              if (wrongPillar==1 or box_detected == true){ // code to run to ignore left turn at top of ramp  when pillar count is wrong and at circle.
 
-                if ((leftPsVal < leftWheelPSValue + freelyForward) || (rightPsVal <  rightWheelPSValue + freelyForward)){  // Needs to calibrate
+              if ((leftPsVal < leftWheelPSValue + freelyForward) || (rightPsVal <  rightWheelPSValue + freelyForward)){
               leftMotor->setVelocity(8);
               rightMotor->setVelocity(8);
 
-
-
              }else{
 
-             leftMotor->setVelocity(0);
-             rightMotor->setVelocity(0);
+                leftMotor->setVelocity(0);
+                rightMotor->setVelocity(0);
                 wrongPillar=0;
                 stage=6;
                 if(box_detected){
@@ -428,23 +428,18 @@ int main(int argc, char **argv) {
 
               leftWheelPrevSpeed = 0; rightWheelPrevSpeed = 0;
               // advancing is over.
-              if (wrongPillar==1){
+              if (wrongPillar==1){ // Code to run at top of ramp to ignore right turn when pillar count is wrong.
 
-                if ((leftPsVal < leftWheelPSValue + freelyForward) || (rightPsVal <  rightWheelPSValue + freelyForward)){  // Needs to calibrate
+              if ((leftPsVal < leftWheelPSValue + freelyForward) || (rightPsVal <  rightWheelPSValue + freelyForward)){
               leftMotor->setVelocity(8);
               rightMotor->setVelocity(8);
 
-
-
              }else{
 
-             leftMotor->setVelocity(0);
-             rightMotor->setVelocity(0);
+                leftMotor->setVelocity(0);
+                rightMotor->setVelocity(0);
                 wrongPillar=0;
                 stage=7;
-
-
-
            }
 
               }
@@ -889,7 +884,7 @@ int main(int argc, char **argv) {
             //.......................ramp and pole detection.................................
 
             else if (stage == 4 && colorDiff == 2 && finishedcircle==1){
-              cout<<"stage 4 color diffeerence = 2"<<'\n';
+              cout<<"stage 4 color difference = 2"<<'\n';
               if ((leftPsVal < leftWheelPSValue + advancedonRamp) || (rightPsVal < rightWheelPSValue + advancedonRamp)){
                 leftMotor->setVelocity(forwardSpeed);
                 rightMotor->setVelocity(forwardSpeed);
@@ -942,18 +937,13 @@ int main(int argc, char **argv) {
                   stage = 7;
 
                 }
-
-
               }
-
             }
-
             else if (stage==6){
-              double rampSpeed = 3;
+              double rampSpeed = 3; //Speed to travel on ramp area
               cout<<"stage 6 "<<"No: of Poles = " << noOfPoles<<"colorDiff = "<<colorDiff<<'\n';
               if (leftMostValue==1 && rightMostValue==0 && noOfPoles==colorDiff ){ // code for robot when poles are correctly found
                 stage = 2;
-
                 rampOver = true;
                 leftWheelPSValue = leftPsVal;
                 rightWheelPSValue = rightPsVal;
@@ -964,20 +954,20 @@ int main(int argc, char **argv) {
                   rightWheelPSValue = rightPsVal;
                   noOfPoles = 0;
                   cout<<"wrong turn"<<count1<<'\n';
-                  stage = 30;
+                  stage = 9;
                 }
                 else{
                   //.........function for pillar detecting..........
 
-                  double distanceToRightWall=right_ultrasound->getValue();
-                  double distanceToLeftWall=left_ultrasound->getValue();
-                  cout <<"LS- "<<distanceToLeftWall<<"      RS- "<<distanceToRightWall<< endl;
+                  distanceToRightPillars=right_ultrasound->getValue();
+                  distanceToLeftPillars=left_ultrasound->getValue();
+                  cout <<"LeftSensorDistance- "<<distanceToLeftPillars<<"      RightSensorDistance- "<<distanceToRightPillars<< endl;
 
-                  if(distanceToLeftWall<=15.0 && flagPillar==false){
+                  if(distanceToLeftPillars<=15.0 && flagPillar==false){  //This is done to avoid count of number of poles increasing when same pole is detected more than once.
                     noOfPoles+=1;
                     flagPillar = true;
                   }
-                  else if (distanceToLeftWall>15.0 && flagPillar==true){
+                  else if (distanceToLeftPillars>15.0 && flagPillar==true){
                     flagPillar=false;
                   }
                   else{
@@ -991,62 +981,47 @@ int main(int argc, char **argv) {
                     double right = rampSpeed - offset;
 
                     //---call a function to map the above speds within its maximum & minimum speed---
-
                     double leftSpeed = Mdriver(left);
                     double rightSpeed = Mdriver(right);
 
-
                     leftWheelPrevSpeed = leftSpeed;
                     rightWheelPrevSpeed = rightSpeed;
-
                     //----------------------pass the speeds to the motor for run------------------------------
-
                     leftMotor->setVelocity(leftSpeed);
                     rightMotor->setVelocity(rightSpeed);
 
-
-                    //-------------print the sensor outputs from the IR array & current offset-----------------
-                    cout<<"ir0 = "<<IRsensorValues[0]<<"  ";
-                    cout<<"ir1 = "<<IRsensorValues[1]<<"  ";
-                    cout<<"ir2 = "<<IRsensorValues[2]<<"  ";
-                    cout<<"ir3 = "<<IRsensorValues[3]<<"  ";
-                    cout<<"ir4 = "<<IRsensorValues[4]<<"  ";
-                    cout<<"ir5 = "<<IRsensorValues[5]<<"  ";
-                    cout<<"ir6 = "<<IRsensorValues[6]<<"  ";
-                    cout<<"ir7 = "<<IRsensorValues[7]<<'\n';
-
-                    cout<<" offset : "<<offset<<'\n';
                   }}
                 }
                 else if (stage==7){
-                  double rampSpeed = 3;
-                  cout<<"************************stage 7 color dif 1**********************"<<"No: of Poles = " << noOfPoles<<"colorDiff = "<<colorDiff<<'\n';
+                  double rampSpeed = 3; //Speed to travel on ramp area
+                  cout<<"stage 7 "<<"No: of Poles = " << noOfPoles<<"colorDiff = "<<colorDiff<<'\n';
                   if (leftMostValue==0 && rightMostValue==1 && noOfPoles==colorDiff){
 
                     stage = 3;
                     rampOver = true;
                     leftWheelPSValue = leftPsVal;
                     rightWheelPSValue = rightPsVal;
-                    cout<<"###right detected ramp#### "<<count1<<'\n';
+                    cout<<"right detected"<<count1<<'\n';
                     count1 = 0;}
                     else if (leftMostValue==0 && rightMostValue==1 && noOfPoles!=colorDiff){
                       leftWheelPSValue = leftPsVal;
                       rightWheelPSValue = rightPsVal;
-                      cout<<"###wrong turnValue#### "<<count1<<'\n';
+                      cout<<"wrong turn"<<count1<<'\n';
                       noOfPoles = 0;
                       stage = 8;
                     }
                     else{
-                      double distanceToRightWall=right_ultrasound->getValue();
-                      double distanceToLeftWall=left_ultrasound->getValue();
-                      cout <<"LSramp- "<<distanceToLeftWall<<"      RS- "<<distanceToRightWall<< endl;
-                      if(distanceToRightWall<=15.0 && flagPillar==false){
+                      distanceToLeftPillars=left_ultrasound->getValue();
+                      distanceToRightPillars=right_ultrasound->getValue();
+                      cout <<"LeftSensorDistance- "<<distanceToLeftPillars<<"      RightSensorDistance- "<<distanceToRightPillars<< endl;
+                      if(distanceToRightPillars<=15.0 && flagPillar==false){ //This is done to avoid count of number of poles increasing when same pole is detected more than once.
                         noOfPoles+=1;
                         flagPillar = true;
                       }
-                      else if (distanceToRightWall>15.0 && flagPillar==true){
+                      else if (distanceToRightPillars>15.0 && flagPillar==true){
                         flagPillar=false;
                       }
+                      else{
                       count1 = 0;
 
                       double offset = PID_calc(); //get the offset by calling pre defined function
@@ -1061,35 +1036,23 @@ int main(int argc, char **argv) {
                       double leftSpeed = Mdriver(left);
                       double rightSpeed = Mdriver(right);
 
-
                       leftWheelPrevSpeed = leftSpeed;
                       rightWheelPrevSpeed = rightSpeed;
 
                       //----------------------pass the speeds to the motor for run------------------------------
-
                       leftMotor->setVelocity(leftSpeed);
                       rightMotor->setVelocity(rightSpeed);
 
-
-                      //-------------print the sensor outputs from the IR array & current offset-----------------
-                      cout<<"ir0 = "<<IRsensorValues[0]<<"  ";
-                      cout<<"ir1 = "<<IRsensorValues[1]<<"  ";
-                      cout<<"ir2 = "<<IRsensorValues[2]<<"  ";
-                      cout<<"ir3 = "<<IRsensorValues[3]<<"  ";
-                      cout<<"ir4 = "<<IRsensorValues[4]<<"  ";
-                      cout<<"ir5 = "<<IRsensorValues[5]<<"  ";
-                      cout<<"ir6 = "<<IRsensorValues[6]<<"  ";
-                      cout<<"ir7 = "<<IRsensorValues[7]<<'\n';
-
-                      cout<<" offset : "<<offset<<'\n';
-                    }
+                    }}
                   }
+                  // Need two 180 degree turn functions as we need to turn robot 180 degrees in two different dirrections.
+                  // Else robot will collide with the pillars. As they are too close to L-Junction.
                   else if(stage==8){
 
-                    if ((leftPsVal > leftWheelPSValue - 8) || (rightPsVal < rightWheelPSValue + 8)){  // Needs to calibrate(turnValue 180)
+                    if ((leftPsVal > leftWheelPSValue - 8) || (rightPsVal < rightWheelPSValue + 8)){  //turning 180 degree when pillar count is wrong.
                       leftMotor->setVelocity(-8);
                       rightMotor->setVelocity(8);
-                      cout<<"###180 turnValue#### "<<count1<<'\n';
+                      cout<<"180 turn "<<'\n';
 
                     }else{
                       leftMotor->setVelocity(0);
@@ -1098,12 +1061,12 @@ int main(int argc, char **argv) {
                       stage=1;
                     }
                   }
-                  else if(stage==30){
+                  else if(stage==9){ //turning 180 degree when pillar count is wrong.
 
-                    if ((leftPsVal < leftWheelPSValue + 8) || (rightPsVal > rightWheelPSValue - 8)){  // Needs to calibrate(turnValue 180)
+                    if ((leftPsVal < leftWheelPSValue + 8) || (rightPsVal > rightWheelPSValue - 8)){
                       leftMotor->setVelocity(8);
                       rightMotor->setVelocity(-8);
-                      cout<<"###180 turnValue#### "<<count1<<'\n';
+                      cout<<"180 turn "<<'\n';
 
                     }else{
                       leftMotor->setVelocity(0);
@@ -1112,43 +1075,7 @@ int main(int argc, char **argv) {
                       stage=1;
                     }
                   }
-                  //turned right and pillar count1 is wrong
-                  else if(stage ==9 && wrongPillar==1){
-                    if ((leftPsVal < leftWheelPSValue + 5) || (rightPsVal < rightWheelPSValue + 5)){
-                      leftMotor->setVelocity(8);
-                      rightMotor->setVelocity(8);
 
-                      leftWheelPrevSpeed = 8;
-                      rightWheelPrevSpeed = 8;
-                    } else{
-                      leftMotor->setVelocity(0);
-                      rightMotor->setVelocity(0);
-
-                      leftWheelPrevSpeed = 0;
-                      rightWheelPrevSpeed = 0;
-                      wrongPillar=0;
-                      stage=6;
-
-                    }  }
-
-                    //turned left and pillar count1 is wrong
-                    else if(stage ==10 && wrongPillar==1){
-                      if ((leftPsVal < leftWheelPSValue + 5) || (rightPsVal < rightWheelPSValue + 5)){
-                        leftMotor->setVelocity(8);
-                        rightMotor->setVelocity(8);
-
-                        leftWheelPrevSpeed = 8;
-                        rightWheelPrevSpeed = 8;
-                      } else{
-                        leftMotor->setVelocity(0);
-                        rightMotor->setVelocity(0);
-
-                        leftWheelPrevSpeed = 0;
-                        rightWheelPrevSpeed = 0;
-                        wrongPillar=0;
-                        stage=7;
-
-                      }  }
 //============================ Gate area algorithm ===========================
                       else if (stage == 580){
                       cout << "Execute gate area" << '\n';
