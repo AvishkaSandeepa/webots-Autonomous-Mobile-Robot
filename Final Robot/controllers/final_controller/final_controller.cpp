@@ -305,7 +305,7 @@ int main(int argc, char **argv) {
               stage = 4;
               leftWheelPSValue = leftPsVal;
               rightWheelPSValue = rightPsVal;
-              cout<<"############################################################ T junction detected ######################################################################## "<<count1<<'\n';
+              cout<<" T junction detected "<<count1<<'\n';
               count1 = 0;}
               else{
                 leftMotor->setVelocity(2);
@@ -549,7 +549,7 @@ int main(int argc, char **argv) {
             //-----------------------------dotted line area-----------------------------
             else if (stage == 5){
               count1++;
-              if (count1 < 8){
+              if (count1 < 8){ // Going forward when line is not detected.
                 leftMotor->setVelocity(leftWheelPrevSpeed);
                 rightMotor->setVelocity(rightWheelPrevSpeed);
                 stage = 1;
@@ -889,7 +889,7 @@ int main(int argc, char **argv) {
             //.......................ramp and pole detection.................................
 
             else if (stage == 4 && colorDiff == 2 && finishedcircle==1){
-              cout<<"************************stage 4 color dif 2**********************"<<'\n';
+              cout<<"stage 4 color diffeerence = 2"<<'\n';
               if ((leftPsVal < leftWheelPSValue + advancedonRamp) || (rightPsVal < rightWheelPSValue + advancedonRamp)){
                 leftMotor->setVelocity(forwardSpeed);
                 rightMotor->setVelocity(forwardSpeed);
@@ -905,14 +905,13 @@ int main(int argc, char **argv) {
                 leftWheelPrevSpeed = 0; rightWheelPrevSpeed = 0;
 
                 if(rightPsVal < rightWheelPSValue + advancedonRamp + turnValue){
-                  cout<<"*******stopped then turnValue left*****"<<'\n';
+                  cout<<"stopped then turn left on top of ramp"<<'\n';
                   leftMotor->setVelocity(0);
                   rightMotor->setVelocity(sharpturnSpeed);
 
                   leftWheelPrevSpeed = 0; rightWheelPrevSpeed = sharpturnSpeed;
 
                 }else{
-                  //count1 = 0;
                   stage = 6;
                 }
 
@@ -922,7 +921,7 @@ int main(int argc, char **argv) {
 
 
             }else if (stage == 4 && colorDiff == 1 && finishedcircle == 1){
-              cout<<"************************stage 4 color dif 1**********************"<<'\n';
+              cout<<"stage 4 color difference = 1"<<'\n';
               if ((leftPsVal < leftWheelPSValue + advancedonRamp) || (rightPsVal < rightWheelPSValue + advancedonRamp)){
                 leftMotor->setVelocity(forwardSpeed);
                 rightMotor->setVelocity(forwardSpeed);
@@ -934,13 +933,12 @@ int main(int argc, char **argv) {
                 leftWheelPrevSpeed = 0; rightWheelPrevSpeed = 0;
 
                 if(leftPsVal < leftWheelPSValue + advancedonRamp + turnValue){
-                  cout<<"*******stopped then turnValue right*****"<<'\n';
+                  cout<<"stopped then turn right on top of ramp"<<'\n';
                   leftMotor->setVelocity(sharpturnSpeed);
                   rightMotor->setVelocity(0);
 
                   leftWheelPrevSpeed = sharpturnSpeed; rightWheelPrevSpeed = 0;
                 }else{
-                  //count1 = 0;
                   stage = 7;
 
                 }
@@ -952,20 +950,20 @@ int main(int argc, char **argv) {
 
             else if (stage==6){
               double rampSpeed = 3;
-              cout<<"************************stage 6 color dif 2**********************"<<"No: of Poles = " << noOfPoles<<"colorDiff = "<<colorDiff<<'\n';
-              if (leftMostValue==1 && rightMostValue==0 && noOfPoles==colorDiff ){ // code for robot when poles ae correctly found
+              cout<<"stage 6 "<<"No: of Poles = " << noOfPoles<<"colorDiff = "<<colorDiff<<'\n';
+              if (leftMostValue==1 && rightMostValue==0 && noOfPoles==colorDiff ){ // code for robot when poles are correctly found
                 stage = 2;
 
                 rampOver = true;
                 leftWheelPSValue = leftPsVal;
                 rightWheelPSValue = rightPsVal;
-                cout<<"###left detected#### "<<count1<<'\n';
+                cout<<"left detected "<<count1<<'\n';
                 count1 = 0;}
                 else if (leftMostValue==1 && rightMostValue==0 && noOfPoles!=colorDiff){ // code for robot when poles are not correctly found
                   leftWheelPSValue = leftPsVal;
                   rightWheelPSValue = rightPsVal;
                   noOfPoles = 0;
-                  cout<<"###wrong turnValue#### "<<count1<<'\n';
+                  cout<<"wrong turn"<<count1<<'\n';
                   stage = 30;
                 }
                 else{
