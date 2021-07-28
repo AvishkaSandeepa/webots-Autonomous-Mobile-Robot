@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.20491725561358742 -0.91654465030542 -0.34344551583666266 4.142447598328661
-  position 4.166911279742264 2.9461983407440693 -2.5388084234265165
+  orientation -0.042450449335942414 0.9946738998845707 0.09392439640261675 2.2966220031014766
+  position 2.2438261688521584 0.14851078950864788 -2.119276934844298
 }
 TexturedBackground {
 }
@@ -1999,8 +1999,8 @@ DEF Ramp_Area Group {
   ]
 }
 DEF CUBE Solid {
-  translation 1.791289997716414 0.024960778654637368 -1.6121200085223404
-  rotation 0 0.9999999999997661 0 -0.7853996938995746
+  translation 1.791289997716414 0.024960760018447783 -1.6121200085223404
+  rotation -1.2927208157027412e-16 1 5.626845528999462e-17 -0.7853996938994375
   children [
     DEF Cube_faces Group {
       children [
@@ -2167,8 +2167,8 @@ DEF Gate_A2 Solid {
   name "solid(1)"
 }
 DEF gate_11 Robot {
-  translation 2.1243621667280936 0.024814151477771332 -4.280001044059934
-  rotation 3.826363002249342e-05 1.139812810617963e-05 -0.9999999992029888 -1.5690706460746977
+  translation 2.0857596345653593 0.0451637635646389 -4.279512230049089
+  rotation 0.007663840129387453 0.003346465172052503 -0.9999650327513074 -2.4945564330297443
   children [
     Solid {
       translation 0 0.025 0
@@ -2189,7 +2189,7 @@ DEF gate_11 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position -4.6080009798505355
+        position -5.6630841724725185
         axis 0 0 1
         anchor 0 0.025 -0.03
       }
@@ -2203,7 +2203,7 @@ DEF gate_11 Robot {
       ]
       endPoint Solid {
         translation 0 0.025 -0.03
-        rotation 0 0 -1 4.6080009798505355
+        rotation 0 0 -1 5.6630841724725185
         children [
           DEF axis Shape {
             appearance PBRAppearance {
@@ -2255,8 +2255,8 @@ DEF gate_11 Robot {
   controller "gate_controller1"
 }
 DEF gate_12 Robot {
-  translation 0.02563783394185629 0.024814151390781573 -4.229999023728704
-  rotation 0.7064963961579096 0.7077166392966643 2.6048443243471662e-05 3.141578520396729
+  translation 0.06424036488008221 0.045163763560972764 -4.230487945035867
+  rotation 0.9480944939787684 0.31790572617046836 0.0072649676647841225 3.135247814239382
   children [
     Solid {
       translation 0 0.025 0
@@ -2277,7 +2277,7 @@ DEF gate_12 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position -4.608000979850464
+        position -5.66308417246121
         axis 0 0 1
         anchor 0 0.025 -0.03
       }
@@ -2291,7 +2291,7 @@ DEF gate_12 Robot {
       ]
       endPoint Solid {
         translation 0 0.025 -0.03
-        rotation 0 0 -0.9999999999999999 4.608000979850464
+        rotation 0 0 -1 5.66308417246121
         children [
           DEF axis Shape {
             appearance PBRAppearance {
@@ -2343,8 +2343,8 @@ DEF gate_12 Robot {
   controller "gate_controller1"
 }
 DEF gate_21 Robot {
-  translation 2.2378614504377118e-08 -4.8181978838126444e-05 -3.5599999776959876
-  rotation 0.3236887872761793 0.00016819546183780682 -0.9461635908773719 -7.37963538040972e-05
+  translation 2.2379475378659482e-08 -4.9424331461725424e-05 -3.559999977695694
+  rotation 0.3236876679377117 0.00016394982944242974 -0.946163974554886 -7.570737919966491e-05
   children [
     Solid {
       translation 0 0.025 0
@@ -2365,7 +2365,7 @@ DEF gate_21 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 1.473629902650128e-06
+        position 1.5115639935198502e-06
         axis 0 0 1
         anchor 0 0.025 -0.03
       }
@@ -2379,7 +2379,7 @@ DEF gate_21 Robot {
       ]
       endPoint Solid {
         translation 0 0.025 -0.03
-        rotation 0 0 0.9999999999999999 1.4736336845250602e-06
+        rotation 0 0 1 1.511421481741222e-06
         children [
           DEF axis Shape {
             appearance PBRAppearance {
@@ -2431,8 +2431,8 @@ DEF gate_21 Robot {
   controller "gate_controller2"
 }
 DEF gate_22 Robot {
-  translation 2.149999999918186 -4.818197883812991e-05 -3.560000000020463
-  rotation 3.491171161185759e-05 0.9999999993192623 1.1943525940470107e-05 3.141592652113758
+  translation 2.1499999999173243 -4.942433146172889e-05 -3.5600000000207572
+  rotation 3.581579746179376e-05 0.9999999992835492 1.2252772310686727e-05 3.141592652113758
   children [
     Solid {
       translation 0 0.025 0
@@ -2453,7 +2453,7 @@ DEF gate_22 Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 1.4736299126999857e-06
+        position 1.5115640039541142e-06
         axis 0 0 1
         anchor 0 0.025 -0.03
       }
@@ -2467,7 +2467,7 @@ DEF gate_22 Robot {
       ]
       endPoint Solid {
         translation 0 0.025 -0.03
-        rotation 0 0 0.9999999999999999 1.4736336845250602e-06
+        rotation 0 0 1 1.511421481741222e-06
         children [
           DEF axis Shape {
             appearance PBRAppearance {
@@ -2519,8 +2519,8 @@ DEF gate_22 Robot {
   controller "gate_controller2"
 }
 DEF main Robot {
-  translation 1.64164 0.0405209 -1.76637
-  rotation -0.0032409337091845306 0.9999939007911003 -0.0013018176875895968 2.37799847151057
+  translation 1.6705242112640049 0.04031772784866559 -1.7386859204016984
+  rotation -0.003168550486448148 0.999994170888886 -0.001272193406734625 2.377998313986309
   children [
     DEF body Shape {
       appearance PBRAppearance {
@@ -2533,7 +2533,7 @@ DEF main Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 434.28210144833093
+        position 434.28210144835464
         axis 0 0 1
         anchor 0.06 0 -0.11
       }
@@ -2547,7 +2547,7 @@ DEF main Robot {
       ]
       endPoint Solid {
         translation 0.06 0 -0.11
-        rotation -0.8760661618489198 -0.3409610409873434 -0.340959892937761 4.5804563648399
+        rotation -0.8760661618417772 -0.3409610409965192 -0.34095989294693707 4.580456364831819
         children [
           DEF leftWheel Shape {
             geometry Cylinder {
@@ -2564,7 +2564,7 @@ DEF main Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 532.726313041262
+        position 532.7263130412433
         axis 0 0 1
         anchor 0.06 0 0.11
       }
@@ -2578,7 +2578,7 @@ DEF main Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation 0.36033600871453986 0.6596062805706959 -0.6596040596110423 3.833296519603508
+        rotation 0.36033600872148724 0.6596062805687982 -0.6596040596091447 3.833296519615806
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2597,19 +2597,19 @@ DEF main Robot {
       children [
         BallJoint {
           jointParameters BallJointParameters {
-            position 28.206784972493626
+            position 28.206784098059096
             anchor -0.1 -0.021 0
           }
           jointParameters2 JointParameters {
-            position 0.7352077563948947
+            position 0.7352072665994797
           }
           jointParameters3 JointParameters {
-            position 38.66516693704628
+            position 38.665162458987076
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.09993888885513223 -0.021110238984792033 -1.4342862126824268e-05
-            rotation -0.017309277467324313 0.9327554164679672 -0.3600940459980254 4.852549901806764
+            translation -0.10001996924678208 -0.02089601027526355 -6.979819370831343e-05
+            rotation -0.9516210150171431 0.15082112369684877 0.2677133400198096 4.052437570285177
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
@@ -2878,13 +2878,11 @@ DEF main Robot {
         0.2 20 0
       ]
     }
-    Camera {
-      translation -0.13 -0.02 0
-      rotation 0 1 0 1.5707996938995747
+    DEF Color_sensor Group {
       children [
-        Solid {
-          translation -4.210547557015332e-05 -0.008670595801034015 -3.70551019104326e-05
-          rotation -0.9999988404300378 0.001522487898587345 -3.419325223093243e-05 0.006481443379010025
+        DEF camera Solid {
+          translation -0.13 0.023 0
+          rotation 0 1 0 1.5707996938995747
           children [
             DEF color_sensor Shape {
               appearance PBRAppearance {
@@ -2895,18 +2893,50 @@ DEF main Robot {
                 size 0.025 0.025 0.001
               }
             }
+            Camera {
+              translation 0 0 0.003
+              rotation 1 0 0 -0.5235996938995747
+              name "color_sensor"
+            }
           ]
+          name "solid(5)"
           boundingObject USE color_sensor
           physics Physics {
             density 100
           }
         }
+        DEF Camera_holder Solid {
+          translation -0.11 0.025 0
+          children [
+            DEF cam_holder Shape {
+              geometry Box {
+                size 0.01 0.05 0.01
+              }
+            }
+            Solid {
+              translation -0.006 0.02 0
+              rotation 0 0 1 0
+              children [
+                Shape {
+                  geometry Box {
+                    size 0.02 0.01 0.01
+                  }
+                }
+              ]
+              name "solid(1)"
+            }
+          ]
+          name "solid(4)"
+          boundingObject USE cam_holder
+          physics Physics {
+            density 100
+          }
+        }
       ]
-      name "color_sensor"
     }
   ]
   boundingObject USE body
   physics Physics {
   }
-  controller "robot_arm2_controller"
+  controller "get_color_controller"
 }
