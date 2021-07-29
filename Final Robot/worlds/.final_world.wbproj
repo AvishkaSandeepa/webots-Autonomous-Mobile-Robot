@@ -5,7 +5,7 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000fa01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 2 "controllers/gate_controller1/gate_controller1.cpp" "controllers/gate_controller2/gate_controller2.cpp" "controllers/final_controller/final_controller.cpp"
+textFiles: 0 "controllers/final_controller/final_controller.cpp"
 globalOptionalRendering: CameraFrustums::CoordinateSystem::DistanceSensorRays
 consoles: Console:All:All
 renderingDevicePerspectives: robot:color_sensor;1;2.29688;0;0
