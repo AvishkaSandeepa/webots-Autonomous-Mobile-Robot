@@ -2575,7 +2575,7 @@ DEF main Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation 0.12208304864258022 -0.7018187252255994 0.7018163621324656 3.384555635126307
+        rotation 0.1220830486425802 -0.7018187252255994 0.7018163621324656 3.384555635126307
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2605,8 +2605,8 @@ DEF main Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.09993965595721653 -0.021111148595986524 9.43438516899474e-06
-            rotation -0.14430235641795422 0.9510197619136926 0.27338295920164674 2.294833447174199
+            translation -0.10007680840635068 -0.020925179160039026 -6.772541719435813e-05
+            rotation -0.9728481998694019 -0.1993253427807371 -0.11762562533821294 3.908684114021628
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
