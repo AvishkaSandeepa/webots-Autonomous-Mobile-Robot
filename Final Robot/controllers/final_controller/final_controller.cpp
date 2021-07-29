@@ -24,14 +24,16 @@ bool beginTask = false;
 bool endTask = false;
 double freelyForward = 4;
 
-double baseSpeed = 8;
+double baseSpeed = 4;
 double lastErrorLF = 0;
 double setPositionLF = 3500;
 double IRsensorValues[10];
 double leftWheelPSValue;
 double rightWheelPSValue;
 double turnValue = 8.5;
+double rampAdditionalTurn = 0;
 double additionalturnValue = 2;
+double turnValueInitial = 8.5;
 
 
 int count1 = 0; // for dotted line
@@ -55,7 +57,7 @@ double rightWheelPrevSpeed;
 // Variables related to state of the task
 int stage = 1;
 int count2 = 0;
-int detectingTurn = 2;
+int detectingTurn = 3;
 
 //Variables for pillar detecting
 int state = 0; // after the circular area
@@ -282,8 +284,8 @@ int main (int argc, char** argv) {
                     cout << "=========left detected========= " << count1 << '\n';
                     count1 = 0;
                 } else {
-                    leftMotor->setVelocity (2);
-                    rightMotor->setVelocity (2);
+                    leftMotor->setVelocity (10);
+                    rightMotor->setVelocity (10);
                     count2 = count2 + 1;
                     cout << "=========count2========= " << count2 << '\n';
                 }
@@ -296,8 +298,8 @@ int main (int argc, char** argv) {
                     cout << "right detected" << count1 << '\n';
                     count1 = 0;
                 } else {
-                    leftMotor->setVelocity (2);
-                    rightMotor->setVelocity (2);
+                    leftMotor->setVelocity (10);
+                    rightMotor->setVelocity (10);
                     count2 = count2 + 1;
                     cout << "=========count2========= " << count2 << '\n';
                 }
@@ -310,8 +312,8 @@ int main (int argc, char** argv) {
                     cout << " T junction detected " << count1 << '\n';
                     count1 = 0;
                 } else {
-                    leftMotor->setVelocity (2);
-                    rightMotor->setVelocity (2);
+                    leftMotor->setVelocity (10);
+                    rightMotor->setVelocity (10);
                     count2 = count2 + 1;
                     cout << "=========count2========= " << count2 << '\n';
                     leftWheelPSValue = leftPsVal;
@@ -371,7 +373,7 @@ int main (int argc, char** argv) {
                 // advancing is over.
                 if ( wrongPillar == 1 or box_detected == true ) { // code to run to ignore left turn at top of ramp  when pillar count is wrong and at circle.
 
-                    if ( ( leftPsVal < leftWheelPSValue + freelyForward ) || ( rightPsVal < rightWheelPSValue + freelyForward ) ) {
+                    if ( ( leftPsVal < leftWheelPSValue + 0.5*freelyForward ) || ( rightPsVal < rightWheelPSValue + 0.5*freelyForward ) ) {
                         leftMotor->setVelocity (8);
                         rightMotor->setVelocity (8);
 
@@ -565,7 +567,8 @@ int main (int argc, char** argv) {
                 stage = 1;
                 circular = 2;
             } else if ( circular == 2 ) {         // check the box availability
-                turnValue = turnValue - additionalturnValue;
+                turnValue = turnValueInitial;
+                //turnValue = turnValue - additionalturnValue;
                 if ( sharp_ir_value == 1 ) {         // If detected, go 22
                     cout << "================box detected=========$$$$$$$$$$$$$$$$$$$$$$$" << "\n";
                     cout << " " << "\n";
@@ -579,7 +582,7 @@ int main (int argc, char** argv) {
                     first_exit = true;      //////////////////////////////////
                 }
             } else if ( circular == 22 ) {        // go 10 cm backward
-                if ( ( leftPsVal < leftWheelPSValue + 8.2 ) || ( rightPsVal > rightWheelPSValue - 8.2 ) ) {  // Needs to calibrate
+                if ( ( leftPsVal < leftWheelPSValue + 9 ) || ( rightPsVal > rightWheelPSValue - 9 ) ) {  // Needs to calibrate
                     leftMotor->setVelocity (8);
                     rightMotor->setVelocity (-8);
                     cout << "@@@@@@@@@@@ 180 turnValue @@@@@@@@@@@@@@@@@@@@" << '\n';
@@ -594,12 +597,13 @@ int main (int argc, char** argv) {
                 }
 
             } else if ( circular == 23 ) {
-                if ( ( leftPsVal > leftWheelPSValue - reverse ) || ( rightPsVal > rightWheelPSValue - reverse ) ) {  // Needs to calibrate
+                if ( ( leftPsVal > leftWheelPSValue - 1.2 * reverse ) || ( rightPsVal > rightWheelPSValue - 1.2 * reverse ) ) {  // Needs to calibrate
                     leftMotor->setVelocity (-8);
                     rightMotor->setVelocity (-8);
 
 
                 } else {
+                  turnValue = turnValue + additionalturnValue;
                     leftMotor->setVelocity (0);
                     rightMotor->setVelocity (0);
                     circular = 3;
@@ -608,6 +612,8 @@ int main (int argc, char** argv) {
                     box_detected = true;                // turnValue left
                 }
             } else if ( circular == 3 ) {         // line follow and turnValue left
+turnValue = turnValueInitial;
+            //turnValue = turnValue - additionalturnValue;
                 stage = 1;
                 circular = 4;
             } else if ( circular == 4 ) {         // turnValue right
@@ -617,12 +623,15 @@ int main (int argc, char** argv) {
                 stage = 1;
                 circular = 6;
             } else if ( circular == 6 ) {        // line follow & turnValue right
+                turnValue = turnValue + 0.5*additionalturnValue;
                 stage = 1;
                 circular = 7;
                 state = 2;
                 leftWheelPSValue = leftPsVal;
                 rightWheelPSValue = rightPsVal;
             } else if ( circular == 7 ) {       // Go 10 cm straight
+              turnValue = turnValueInitial;
+            //turnValue = turnValue - 0.5*additionalturnValue;
                 if ( sharp_ir > distanceToBox && !flag2_const_dist_to_box ) {  // Needs to calibrate
                     cout << "======Moved forward======" << '\n';
                     leftMotor->setVelocity (8);
@@ -656,7 +665,7 @@ int main (int argc, char** argv) {
                     rightWheelPSValue = rightPsVal;
                 }
             } else if ( circular == 8 ) {         // turnValue 180 degree
-                if ( ( leftPsVal < leftWheelPSValue + 8.2 ) || ( rightPsVal > rightWheelPSValue - 8.2 ) ) {  // Needs to calibrate
+                if ( ( leftPsVal < leftWheelPSValue + 8.5 ) || ( rightPsVal > rightWheelPSValue - 8.5 ) ) {  // Needs to calibrate
                     leftMotor->setVelocity (8);
                     rightMotor->setVelocity (-8);
 
@@ -686,6 +695,7 @@ int main (int argc, char** argv) {
                                 leftWheelPSValue = leftPsVal;
                                 rightWheelPSValue = rightPsVal;
                             } else {
+                                
                                 circular = 19;
                                 stage = 4;
                                 state = 0;
@@ -711,6 +721,7 @@ int main (int argc, char** argv) {
                 }
 
             } else if ( circular == 10 ) {     // line follow & turnValue left
+              turnValue = turnValue + additionalturnValue;
                 stage = 1;
                 circular = 11;
                 state = 1;
@@ -719,6 +730,8 @@ int main (int argc, char** argv) {
                 circular = 0;
                 state = 3;               //----------End of circular(3)
             } else if ( circular == 11 ) {     // line follow & turnValue right
+turnValue = turnValueInitial;
+            //turnValue = turnValue - additionalturnValue;
                 stage = 1;
                 circular = 0;
                 state = 3;               //----------End of circular(1)
@@ -726,17 +739,19 @@ int main (int argc, char** argv) {
             } else if ( circular == 12 ) {     // check the box availability
                 if ( sharp_ir_value == 1 ) {         // If detected, go 10 cm straight
                     stage = 4;
+                    turnValue = turnValue + 0.5*additionalturnValue;
                     circular = 7;
                     state = 0;
                     leftWheelPSValue = leftPsVal;  rightWheelPSValue = rightPsVal;
-                } else {                          // If not detected, turnValue left
+                } else {
+                    turnValue = turnValue + 0.5*additionalturnValue;   // If not detected, turnValue left
                     stage = 4;
                     state = 1;
                     circular = 16;
                     second_exit = true;      //////////////////////////
                 }
             } else if ( circular == 13 ) {        // go 20 cm straight
-                if ( ( leftPsVal < leftWheelPSValue + 4 ) || ( rightPsVal < rightWheelPSValue + 4 ) ) {  // Needs to calibrate
+                if ( ( leftPsVal < leftWheelPSValue + 3.2 ) || ( rightPsVal < rightWheelPSValue + 3.2 ) ) {  // Needs to calibrate
                     leftMotor->setVelocity (8);
                     rightMotor->setVelocity (8);
 
@@ -757,8 +772,11 @@ int main (int argc, char** argv) {
                 state = 3;              //----------End of circular(2)
                 cout << "=======================End of the maze=========================" << '\n';
             } else if ( circular == 16 ) {      // check the box availability
+turnValue = turnValueInitial;
+                //turnValue = turnValue - 0.5*additionalturnValue;
                 if ( sharp_ir_value == 1 ) {          // If detected, go 10 cm straight
                     stage = 4;
+                    turnValue = turnValue + 0.5*additionalturnValue;
                     circular = 7;
                     state = 0;
                     leftWheelPSValue = leftPsVal;  rightWheelPSValue = rightPsVal;
@@ -770,7 +788,7 @@ int main (int argc, char** argv) {
                     third_exit = true;    //////////////////////////
                 }
             } else if ( circular == 17 ) {       // line follow & turnValue right
-                if ( ( leftPsVal > leftWheelPSValue - 1.7 * reverse ) || ( rightPsVal > rightWheelPSValue - 1.7 * reverse ) ) {  // Needs to calibrate
+                if ( ( leftPsVal > leftWheelPSValue - 1.5 * reverse ) || ( rightPsVal > rightWheelPSValue - 1.5 * reverse ) ) {  // Needs to calibrate
                     leftMotor->setVelocity (-8);
                     rightMotor->setVelocity (-8);
 
@@ -785,7 +803,7 @@ int main (int argc, char** argv) {
                 }
 
             } else if ( circular == 18 ) {       // turnValue 180 degree
-                if ( ( leftPsVal < leftWheelPSValue + 8.2 ) || ( rightPsVal > rightWheelPSValue - 8.2 ) ) {  // Needs to calibrate
+                if ( ( leftPsVal < leftWheelPSValue + 8.5 ) || ( rightPsVal > rightWheelPSValue - 8.5 ) ) {  // Needs to calibrate
                     leftMotor->setVelocity (8);
                     rightMotor->setVelocity (-8);
                     cout << "@@@@@@@@@@@ 180 turnValue @@@@@@@@@@@@@@@@@@@@" << '\n';
@@ -795,11 +813,12 @@ int main (int argc, char** argv) {
                     rightMotor->setVelocity (0);
                     stage = 4;
                     state = 0;
+                    turnValue = turnValue + 0.5*additionalturnValue;
                     circular = 7;
                     leftWheelPSValue = leftPsVal;  rightWheelPSValue = rightPsVal;
                 }
             } else if ( circular == 19 ) {       // line follow & turnValue left
-                if ( ( leftPsVal > leftWheelPSValue - 1.7 * reverse ) || ( rightPsVal > rightWheelPSValue - 1.7 * reverse ) ) {  // Needs to calibrate
+                if ( ( leftPsVal > leftWheelPSValue - 1.2 * reverse ) || ( rightPsVal > rightWheelPSValue - 1.2 * reverse ) ) {  // Needs to calibrate
                     leftMotor->setVelocity (-8);
                     rightMotor->setVelocity (-8);
 
@@ -880,7 +899,7 @@ int main (int argc, char** argv) {
 
                 leftWheelPrevSpeed = 0; rightWheelPrevSpeed = 0;
 
-                if ( rightPsVal < rightWheelPSValue + advancedonRamp + turnValue ) {
+                if ( rightPsVal < rightWheelPSValue + advancedonRamp + turnValue + rampAdditionalTurn ) {
                     cout << "stopped then turn left on top of ramp" << '\n';
                     leftMotor->setVelocity (0);
                     rightMotor->setVelocity (sharpturnSpeed);
@@ -908,7 +927,7 @@ int main (int argc, char** argv) {
                 rightMotor->setVelocity (0);
                 leftWheelPrevSpeed = 0; rightWheelPrevSpeed = 0;
 
-                if ( leftPsVal < leftWheelPSValue + advancedonRamp + turnValue ) {
+                if ( leftPsVal < leftWheelPSValue + advancedonRamp + turnValue + rampAdditionalTurn ) {
                     cout << "stopped then turn right on top of ramp" << '\n';
                     leftMotor->setVelocity (sharpturnSpeed);
                     rightMotor->setVelocity (0);

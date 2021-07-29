@@ -4,8 +4,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.3225476320743481 0.9113652865088903 0.2556879731035456 4.851420383773609
-  position -5.956528299159598 4.528463665942615 -0.4520002993633617
+  orientation -0.9858620365700166 0.14264876867515497 0.08790548131647709 1.1173057806511524
+  position 1.485586207562683 5.913944412828923 0.7440549857528597
 }
 TexturedBackground {
 }
@@ -394,7 +394,7 @@ DEF Ramp_Area Group {
       name "<STL_BINARY>(14)"
     }
     DEF pole_3 Solid {
-      translation 2.144 0 -4.855
+      translation -0.066 0 -4.855
       scale 0.001 0.001 0.001
       children [
         Solid {
@@ -2000,8 +2000,8 @@ DEF Ramp_Area Group {
   ]
 }
 DEF CUBE Solid {
-  translation 1.791289997716414 0.024960760018447783 -1.6121200085223404
-  rotation -1.2927208157027412e-16 1 5.626845528999462e-17 -2.3561996938995744
+  translation 1.23963 0.0249608 -1.61204
+  rotation 0 1 0 0.7853996938995746
   children [
     DEF Cube_faces Group {
       children [
@@ -2518,7 +2518,7 @@ DEF gate_22 Robot {
   controller "gate_controller2"
 }
 DEF main Robot {
-  translation 0.116769 0.0403171 -0.115696
+  translation 0.116115 0.0401827 -0.14569
   rotation -0.0022652399503793014 0.9999949780948375 -0.0022164099514489356 -3.119785307179586
   children [
     DEF body Shape {
@@ -2575,7 +2575,7 @@ DEF main Robot {
       ]
       endPoint Solid {
         translation 0.06 0 0.11
-        rotation 0.1220830486425802 -0.7018187252255994 0.7018163621324656 3.384555635126307
+        rotation 0.12208304864257999 -0.7018187252255994 0.7018163621324656 3.384555635126307
         children [
           DEF rightWheel Shape {
             geometry Cylinder {
@@ -2605,8 +2605,8 @@ DEF main Robot {
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.10007680840635068 -0.020925179160039026 -6.772541719435813e-05
-            rotation -0.9728481998694019 -0.1993253427807371 -0.11762562533821294 3.908684114021628
+            translation -0.0999378820759711 -0.021099033483605454 4.917473082845768e-05
+            rotation -0.14884629457905896 0.9885919452768859 -0.023037932280192897 2.8040887127028404
             children [
               DEF caster Shape {
                 appearance PBRAppearance {
