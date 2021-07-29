@@ -803,7 +803,7 @@ turnValue = turnValueInitial;
                 }
 
             } else if ( circular == 18 ) {       // turnValue 180 degree
-                if ( ( leftPsVal < leftWheelPSValue + 8.5 ) || ( rightPsVal > rightWheelPSValue - 8.5 ) ) {  // Needs to calibrate
+                if ( ( leftPsVal < leftWheelPSValue + 9 ) || ( rightPsVal > rightWheelPSValue - 9 ) ) {  // Needs to calibrate
                     leftMotor->setVelocity (8);
                     rightMotor->setVelocity (-8);
                     cout << "@@@@@@@@@@@ 180 turnValue @@@@@@@@@@@@@@@@@@@@" << '\n';
