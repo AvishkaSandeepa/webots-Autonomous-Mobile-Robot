@@ -2,11 +2,9 @@
 
 This repository includes all the project files related to the development of an `Autonomous mobile robot` using the [`WEBOTS simulation platform`](https://cyberbotics.com/). The project is being done by a team of 5 undergraduates at the Department of Electronic and Telecommunication Engineering, University of Moratuwa, Sri Lanka. You need to install the simulation software to your local machine and create your own world and control the robot using controllers. [The given tutorials](https://cyberbotics.com/doc/guide/tutorials) can be useful for beginners.
 
-## *[Guidelines](https://uniofmora-my.sharepoint.com/:w:/g/personal/peshala_uom_lk/EYgg0HNeTvhPi0R6HHGfmi4BbXFsR2c4_TvA2pBcGKSQtw?e=CLvALQ)*
+***A screenshot of the running simulation is given below. Complete run can be viewed at [here](https://youtube.com/playlist?list=PLOFDV2Drh1zAOxaEMbEuLALRTQY_saWsb). To run on your local machine, clone the repository navigate to the Final Robot/worlds/final_world.wbt  file and double click.***
 
-## *Tutorials*
-
-1. [Imported Webots Geometry](https://youtu.be/8iXKxWKfO04)
+![](webots.png)
 
 ## *Team*
 
