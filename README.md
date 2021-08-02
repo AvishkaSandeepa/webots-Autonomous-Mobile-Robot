@@ -1,6 +1,3 @@
-<h1 align="center"> Building a Task-Specific Autonomous Mobile Robot  </h1>
-
-
 ## *Introduction*
 
 This repository includes all the project files related to the development of an `Autonomous mobile robot` using the [`WEBOTS simulation platform`](https://cyberbotics.com/). The project is being done by a team of 5 undergraduates at the Department of Electronic and Telecommunication Engineering, University of Moratuwa, Sri Lanka. You need to install the simulation software to your local machine and create your own world and control the robot using controllers. [The given tutorials](https://cyberbotics.com/doc/guide/tutorials) can be useful for beginners.
@@ -26,4 +23,4 @@ This repository includes all the project files related to the development of an 
 
 ## *Additional Notes*
 
-*The corresponding physical robot implementation of this Robot can be found at [`Autonomous-Mobile-Robot`](https://github.com/bimalka98/Autonomous-Mobile-Robot).*
+*The corresponding physical robot implementation of this Robot can be found at [`Autonomous-Mobile-Robot`](https://github.com/bimalka98/Autonomous-Mobile-Robot-Physical-Implementation).*
